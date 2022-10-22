@@ -1,15 +1,15 @@
 package com.bookmakerApp.service.interfaces;
 
-import com.bookmakerApp.model.BettingTicketModel;
+import com.bookmakerApp.model.BetTicketModel;
 
 import java.util.List;
 
 public interface BettingTicketService {
-    List<BettingTicketModel> getBettingTicketByUser(Long id);
+    List<BetTicketModel> getBetTicketsByUser(Long id);
 
-    List<BettingTicketModel> getWonBettingTicketByUser(Long id);
+    List<BetTicketModel> getWonBetTicketsByUser(Long id);
 
-    List<BettingTicketModel> getLostBettingTicketByUser(Long id);
+    List<BetTicketModel> getLostBetTicketByUsers(Long id);
 
-    List<BettingTicketModel> getUnfinishedBettingTicketByUser(Long id);
+    List<BetTicketModel> getUnfinishedBetTicketsByUser(Long id);
 }

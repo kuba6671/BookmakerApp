@@ -28,16 +28,16 @@ public class Config {
                 .build();
     }
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
     private SecurityContext createContext() {
         return SecurityContext.builder()
                 .securityReferences(createRef())
                 .forPaths(PathSelectors.any())
                 .build();
-    }
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
     }
 
     private List<SecurityReference> createRef() {
