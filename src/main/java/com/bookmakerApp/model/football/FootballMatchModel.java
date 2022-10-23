@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class FootballMatchModel extends SportModel {
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private FootballMatchType footballMatchType;
     @OneToOne
     @JoinColumn(name = "id")

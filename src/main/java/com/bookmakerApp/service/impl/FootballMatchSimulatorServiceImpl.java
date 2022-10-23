@@ -13,8 +13,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class FootballMatchSimulatorServiceImpl implements SimulatorService {
 
-    private Random random = new Random();
-
     @Override
     public void simulateFootballMatchGoals(EventModel event) {
         SportModel sport = event.getSport();
@@ -27,6 +25,7 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
 
 
     private void simulateGoalsForTeams(FootballMatchModel match, int probability){
+        Random random = new Random();
         int minusGoals;
         int numberOfGoals = random.nextInt(6);
         boolean successProbability = random.nextInt(1, 102) >= probability;

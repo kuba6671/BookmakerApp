@@ -20,6 +20,7 @@ public class EventModel {
     @DecimalMax("10.00")
     private Double odds;
     private Boolean success;
+    private boolean finish;
     private Date date;
     @OneToOne
     private SportModel sport;
