@@ -17,7 +17,7 @@ import java.util.Collection;
 @Entity
 public class UserModel {
     @Id
-    private Long id;
+    private Long idUser;
     private String name;
     private String surname;
     @Min(18)
@@ -25,7 +25,7 @@ public class UserModel {
     @Email
     private String mail;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "idAccount")
     private AccountModel account;
 
     //TODO : Class need to implement UserDetails

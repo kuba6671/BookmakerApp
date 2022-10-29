@@ -15,11 +15,9 @@ public class FootballMatchModel extends SportModel {
     @Enumerated(EnumType.STRING)
     private FootballMatchType footballMatchType;
     @OneToOne
-    @JoinColumn(name = "id")
     private FootballTeamModel homeTeam;
     private int homeTeamGoals;
     @OneToOne
-    @JoinColumn(name = "id")
     private FootballTeamModel visitingTeam;
     private int visitingTeamGoals;
 }

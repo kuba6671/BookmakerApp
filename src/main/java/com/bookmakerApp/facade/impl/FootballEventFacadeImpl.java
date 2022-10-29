@@ -7,11 +7,13 @@ import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.service.impl.DefaultEventServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Component
 public class FootballEventFacadeImpl implements EventFacade {
 
     private final DefaultEventServiceImpl defaultEventService;

@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 @Entity
 public class AccountModel {
     @Id
-    private Long id;
+    private Long idAccount;
     private BigDecimal bankBalance;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "idUser")
     private UserModel user;
 }

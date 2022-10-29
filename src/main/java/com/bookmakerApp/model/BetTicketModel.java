@@ -12,15 +12,15 @@ import java.util.List;
 @Entity
 public class BetTicketModel {
     @Id
-    private Long id;
+    private Long idBetTicket;
     private boolean finish;
     private Boolean success;
     private BigDecimal deposit;
     private BigDecimal toWin;
     private Double totalOdds;
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="idUser")
     private UserModel user;
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "betTicket")
     private List<EventModel> events;
 }

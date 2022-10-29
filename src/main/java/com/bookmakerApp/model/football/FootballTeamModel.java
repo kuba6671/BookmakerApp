@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class FootballTeamModel {
     @Id
-    private Long id;
+    private Long idFootballTeam;
     private String name;
     private String Country;
 

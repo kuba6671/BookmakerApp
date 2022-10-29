@@ -3,9 +3,7 @@ package com.bookmakerApp.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import java.util.Date;
@@ -15,7 +13,7 @@ import java.util.Date;
 @Entity
 public class EventModel {
     @Id
-    private Long id;
+    private Long idEvent;
     @DecimalMin("1.01")
     @DecimalMax("10.00")
     private Double odds;
@@ -23,5 +21,9 @@ public class EventModel {
     private boolean finish;
     private Date date;
     @OneToOne
+    @JoinColumn(name="idSport")
     private SportModel sport;
+    @ManyToOne
+    @JoinColumn(name = "idBetTicket")
+    private BetTicketModel betTicket;
 }

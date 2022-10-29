@@ -11,5 +11,5 @@ import javax.persistence.Id;
 @Entity
 public class SportModel {
     @Id
-    private Long id;
+    private Long idSport;
 }
