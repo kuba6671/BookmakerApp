@@ -1,10 +1,11 @@
 package com.bookmakerApp.facade.impl;
 
+import com.bookmakerApp.facade.dtos.BetTicketModelDto;
 import com.bookmakerApp.facade.interfaces.BetTicketFacade;
+import com.bookmakerApp.facade.mappers.BetTicketModelDtoMapper;
 import com.bookmakerApp.model.BetTicketModel;
 import com.bookmakerApp.service.impl.DefaultBetTicketServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,24 +16,30 @@ public class DefaultBetTicketFacadeImpl implements BetTicketFacade {
 
     private final DefaultBetTicketServiceImpl defaultBetTicketService;
 
+    private BetTicketModelDtoMapper betTicketModelDtoMapper;
+
     @Override
-    public List<BetTicketModel> getBetTicketsByUser(Long id) {
-        throw new NotImplementedException("Not implemented yet");
+    public List<BetTicketModelDto> getBetTicketsByUser(Long id) {
+        return betTicketModelDtoMapper.
+                mapToBetTicketModelDtos(defaultBetTicketService.getBetTicketsByUser(id));
     }
 
     @Override
-    public List<BetTicketModel> getWonBetTicketsByUser(Long id) {
-        throw new NotImplementedException("Not implemented yet");
+    public List<BetTicketModelDto> getWonBetTicketsByUser(Long id) {
+        return betTicketModelDtoMapper.
+                mapToBetTicketModelDtos(defaultBetTicketService.getWonBetTicketsByUser(id));
     }
 
     @Override
-    public List<BetTicketModel> getLostBetTicketByUsers(Long id) {
-        throw new NotImplementedException("Not implemented yet");
+    public List<BetTicketModelDto> getLostBetTicketByUser(Long id) {
+        return betTicketModelDtoMapper.
+                mapToBetTicketModelDtos(defaultBetTicketService.getLostBetTicketByUsers(id));
     }
 
     @Override
-    public List<BetTicketModel> getUnfinishedBetTicketsByUser(Long id) {
-        throw new NotImplementedException("Not implemented yet");
+    public List<BetTicketModelDto> getUnfinishedBetTicketsByUser(Long id) {
+        return betTicketModelDtoMapper.
+                mapToBetTicketModelDtos(defaultBetTicketService.getUnfinishedBetTicketsByUser(id));
     }
 
     @Override

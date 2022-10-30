@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface BetTicketFacade {
 
-    List<BetTicketModel> getBetTicketsByUser(Long id);
+    List<BetTicketModelDto> getBetTicketsByUser(Long id);
 
-    List<BetTicketModel> getWonBetTicketsByUser(Long id);
+    List<BetTicketModelDto> getWonBetTicketsByUser(Long id);
 
-    List<BetTicketModel> getLostBetTicketByUsers(Long id);
+    List<BetTicketModelDto> getLostBetTicketByUser(Long id);
 
-    List<BetTicketModel> getUnfinishedBetTicketsByUser(Long id);
+    List<BetTicketModelDto> getUnfinishedBetTicketsByUser(Long id);
 
     BetTicketModel addBetTicket(BetTicketModel betTicket);
 }

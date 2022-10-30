@@ -1,17 +1,11 @@
 package com.bookmakerApp.facade.dtos;
 
-import lombok.Builder;
 import lombok.Getter;
-
-import java.util.Date;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Builder
-public class FootballEventModelDto {
-    private Double odds;
-    private Boolean success;
-    private boolean finish;
-    private Date date;
+@SuperBuilder
+public class FootballEventModelDto extends DefaultEventModelDto {
     private String footballMatchType;
     private String homeTeamName;
     private String homeTeamCountry;
