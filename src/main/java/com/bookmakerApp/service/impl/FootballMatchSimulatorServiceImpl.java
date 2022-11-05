@@ -14,37 +14,85 @@ import java.util.Random;
 public class FootballMatchSimulatorServiceImpl implements SimulatorService {
 
     @Override
-    public void simulateFootballMatchGoals(EventModel event) {
-        SportModel sport = event.getSport();
-        int probability = (int) (event.getOdds()*100);
+    public void simulate(EventModel event) {
+        SportModel footballMatch = event.getSport();
+        if (footballMatch instanceof FootballMatchModel) {
+            simulateFootballMatchGoals(event);
+            String choosenResult = String.valueOf(((FootballMatchModel) footballMatch).getChosenResult());
+            if(choosenResult.equals("DRAFT") && checkDraft((FootballMatchModel) footballMatch)){
+                event.setSuccess(true);
+                return;
+            }
+            else if(choosenResult.equals("FIRST_TEAM_WIN") && checkTeamsGoals((FootballMatchModel) footballMatch)){
+                event.setSuccess(true);
+            }
+            else if(choosenResult.equals("SECOND_TEAM_WIN") && !checkTeamsGoals((FootballMatchModel) footballMatch)){
+                event.setSuccess(true);
+            }
+            else{
+                event.setSuccess(false);
+            }
+        } else {
+            throw new IllegalArgumentException("SportModel is not FootballMatchModel");
+        }
+    }
 
-        if(sport instanceof FootballMatchModel){
-            simulateGoalsForTeams((FootballMatchModel) sport, probability);
+    private boolean checkTeamsGoals(FootballMatchModel match){
+        int homeTeamGoals = match.getHomeTeamGoals();
+        int visitingTeamGoals = match.getVisitingTeamGoals();
+        if(homeTeamGoals > visitingTeamGoals){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private boolean checkDraft(FootballMatchModel match){
+        if(match.getHomeTeamGoals() == match.getVisitingTeamGoals()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private void simulateFootballMatchGoals(EventModel event) {
+        SportModel footballMatch = event.getSport();
+        if (footballMatch instanceof FootballMatchModel) {
+            int probability;
+            String choosenResult = String.valueOf(((FootballMatchModel) footballMatch).getChosenResult());
+            if(choosenResult.equals("FIRST_TEAM_WIN")) {
+                probability = (int) (((FootballMatchModel) footballMatch).getHomeTeamWinOdds() * 100);
+            }
+            else if(choosenResult.equals("SECOND_TEAM_WIN")){
+                probability = (int) (((FootballMatchModel) footballMatch).getVisitingTeamWinOdds() * 100);
+            }else{
+                probability = (int) (((FootballMatchModel) footballMatch).getDraftOdds() * 100);
+            }
+            simulateGoalsForTeams((FootballMatchModel) footballMatch, probability);
         }
     }
 
 
-    private void simulateGoalsForTeams(FootballMatchModel match, int probability){
+    private void simulateGoalsForTeams(FootballMatchModel match, int probability) {
         Random random = new Random();
         int minusGoals;
         int numberOfGoals = random.nextInt(6);
         boolean successProbability = random.nextInt(1, 102) >= probability;
-        if(successProbability){
+        if (successProbability) {
             match.setHomeTeamGoals(numberOfGoals);
-            if(numberOfGoals > 1){
-                minusGoals = random.nextInt(numberOfGoals+1);
+            if (numberOfGoals > 1) {
+                minusGoals = random.nextInt(numberOfGoals + 1);
                 match.setVisitingTeamGoals(numberOfGoals - minusGoals);
-            }
-            else{
+            } else {
                 match.setVisitingTeamGoals(0);
             }
-        }else{
+        } else {
             match.setVisitingTeamGoals(numberOfGoals);
-            if(numberOfGoals > 1){
-                minusGoals = random.nextInt(numberOfGoals+1);
+            if (numberOfGoals > 1) {
+                minusGoals = random.nextInt(numberOfGoals + 1);
                 match.setHomeTeamGoals(numberOfGoals - minusGoals);
-            }
-            else{
+            } else {
                 match.setHomeTeamGoals(0);
             }
         }
