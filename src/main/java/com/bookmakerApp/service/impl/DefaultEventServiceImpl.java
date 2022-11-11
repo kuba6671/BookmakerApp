@@ -8,6 +8,7 @@ import com.bookmakerApp.service.interfaces.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,6 +25,11 @@ public class DefaultEventServiceImpl implements EventService {
     @Override
     public List<EventModel> getFinishedEvents() {
         return eventRepository.getEventModelsByFinish(true);
+    }
+
+    @Override
+    public List<EventModel> getEventByDateBefore(Date date) {
+        return eventRepository.getEventModelsByDateBefore(date);
     }
 
     @Override

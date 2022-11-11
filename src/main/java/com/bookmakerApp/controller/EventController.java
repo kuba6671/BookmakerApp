@@ -3,19 +3,19 @@ package com.bookmakerApp.controller;
 import com.bookmakerApp.facade.dtos.FootballEventModelDto;
 import com.bookmakerApp.facade.impl.FootballEventFacadeImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
 public class EventController {
-    @Resource
-    private final FootballEventFacadeImpl footballEventFacade;
+    @Qualifier("FootballEventFacadeImpl")
+    private FootballEventFacadeImpl footballEventFacade;
 
     @GetMapping("/events/unfinishedFootballEvents")
     public List<FootballEventModelDto> getUnfinishedFootballEvents(){

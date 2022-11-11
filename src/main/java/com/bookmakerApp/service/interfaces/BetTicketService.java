@@ -13,5 +13,9 @@ public interface BetTicketService {
 
     List<BetTicketModel> getUnfinishedBetTicketsByUser(Long id);
 
+    List<BetTicketModel> getUnfinishedBetTickets();
+
+    List<BetTicketModel> getFinishedAndUncheckedBetTicket();
+
     BetTicketModel addBetTicket(BetTicketModel betTicket);
 }

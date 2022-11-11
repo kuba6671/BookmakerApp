@@ -3,6 +3,7 @@ package com.bookmakerApp.config;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
@@ -19,6 +20,7 @@ import static java.util.Collections.singletonList;
 
 @Configuration
 @EnableSwagger2
+@EnableScheduling
 public class Config {
     @Bean
     public Docket swaggerApi(){

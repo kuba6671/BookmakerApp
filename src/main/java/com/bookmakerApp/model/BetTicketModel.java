@@ -15,6 +15,7 @@ public class BetTicketModel {
     private Long idBetTicket;
     private boolean finish;
     private Boolean success;
+    private boolean resultIsChecked;
     private BigDecimal deposit;
     private BigDecimal toWin;
     private Double totalOdds;

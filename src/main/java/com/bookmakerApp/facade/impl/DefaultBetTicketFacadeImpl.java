@@ -6,6 +6,7 @@ import com.bookmakerApp.facade.mappers.BetTicketModelDtoMapper;
 import com.bookmakerApp.model.BetTicketModel;
 import com.bookmakerApp.service.impl.DefaultBetTicketServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,7 +15,8 @@ import java.util.List;
 @Component
 public class DefaultBetTicketFacadeImpl implements BetTicketFacade {
 
-    private final DefaultBetTicketServiceImpl defaultBetTicketService;
+    @Qualifier("DefaultBetTicketServiceImpl")
+    private DefaultBetTicketServiceImpl defaultBetTicketService;
 
     private BetTicketModelDtoMapper betTicketModelDtoMapper;
 

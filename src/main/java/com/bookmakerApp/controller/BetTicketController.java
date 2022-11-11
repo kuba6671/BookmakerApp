@@ -5,6 +5,7 @@ import com.bookmakerApp.facade.impl.DefaultBetTicketFacadeImpl;
 import com.bookmakerApp.model.BetTicketModel;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin
 public class BetTicketController {
-
-    private final DefaultBetTicketFacadeImpl defaultBetTicketFacade;
+    @Qualifier("DefaultBetTicketFacadeImpl")
+    private DefaultBetTicketFacadeImpl defaultBetTicketFacade;
 
     @PostMapping("betTickets")
     public BetTicketModel addBetTicket(@RequestBody BetTicketModel newBetTicket){
