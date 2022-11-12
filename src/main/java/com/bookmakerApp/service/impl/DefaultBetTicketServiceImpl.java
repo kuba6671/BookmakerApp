@@ -37,6 +37,16 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
     }
 
     @Override
+    public List<BetTicketModel> getUnfinishedBetTickets() {
+        return betTicketRepository.getBetTicketModelsByFinish(false);
+    }
+
+    @Override
+    public List<BetTicketModel> getFinishedAndUncheckedBetTicket() {
+        return betTicketRepository.getBetTicketModelsByFinishAndAndResultIsChecked(true, false);
+    }
+
+    @Override
     public BetTicketModel addBetTicket(BetTicketModel betTicket){
         calculateBetTicket(betTicket);
         return betTicketRepository.save(betTicket);
@@ -52,5 +62,31 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         betTicket.setTotalOdds(totalOdds);
         betTicket.setToWin(toWin);
         return betTicket;
+    }
+
+    protected Boolean isWonBetTicket(BetTicketModel betTicket){
+        List<EventModel> events = betTicket.getEvents();
+        for(EventModel event : events){
+            if(!event.getSuccess()) {
+                betTicket.setSuccess(Boolean.FALSE);
+                betTicket.setResultIsChecked(true);
+                return Boolean.FALSE;
+            }
+        }
+        betTicket.setResultIsChecked(true);
+        betTicket.setSuccess(Boolean.TRUE);
+        return Boolean.TRUE;
+    }
+
+    protected boolean isFinishBetTicket(BetTicketModel betTicket){
+        List<EventModel> events = betTicket.getEvents();
+        for(EventModel event : events){
+            if(!event.isFinish()) {
+                betTicket.setFinish(false);
+                return false;
+            }
+        }
+        betTicket.setFinish(true);
+        return true;
     }
 }

@@ -21,16 +21,20 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
             String choosenResult = String.valueOf(((FootballMatchModel) footballMatch).getChosenResult());
             if(choosenResult.equals("DRAFT") && checkDraft((FootballMatchModel) footballMatch)){
                 event.setSuccess(true);
+                event.setFinish(true);
                 return;
             }
             else if(choosenResult.equals("FIRST_TEAM_WIN") && checkTeamsGoals((FootballMatchModel) footballMatch)){
                 event.setSuccess(true);
+                event.setFinish(true);
             }
             else if(choosenResult.equals("SECOND_TEAM_WIN") && !checkTeamsGoals((FootballMatchModel) footballMatch)){
                 event.setSuccess(true);
+                event.setFinish(true);
             }
             else{
                 event.setSuccess(false);
+                event.setFinish(true);
             }
         } else {
             throw new IllegalArgumentException("SportModel is not FootballMatchModel");
