@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin
 public class EventController {
+
     @Qualifier("FootballEventFacadeImpl")
     private FootballEventFacadeImpl footballEventFacade;
 

@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin
 public class BetTicketController {
+
     @Qualifier("DefaultBetTicketFacadeImpl")
     private DefaultBetTicketFacadeImpl defaultBetTicketFacade;
 
