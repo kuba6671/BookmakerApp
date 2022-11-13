@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Entity
 public class AccountModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idAccount;
     private BigDecimal bankBalance;
     @OneToOne

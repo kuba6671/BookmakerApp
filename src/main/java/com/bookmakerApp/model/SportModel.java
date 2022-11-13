@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class SportModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idSport;
     private String sportName;
     @ManyToOne

@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 public class BetTicketModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idBetTicket;
     private boolean finish;
     private Boolean success;

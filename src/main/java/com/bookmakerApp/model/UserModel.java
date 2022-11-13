@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.NotImplementedException;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import java.util.Collection;
@@ -17,6 +14,7 @@ import java.util.Collection;
 @Entity
 public class UserModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idUser;
     private String password;
     private String name;

@@ -13,6 +13,7 @@ import java.util.Date;
 @Entity
 public class EventModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idEvent;
     @DecimalMin("1.01")
     @DecimalMax("10.00")
