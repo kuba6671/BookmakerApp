@@ -18,6 +18,7 @@ import java.util.Collection;
 public class UserModel {
     @Id
     private Long idUser;
+    private String password;
     private String name;
     private String surname;
     @Min(18)

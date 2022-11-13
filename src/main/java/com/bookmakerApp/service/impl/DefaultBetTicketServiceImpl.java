@@ -2,6 +2,7 @@ package com.bookmakerApp.service.impl;
 
 import com.bookmakerApp.model.BetTicketModel;
 import com.bookmakerApp.model.EventModel;
+import com.bookmakerApp.model.UserModel;
 import com.bookmakerApp.repository.BetTicketRepository;
 import com.bookmakerApp.service.interfaces.BetTicketService;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,10 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
 
     @Override
     public BetTicketModel addBetTicket(BetTicketModel betTicket){
+        BigDecimal deposit = betTicket.getDeposit();
+        UserModel user = betTicket.getUser();
         calculateBetTicket(betTicket);
+        updateAccountBalance(user,deposit);
         return betTicketRepository.save(betTicket);
     }
 
@@ -62,6 +66,15 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         betTicket.setTotalOdds(totalOdds);
         betTicket.setToWin(toWin);
         return betTicket;
+    }
+
+    private UserModel updateAccountBalance(UserModel user, BigDecimal deposit){
+        BigDecimal userBankBalance = user.getAccount().getBankBalance();
+        if(deposit.doubleValue() > userBankBalance.doubleValue()){
+            throw new IllegalArgumentException("You don't have enough money on your account");
+        }
+        user.getAccount().setBankBalance(BigDecimal.valueOf(userBankBalance.doubleValue() - deposit.doubleValue()));
+        return user;
     }
 
     protected Boolean isWonBetTicket(BetTicketModel betTicket){
