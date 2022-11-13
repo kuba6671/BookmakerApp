@@ -2,17 +2,20 @@ package com.bookmakerApp.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
 @Setter
 @Entity
-public class UserModel {
+public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idUser;
@@ -27,23 +30,34 @@ public class UserModel {
     @JoinColumn(name = "idAccount")
     private AccountModel account;
 
-    //TODO : Class need to implement UserDetails
-    public Collection<Integer> getAuthorities(){
-        throw new NotImplementedException("Not implemented yet");
+
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorities;
     }
 
+    @Override
+    public String getUsername() {
+        return mail;
+    }
+
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @Override
     public boolean isEnabled() {
         return true;
     }
