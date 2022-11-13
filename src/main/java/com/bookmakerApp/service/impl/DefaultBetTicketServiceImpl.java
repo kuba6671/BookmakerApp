@@ -21,22 +21,22 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
 
     @Override
     public List<BetTicketModel> getBetTicketsByUser(Long id){
-        return betTicketRepository.getBetTicketModelsByUser(id);
+        return betTicketRepository.getBetTicketModelsByUserIdUser(id);
     }
 
     @Override
     public List<BetTicketModel> getWonBetTicketsByUser(Long id){
-       return betTicketRepository.getBetTicketModelsByUserAndSuccess(id, Boolean.TRUE);
+       return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.TRUE);
     }
 
     @Override
     public List<BetTicketModel> getLostBetTicketByUsers(Long id){
-        return betTicketRepository.getBetTicketModelsByUserAndSuccess(id, Boolean.FALSE);
+        return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.FALSE);
     }
 
     @Override
     public List<BetTicketModel> getUnfinishedBetTicketsByUser(Long id){
-        return betTicketRepository.getBetTicketModelsByUserAndFinish(id, false);
+        return betTicketRepository.getBetTicketModelsByUserIdUserAndFinish(id, false);
     }
 
     @Override
