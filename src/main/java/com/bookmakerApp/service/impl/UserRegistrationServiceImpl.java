@@ -25,7 +25,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     public UserModel registerUserAccount(UserModel user) {
         //TODO : Need to add password encryption
         UserModel existingUser = userRepository.findUserModelByMail(user.getMail());
-        if (ObjectUtils.isEmpty(existingUser)) {
+        if (ObjectUtils.isNotEmpty(existingUser)) {
             //UserAlreadyExistAuthenticationException
             throw new IllegalArgumentException("User already exist");
         }
