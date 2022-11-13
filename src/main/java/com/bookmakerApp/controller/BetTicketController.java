@@ -16,7 +16,7 @@ import java.util.List;
 public class BetTicketController {
 
     @Qualifier("DefaultBetTicketFacadeImpl")
-    private DefaultBetTicketFacadeImpl defaultBetTicketFacade;
+    private final DefaultBetTicketFacadeImpl defaultBetTicketFacade;
 
     @PostMapping("betTickets")
     public BetTicketModel addBetTicket(@RequestBody BetTicketModel newBetTicket){

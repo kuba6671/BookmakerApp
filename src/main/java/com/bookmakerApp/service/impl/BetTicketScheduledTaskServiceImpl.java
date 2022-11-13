@@ -3,13 +3,14 @@ package com.bookmakerApp.service.impl;
 import com.bookmakerApp.model.BetTicketModel;
 import com.bookmakerApp.repository.BetTicketRepository;
 import com.bookmakerApp.service.interfaces.BetTicketScheduledTaskService;
-import com.bookmakerApp.service.interfaces.BetTicketService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Qualifier("BetTicketScheduledTaskServiceImpl")
 public class BetTicketScheduledTaskServiceImpl extends DefaultBetTicketServiceImpl implements BetTicketScheduledTaskService {
 
     public BetTicketScheduledTaskServiceImpl(BetTicketRepository betTicketRepository) {

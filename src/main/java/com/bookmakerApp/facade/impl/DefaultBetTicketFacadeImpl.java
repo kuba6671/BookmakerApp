@@ -13,10 +13,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
+@Qualifier("DefaultBetTicketFacadeImpl")
 public class DefaultBetTicketFacadeImpl implements BetTicketFacade {
 
     @Qualifier("DefaultBetTicketServiceImpl")
-    private DefaultBetTicketServiceImpl defaultBetTicketService;
+    private final DefaultBetTicketServiceImpl defaultBetTicketService;
 
     private BetTicketModelDtoMapper betTicketModelDtoMapper;
 

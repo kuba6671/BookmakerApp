@@ -4,8 +4,8 @@ import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.repository.EventRepository;
 import com.bookmakerApp.service.interfaces.EventScheduledTaskService;
-import com.bookmakerApp.service.interfaces.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Qualifier("EventScheduledTaskServiceImpl")
 public class EventScheduledTaskServiceImpl extends DefaultEventServiceImpl implements EventScheduledTaskService {
 
     @Autowired

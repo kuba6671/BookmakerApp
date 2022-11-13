@@ -6,6 +6,7 @@ import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.repository.EventRepository;
 import com.bookmakerApp.service.interfaces.EventService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Qualifier("DefaultEventServiceImpl")
 public class DefaultEventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;

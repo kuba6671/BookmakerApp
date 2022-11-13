@@ -16,7 +16,7 @@ import java.util.List;
 public class EventController {
 
     @Qualifier("FootballEventFacadeImpl")
-    private FootballEventFacadeImpl footballEventFacade;
+    private final FootballEventFacadeImpl footballEventFacade;
 
     @GetMapping("/events/unfinishedFootballEvents")
     public List<FootballEventModelDto> getUnfinishedFootballEvents(){

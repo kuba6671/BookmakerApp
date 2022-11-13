@@ -15,10 +15,11 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
+@Qualifier("FootballEventFacadeImpl")
 public class FootballEventFacadeImpl implements EventFacade {
 
     @Qualifier("DefaultEventServiceImpl")
-    private DefaultEventServiceImpl defaultEventService;
+    private final DefaultEventServiceImpl defaultEventService;
 
     private FootballEventModelDtoMapper footballEventModelDtoMapper;
 

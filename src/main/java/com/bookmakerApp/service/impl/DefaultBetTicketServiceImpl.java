@@ -6,6 +6,7 @@ import com.bookmakerApp.model.UserModel;
 import com.bookmakerApp.repository.BetTicketRepository;
 import com.bookmakerApp.service.interfaces.BetTicketService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Qualifier("DefaultBetTicketServiceImpl")
 public class DefaultBetTicketServiceImpl implements BetTicketService {
 
     private final BetTicketRepository betTicketRepository;
