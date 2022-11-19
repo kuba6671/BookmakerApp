@@ -8,13 +8,10 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class SportModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idSport;
     private String sportName;
-    @ManyToOne
-    @JoinColumn(name = "idEvent")
-    private EventModel event;
 }

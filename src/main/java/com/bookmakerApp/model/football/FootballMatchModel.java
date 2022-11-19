@@ -1,8 +1,7 @@
 package com.bookmakerApp.model.football;
 
 import com.bookmakerApp.model.SportModel;
-import com.bookmakerApp.model.football.enums.ChosenResult;
-import com.bookmakerApp.model.football.enums.FootballMatchType;
+import com.bookmakerApp.model.enums.FootballMatchType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,8 +25,6 @@ public class FootballMatchModel extends SportModel {
     @DecimalMin("1.01")
     @DecimalMax("10.00")
     private Double draftOdds;
-    @Enumerated(EnumType.STRING)
-    private ChosenResult chosenResult;
     @Enumerated(EnumType.STRING)
     private FootballMatchType footballMatchType;
     @OneToOne
