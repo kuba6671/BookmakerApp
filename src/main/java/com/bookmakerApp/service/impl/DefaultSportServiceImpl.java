@@ -16,6 +16,6 @@ public class DefaultSportServiceImpl implements SportService {
 
     @Override
     public List<SportModel> getFootballMatches() {
-        return sportRepository.getSportModelsBySportName("Mecz piłkarski");
+        return sportRepository.getSportModelsBySportName("Football");
     }
 }
