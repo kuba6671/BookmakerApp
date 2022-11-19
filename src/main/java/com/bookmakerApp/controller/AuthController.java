@@ -1,7 +1,7 @@
 package com.bookmakerApp.controller;
 
 import com.bookmakerApp.config.security.JwtUtil;
-import com.bookmakerApp.facade.dtos.AuthCredentialsRequest;
+import com.bookmakerApp.facade.dtos.AuthCredentialsRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody AuthCredentialsRequest request) {
+    public ResponseEntity<?> login(@RequestBody AuthCredentialsRequestDto request) {
         try {
             Authentication authenticate = authenticationManager.
                     authenticate(
