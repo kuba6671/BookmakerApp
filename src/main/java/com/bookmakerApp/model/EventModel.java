@@ -1,5 +1,6 @@
 package com.bookmakerApp.model;
 
+import com.bookmakerApp.model.enums.ChosenResult;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,9 +23,9 @@ public class EventModel {
     private boolean finish;
     private Date date;
     @OneToOne
-    @JoinColumn(name="idSport")
+    @JoinColumn(name = "idSport")
     private SportModel sport;
-    @ManyToOne
-    @JoinColumn(name = "idBetTicket")
-    private BetTicketModel betTicket;
+    @Enumerated(EnumType.STRING)
+    private ChosenResult chosenResult;
+    private boolean resultIsChecked;
 }

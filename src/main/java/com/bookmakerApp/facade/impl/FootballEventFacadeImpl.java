@@ -40,4 +40,8 @@ public class FootballEventFacadeImpl implements EventFacade {
                 .collect(Collectors.toList());
         return footballEventModelDtoMapper.mapToFootballEventModelDtos(events);
     }
+
+    public EventModel addEvent(EventModel event) {
+        return defaultEventService.addEventModel(event);
+    }
 }

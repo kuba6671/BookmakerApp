@@ -21,8 +21,8 @@ public class BetTicketModel {
     private BigDecimal toWin;
     private Double totalOdds;
     @ManyToOne
-    @JoinColumn(name="idUser")
+    @JoinColumn(name = "idUser")
     private UserModel user;
-    @OneToMany(mappedBy = "betTicket")
+    @ManyToMany
     private List<EventModel> events;
 }

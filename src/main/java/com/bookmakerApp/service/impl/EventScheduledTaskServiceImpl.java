@@ -3,6 +3,7 @@ package com.bookmakerApp.service.impl;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.repository.EventRepository;
+import com.bookmakerApp.repository.SportRepository;
 import com.bookmakerApp.service.interfaces.EventScheduledTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,9 +21,10 @@ public class EventScheduledTaskServiceImpl extends DefaultEventServiceImpl imple
     @Autowired
     private FootballMatchSimulatorServiceImpl footballMatchSimulatorService;
 
-    public EventScheduledTaskServiceImpl(EventRepository eventRepository) {
-        super(eventRepository);
+    public EventScheduledTaskServiceImpl(EventRepository eventRepository, SportRepository sportRepository) {
+        super(eventRepository, sportRepository);
     }
+
 
     @Override
     @Scheduled(cron = "0 0/8 * * * ?")
@@ -30,7 +32,8 @@ public class EventScheduledTaskServiceImpl extends DefaultEventServiceImpl imple
         Date date = new Date();
         List<EventModel> events = getEventByDateBefore(date);
         List<EventModel> footballMatchEvents = events.stream()
-                .filter(event -> event.getSport() instanceof FootballMatchModel)
+                .filter(event -> event.getSport() instanceof FootballMatchModel
+                        && !event.isResultIsChecked())
                 .collect(Collectors.toList());
         for (EventModel footballMatch : footballMatchEvents) {
             footballMatchSimulatorService.simulate(footballMatch);

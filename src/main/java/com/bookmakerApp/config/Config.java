@@ -27,7 +27,9 @@ public class Config {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .paths(PathSelectors. regex ( "^(?!/(error).*$).*$" ))
-                .build();
+                .build()
+                .securitySchemes(singletonList(createSchema()))
+                .securityContexts(singletonList(createContext()));
     }
 
     @Bean

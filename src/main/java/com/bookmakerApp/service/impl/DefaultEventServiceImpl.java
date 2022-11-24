@@ -3,7 +3,9 @@ package com.bookmakerApp.service.impl;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.SportModel;
 import com.bookmakerApp.model.football.FootballMatchModel;
+import com.bookmakerApp.model.football.FootballTeamModel;
 import com.bookmakerApp.repository.EventRepository;
+import com.bookmakerApp.repository.SportRepository;
 import com.bookmakerApp.service.interfaces.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +20,8 @@ import java.util.List;
 public class DefaultEventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
+
+    private final SportRepository sportRepository;
 
     @Override
     public List<EventModel> getUnfinishedEvents() {
@@ -40,20 +44,19 @@ public class DefaultEventServiceImpl implements EventService {
         return eventRepository.save(event);
     }
 
-    private void setOdds(EventModel event){
+    private void setOdds(EventModel event) {
         SportModel sport = event.getSport();
-        if(sport instanceof FootballMatchModel){
-            String choosenResult = String.valueOf(((FootballMatchModel) sport).getChosenResult());
-            if(choosenResult.equals(choosenResult.equals("FIRST_TEAM_WIN"))){
-                Double odds = ((FootballMatchModel) sport).getHomeTeamWinOdds();
+        if (sport.getSportName().equals("Football")) {
+            FootballMatchModel footballMatch = (FootballMatchModel) sportRepository.getSportModelByIdSport(sport.getIdSport());
+            String choosenResult = String.valueOf(event.getChosenResult());
+            if (choosenResult.equals("FIRST_TEAM_WIN")) {
+                Double odds = footballMatch.getHomeTeamWinOdds();
                 event.setOdds(odds);
-            }
-            else if(choosenResult.equals("SECOND_TEAM_WIN")){
-                Double odds = ((FootballMatchModel) sport).getVisitingTeamWinOdds();
+            } else if (choosenResult.equals("SECOND_TEAM_WIN")) {
+                Double odds = footballMatch.getVisitingTeamWinOdds();
                 event.setOdds(odds);
-            }
-            else{
-                Double odds = ((FootballMatchModel) sport).getDraftOdds();
+            } else {
+                Double odds = footballMatch.getDraftOdds();
                 event.setOdds(odds);
             }
         }
