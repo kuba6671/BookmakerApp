@@ -2,6 +2,9 @@ package com.bookmakerApp.controller;
 
 import com.bookmakerApp.config.security.JwtUtil;
 import com.bookmakerApp.facade.dtos.AuthCredentialsRequestDto;
+import com.bookmakerApp.model.UserModel;
+import com.bookmakerApp.service.impl.UserRegistrationServiceImpl;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,8 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UserRegistrationServiceImpl userRegistrationService;
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AuthCredentialsRequestDto request) {
@@ -43,6 +48,14 @@ public class AuthController {
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
 
+    @PostMapping("/registration")
+    public UserModel addUser(@RequestBody UserModel newUser) {
+        if (ObjectUtils.isEmpty(newUser)) {
+            throw new IllegalArgumentException("User is empty or null");
+        } else {
+            return userRegistrationService.registerUserAccount(newUser);
+        }
     }
 }
