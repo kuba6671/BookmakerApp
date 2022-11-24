@@ -35,6 +35,7 @@ public class BetTicketModelDtoMapper {
                     .totalOdds(betTicket.getTotalOdds())
                     .name(user.getName())
                     .surname(user.getSurname())
+                    .date(betTicket.getDate())
                     .events(defaultEventModelDtos)
                     .build();
     }

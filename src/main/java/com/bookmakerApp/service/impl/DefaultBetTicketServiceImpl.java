@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -53,6 +54,7 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
     public BetTicketModel addBetTicket(BetTicketModel betTicket){
         BigDecimal deposit = betTicket.getDeposit();
         UserModel user = betTicket.getUser();
+        betTicket.setDate(new Date());
         calculateBetTicket(betTicket);
         updateAccountBalance(user,deposit);
         return betTicketRepository.save(betTicket);

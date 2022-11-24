@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -16,5 +17,6 @@ public class BetTicketModelDto {
     private Double totalOdds;
     private String name;
     private String surname;
+    private Date date;
     private List<DefaultEventModelDto> events;
 }

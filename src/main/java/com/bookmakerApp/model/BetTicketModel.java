@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -20,6 +21,7 @@ public class BetTicketModel {
     private BigDecimal deposit;
     private BigDecimal toWin;
     private Double totalOdds;
+    private Date date;
     @ManyToOne
     @JoinColumn(name = "idUser")
     private UserModel user;
