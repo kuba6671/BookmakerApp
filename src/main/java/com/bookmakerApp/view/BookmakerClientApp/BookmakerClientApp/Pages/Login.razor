@@ -1,0 +1,61 @@
+﻿@page "/"
+@layout LoginLayout
+@using BookmakerClientApp.Data.Service
+@using BookmakerClientApp.Data.Model
+@using System.Net.Http.Headers
+@inject UserService userService
+@inject NavigationManager navigationManager
+@using Hanssens.Net
+@inject LocalStorage localStorage
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <div class="fadeIn first">
+            <img src="/logo.svg" id="icon" alt="User Icon" />
+        </div>
+
+        <EditForm Model="@user" OnValidSubmit="Submit">
+            <input type="text" id="login" class="fadeIn second" @bind-value="user.username" name="login" placeholder="login">
+            <input type="password" id="password" class="fadeIn third" name="login" @bind-value="user.password" placeholder="password">
+            <input type="submit" class="fadeIn fourth" value="Log In">
+        </EditForm>
+
+        <div id="formFooter">
+            @message
+            <a class="underlineHover" href="#">
+                <input type="button" class="fadeIn fourth" value="Zarejestruj sie" />
+            </a>
+        </div>
+
+    </div>
+</div>
+
+@code{
+    UserModel user = new UserModel();
+    string message;
+    string token;
+
+    private async Task Submit()
+    {
+        HttpResponseMessage response = await userService.PostUser(user);
+        string statusCode = response.StatusCode.ToString();
+
+        if (statusCode.Equals("OK"))
+        {
+            HttpResponseHeaders headers = response.Headers;
+            IEnumerable<string> authorizations = headers.GetValues("Authorization");
+            token = authorizations.First().ToString();
+            SaveTokenInLocalStorage(token);
+            navigationManager.NavigateTo("/Index");
+        }
+        else
+        {
+            message = "Your email or password is wrong";
+        }
+    }
+
+    private void SaveTokenInLocalStorage(string token)
+    {
+        localStorage.Store("Token", "Bearer " + token);
+    }
+}

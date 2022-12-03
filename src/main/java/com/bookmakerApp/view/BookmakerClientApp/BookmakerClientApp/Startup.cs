@@ -1,4 +1,6 @@
 using BookmakerClientApp.Data;
+using BookmakerClientApp.Data.Service;
+using Hanssens.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +31,8 @@ namespace BookmakerClientApp
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<UserService>();
+            services.AddSingleton<LocalStorage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
