@@ -9,5 +9,6 @@ namespace BookmakerClientApp.Data.Constant
     {
         public const string BASE_URL = "http://localhost:8080/";
         public const string LOGIN_URL = BASE_URL+"api/auth/login";
+        public const string REGISTRATION_URL = BASE_URL + "registration";
     }
 }

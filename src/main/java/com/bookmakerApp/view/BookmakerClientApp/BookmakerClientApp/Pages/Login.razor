@@ -15,15 +15,15 @@
         </div>
 
         <EditForm Model="@user" OnValidSubmit="Submit">
-            <input type="text" id="login" class="fadeIn second" @bind-value="user.username" name="login" placeholder="login">
-            <input type="password" id="password" class="fadeIn third" name="login" @bind-value="user.password" placeholder="password">
-            <input type="submit" class="fadeIn fourth" value="Log In">
+            <input type="text" id="login" class="fadeIn second" @bind-value="user.username" name="login" placeholder="Adres e-mail">
+            <input type="password" id="password" class="fadeIn third" name="login" @bind-value="user.password" placeholder="Hasło">
+            <input type="submit" class="fadeIn fourth" value="Zaloguj sie">
         </EditForm>
 
         <div id="formFooter">
             @message
             <a class="underlineHover" href="#">
-                <input type="button" class="fadeIn fourth" value="Zarejestruj sie" />
+                <input type="button" class="fadeIn fourth" value="Zarejestruj sie" @onclick="SignUp" />
             </a>
         </div>
 
@@ -31,15 +31,15 @@
 </div>
 
 @code{
-    UserModel user = new UserModel();
+    UserAuthModel user = new UserAuthModel();
     string message;
     string token;
 
     private async Task Submit()
     {
-        HttpResponseMessage response = await userService.PostUser(user);
+        HttpResponseMessage response = await userService.UserLogin(user);
         string statusCode = response.StatusCode.ToString();
-
+       
         if (statusCode.Equals("OK"))
         {
             HttpResponseHeaders headers = response.Headers;
@@ -50,12 +50,17 @@
         }
         else
         {
-            message = "Your email or password is wrong";
+            message = "Twój email lub hasło jest złe";
         }
     }
 
     private void SaveTokenInLocalStorage(string token)
     {
         localStorage.Store("Token", "Bearer " + token);
+    }
+
+    private void SignUp()
+    {
+        navigationManager.NavigateTo("/Registration");
     }
 }

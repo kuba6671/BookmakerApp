@@ -1,7 +1,6 @@
 ﻿using BookmakerClientApp.Data.Constant;
 using BookmakerClientApp.Data.Extension;
 using BookmakerClientApp.Data.Model;
-using Hanssens.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -16,12 +15,14 @@ namespace BookmakerClientApp.Data.Service
             this.httpClient = new HttpClient();
         }
 
-        public async Task<HttpResponseMessage> PostUser(UserModel user)
+        public async Task<HttpResponseMessage> UserLogin(UserAuthModel user)
         {
-            var storage = new LocalStorage();
-
-
             return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.LOGIN_URL, user);
+        }
+
+        public async Task<HttpResponseMessage> UserRegistration(UserModel user)
+        {
+            return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.REGISTRATION_URL, user);
         }
     }
 }
