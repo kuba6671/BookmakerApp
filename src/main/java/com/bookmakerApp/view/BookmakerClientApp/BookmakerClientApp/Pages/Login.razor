@@ -46,7 +46,7 @@
             IEnumerable<string> authorizations = headers.GetValues("Authorization");
             token = authorizations.First().ToString();
             SaveTokenInLocalStorage(token);
-            navigationManager.NavigateTo("/Index");
+            navigationManager.NavigateTo("/index");
         }
         else
         {
@@ -61,6 +61,6 @@
 
     private void SignUp()
     {
-        navigationManager.NavigateTo("/Registration");
+        navigationManager.NavigateTo("/registration");
     }
 }

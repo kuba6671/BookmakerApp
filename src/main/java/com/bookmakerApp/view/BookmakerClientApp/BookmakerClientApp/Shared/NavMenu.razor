@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">
+    <a class="navbar-brand" href="index">
         <img src="/logo.svg" id="NavLogo" alt="Logo" style="width: 66px; height: 56px; overflow: hidden; margin-top: -12px; margin-left: 3rem " />
     </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -11,17 +11,32 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> Strona główna
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="betTickets">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Kupony
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" href="events">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Wydarzenia
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="currentBetTicket">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Aktualny kupon
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="deposit">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Depozyt
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="myAccount">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Moje konto
             </NavLink>
         </li>
     </ul>
