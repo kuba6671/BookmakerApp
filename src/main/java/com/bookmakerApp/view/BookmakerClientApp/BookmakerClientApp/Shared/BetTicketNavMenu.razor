@@ -1,8 +1,26 @@
 ﻿<div class="topnav">
-    <a class="active" href="allBetTickets">Wszystkie kupony</a>
-    <a href="winBetTickets">Wygrane kupony</a>
-    <a href="lostBetTickets">Przegrane kupony</a>
-    <a href="unfinishedBetTickets">Nierozstrzygnięte kupony</a>
+    <ul class="nav justify-content-center">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="allBetTickets">
+                <span aria-hidden="true"></span> Wszystkie kupony
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="winBetTickets">
+                <span aria-hidden="true"></span> Wygrane kupony
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="lostBetTickets">
+                <span aria-hidden="true"></span> Przegrane kupony
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="unfinishedBetTickets">
+                <span aria-hidden="true"></span> Nierozstrzygnięte kupon
+            </NavLink>
+        </li>
+    </ul>
 </div>
 
 @code{
