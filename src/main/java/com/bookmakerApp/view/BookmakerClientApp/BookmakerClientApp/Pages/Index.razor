@@ -1,7 +1,43 @@
-﻿@page "/index"
+﻿@page "/"
+@using BookmakerClientApp.Data.Model
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
-
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<div>
+    <button class="btn btn-primary" @onclick="createTempObject">Fetch Data</button>
+</div>
+
+
+@if (tempObjects == null)
+{
+    <p><em>Loading2...</em></p>
+}
+else
+{
+    <EventComponent tempObjects="@tempObjects" />
+}
+
+
+
+@code{
+    public List<TempObject> tempObjects;
+
+    protected void createTempObject()
+    {
+        tempObjects = new List<TempObject>();
+        TempObject tempObject1 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
+        TempObject tempObject2 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
+        TempObject tempObject3 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
+        TempObject tempObject4 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
+
+        tempObjects.Add(tempObject1);
+        tempObjects.Add(tempObject2);
+        tempObjects.Add(tempObject3);
+        tempObjects.Add(tempObject4);
+
+    }
+
+}
+

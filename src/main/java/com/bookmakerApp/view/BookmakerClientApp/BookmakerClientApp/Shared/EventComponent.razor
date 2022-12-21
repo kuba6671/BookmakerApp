@@ -1,0 +1,52 @@
+﻿@page "/eventComponent"
+@using BookmakerClientApp.Data.Model
+
+@if (tempObjects == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Drużyny</th>
+                    <th>Dyscyplina</th>
+                    <th>1</th>
+                    <th>0</th>
+                    <th>2</th>
+                    <th>Data</th>
+                    <th>Dodaj</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TempObject tempObjecta in tempObjects)
+                {
+                    <tr>
+                        <td>@tempObjecta.Text1</td>
+                        <td>@tempObjecta.Text2</td>
+                        <td>@tempObjecta.Text3</td>
+                        <td>@tempObjecta.Text4</td>
+                        <td>@tempObjecta.Text5</td>
+                        <td>@tempObjecta.Text6</td>
+                        <td>Przycisk</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+
+@code {
+    [Parameter]
+    public string? Text1 { get; set; }
+    [Parameter]
+    public string? Text2 { get; set; }
+    [Parameter]
+    public IReadOnlyList<TempObject> tempObjects { get; set; }
+
+}
+
