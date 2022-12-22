@@ -1,12 +1,14 @@
-﻿@page "/"
+﻿@page "/index"
 @using BookmakerClientApp.Data.Model
+@using BookmakerClientApp.Data.Service
+@inject EventService eventService
 
 <h1>Hello, world!</h1>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 <div>
-    <button class="btn btn-primary" @onclick="createTempObject">Fetch Data</button>
+    <button class="btn btn-primary" @onclick="getUnfinishedFootballEvents">Fetch Data</button>
 </div>
 
 
@@ -19,24 +21,37 @@ else
     <EventComponent tempObjects="@tempObjects" />
 }
 
+@listSize
+
 
 
 @code{
     public List<TempObject> tempObjects;
+    public List<FootballEventModelDto> footballEventModelDtos;
+    public string listSize = "NULL";
 
     protected void createTempObject()
     {
         tempObjects = new List<TempObject>();
         TempObject tempObject1 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
         TempObject tempObject2 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
-        TempObject tempObject3 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
-        TempObject tempObject4 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
 
         tempObjects.Add(tempObject1);
         tempObjects.Add(tempObject2);
-        tempObjects.Add(tempObject3);
-        tempObjects.Add(tempObject4);
+    }
 
+    private async Task getUnfinishedFootballEvents()
+    {
+        footballEventModelDtos = await eventService.GetUnfinishedFootballEvents();
+        bool isEmpty = !footballEventModelDtos.Any();
+        if (isEmpty)
+        {
+            listSize = "LIST IS EMPTY";
+        }
+        else
+        {
+            listSize = footballEventModelDtos.Count().ToString();
+        }
     }
 
 }

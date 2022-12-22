@@ -34,6 +34,7 @@ namespace BookmakerClientApp
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<UserService>();
             services.AddTransient<EventService>();
+            services.AddTransient<AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

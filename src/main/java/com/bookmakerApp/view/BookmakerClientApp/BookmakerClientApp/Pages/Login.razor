@@ -1,4 +1,4 @@
-﻿@page "/login"
+﻿@page "/"
 @layout LoginLayout
 @using BookmakerClientApp.Data.Service
 @using BookmakerClientApp.Data.Model
@@ -46,7 +46,6 @@
             IEnumerable<string> authorizations = headers.GetValues("Authorization");
             token = authorizations.First().ToString();
             SaveTokenInLocalStorage(token);
-            //localStorage.Store("Token", "Bearer " + token);
             navigationManager.NavigateTo("/index");
         }
         else
@@ -58,7 +57,8 @@
     private void SaveTokenInLocalStorage(string token)
     {
         LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
-        localStorage.Store("Token", "Bearer " + token);
+        localStorage.Store("Token", token);
+        //localStorage.Store("Token", "Bearer " + token);
     }
 
     private void SignUp()
