@@ -31,6 +31,7 @@ public class FootballEventModelDtoMapper {
                 .visitingTeamName(match.getVisitingTeam().getName())
                 .visitingTeamCountry(match.getVisitingTeam().getCountry())
                 .visitingTeamGoals(match.getVisitingTeamGoals())
+                .chosenResult(event.getChosenResult().toString())
                 .build();
     }
 }

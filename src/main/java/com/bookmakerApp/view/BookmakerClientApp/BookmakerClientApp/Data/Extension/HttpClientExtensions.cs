@@ -36,8 +36,8 @@ namespace BookmakerClientApp.Data.Extension
             }
             else
             {
-                List<TType> list = new List<TType>();
-                return emptyList;
+                IList<T> list= new List<T>();
+                return (T)list;
             }
         }
 

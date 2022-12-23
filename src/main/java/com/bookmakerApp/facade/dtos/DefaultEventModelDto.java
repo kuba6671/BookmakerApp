@@ -13,4 +13,5 @@ public class DefaultEventModelDto {
     private boolean finish;
     private Date date;
     private String type;
+    private String chosenResult;
 }

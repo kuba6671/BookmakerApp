@@ -12,13 +12,13 @@
 </div>
 
 
-@if (tempObjects == null)
+@if (footballEventModelDtos == null)
 {
     <p><em>Loading2...</em></p>
 }
 else
 {
-    <EventComponent tempObjects="@tempObjects" />
+    <EventComponent footballEventModelDtos="@footballEventModelDtos" />
 }
 
 @listSize
@@ -26,19 +26,8 @@ else
 
 
 @code{
-    public List<TempObject> tempObjects;
     public List<FootballEventModelDto> footballEventModelDtos;
     public string listSize = "NULL";
-
-    protected void createTempObject()
-    {
-        tempObjects = new List<TempObject>();
-        TempObject tempObject1 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
-        TempObject tempObject2 = new TempObject("text1", "text2", "text3", "text4", "text5", "text6");
-
-        tempObjects.Add(tempObject1);
-        tempObjects.Add(tempObject2);
-    }
 
     private async Task getUnfinishedFootballEvents()
     {
