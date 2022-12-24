@@ -13,22 +13,22 @@ else
                 <tr>
                     <th>Drużyny</th>
                     <th>Dyscyplina</th>
-                    <th>Kurs</th>
-                    <th>Zdarzenie</th>
                     <th>Data</th>
-                    <th>Dodaj</th>
+                    <th>1</th>
+                    <th>0</th>
+                    <th>2</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (FootballEventModelDto footballMatch in FootballEventModelDtos)
+                @foreach (FootballEventDto footballMatch in FootballEventModelDtos)
                 {
                     <tr>
-                        <td>@footballMatch.HomeTeamName - @footballMatch.VisitingTeamName</td>
-                        <td>Piłka nożna</td>
-                        <td>@footballMatch.Odds</td>
-                        <td>@footballMatch.ChosenResult</td>
+                        <td>@footballMatch.FootballTeams</td>
+                        <td>@footballMatch.SportName</td>
                         <td>@footballMatch.Date</td>
-                        <td><button class="btn btn-primary">Dodaj</button></td>
+                        <td><button class="btn btn-primary" @onclick="() => displayId(footballMatch.FirstTeamWinEventId)">@footballMatch.FirstTeamWinOdds</button></td>
+                        <td><button class="btn btn-primary" @onclick="() => displayId(footballMatch.DraftEventId)">@footballMatch.DraftOdds</button></td>
+                        <td><button class="btn btn-primary" @onclick="() => displayId(footballMatch.SecondTeamWinEventId)">@footballMatch.SecondTeamWinOdds</button></td>
                     </tr>
                 }
             </tbody>
@@ -36,11 +36,19 @@ else
     </div>
 }
 
+<div>Id = @id</div>
+
 
 
 @code {
     [Parameter]
-    public IReadOnlyList<FootballEventModelDto> FootballEventModelDtos { get; set; }
+    public IReadOnlyList<FootballEventDto> FootballEventModelDtos { get; set; }
 
+    private long id = 0;
+
+    private void displayId(long id)
+    {
+        this.id = id;
+    }
 }
 

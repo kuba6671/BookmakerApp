@@ -16,7 +16,7 @@ public class FootballMatchServiceImpl {
     private final FootballTeamRepository footballTeamRepository;
 
     public FootballMatchModel addFootballMatch(FootballMatchModel footballMatch) {
-        footballMatch.setSportName("Football");
+        footballMatch.setSportName("Piłka nożna");
         return footballMatchRepository.save(footballMatch);
     }
 

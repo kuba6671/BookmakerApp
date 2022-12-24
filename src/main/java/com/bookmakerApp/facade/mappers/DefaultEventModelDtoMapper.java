@@ -17,11 +17,13 @@ public class DefaultEventModelDtoMapper {
 
     private static DefaultEventModelDto mapToDefaultEventModelDto(EventModel event){
         return DefaultEventModelDto.builder()
+                .idEvent(event.getIdEvent())
                 .odds(event.getOdds())
                 .success(event.getSuccess())
                 .finish(event.isFinish())
                 .date(event.getDate())
                 .type(event.getClass().toString())
+                .chosenResult(event.getChosenResult().toString())
                 .build();
     }
 }

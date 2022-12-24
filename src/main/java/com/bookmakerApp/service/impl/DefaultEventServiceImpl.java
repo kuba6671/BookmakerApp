@@ -46,7 +46,7 @@ public class DefaultEventServiceImpl implements EventService {
 
     private void setOdds(EventModel event) {
         SportModel sport = event.getSport();
-        if (sport.getSportName().equals("Football")) {
+        if (sport.getSportName().equals("Piłka nożna")) {
             FootballMatchModel footballMatch = (FootballMatchModel) sportRepository.getSportModelByIdSport(sport.getIdSport());
             String choosenResult = String.valueOf(event.getChosenResult());
             if (choosenResult.equals("FIRST_TEAM_WIN")) {

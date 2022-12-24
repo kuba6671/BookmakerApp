@@ -18,21 +18,13 @@ else
     <EventComponent footballEventModelDtos="@footballEventModelDtos" />
 }
 
+@listSize
+
 
 
 @code{
-    public List<FootballEventModelDto> footballEventModelDtos;
+    public List<FootballEventDto> footballEventModelDtos;
     public string listSize = "Brak zdarzeń";
-
-    /*private async Task getUnfinishedFootballEvents()
-    {
-        footballEventModelDtos = await eventService.GetUnfinishedFootballEvents();
-        bool isEmpty = !footballEventModelDtos.Any();
-        if (isEmpty)
-        {
-            listSize = "Brak zdarzeń";
-        }
-    }*/
 
     protected override async Task OnInitializedAsync()
     {
@@ -41,6 +33,10 @@ else
         if (isEmpty)
         {
             listSize = "Brak zdarzeń";
+        }
+        else
+        {
+            listSize = "Size = " + footballEventModelDtos.Count.ToString();
         }
     }
 
