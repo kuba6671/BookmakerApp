@@ -40,7 +40,6 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
                 event.setSuccess(true);
                 event.setFinish(true);
                 event.setResultIsChecked(true);
-                return;
             } else if (choosenResult.equals("FIRST_TEAM_WIN") && checkTeamsGoals(footballMatch)) {
                 event.setSuccess(true);
                 event.setFinish(true);
@@ -81,11 +80,11 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
             int probability;
             String choosenResult = String.valueOf(event.getChosenResult());
             if (choosenResult.equals("FIRST_TEAM_WIN")) {
-                probability = (int) (((FootballMatchModel) footballMatch).getHomeTeamWinOdds() * 100);
+                probability = (int) (((FootballMatchModel) footballMatch).getHomeTeamWinOdds() * 10);
             } else if (choosenResult.equals("SECOND_TEAM_WIN")) {
-                probability = (int) (((FootballMatchModel) footballMatch).getVisitingTeamWinOdds() * 100);
+                probability = (int) (((FootballMatchModel) footballMatch).getVisitingTeamWinOdds() * 10);
             } else {
-                probability = (int) (((FootballMatchModel) footballMatch).getDraftOdds() * 100);
+                probability = (int) (((FootballMatchModel) footballMatch).getDraftOdds() * 10);
             }
             simulateGoalsForTeams((FootballMatchModel) footballMatch, probability);
         }

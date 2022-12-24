@@ -11,6 +11,8 @@ namespace BookmakerClientApp.Data.Constant
         public const string LOGIN_URL = BASE_URL+"api/auth/login";
         public const string REGISTRATION_URL = BASE_URL + "registration";
         public const string UNFINISHED_FOOTBALL_EVENTS = BASE_URL + "events/unfinishedFootballEvents";
+        public const string FINISHED_FOOTBALL_EVENTS = BASE_URL + "events/finishedFootballEvents";
+
 
     }
 }

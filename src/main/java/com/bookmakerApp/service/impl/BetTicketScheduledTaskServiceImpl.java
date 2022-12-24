@@ -6,6 +6,7 @@ import com.bookmakerApp.service.interfaces.BetTicketScheduledTaskService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class BetTicketScheduledTaskServiceImpl extends DefaultBetTicketServiceIm
 
     @Override
     @Scheduled(cron = "0 0/9 * * * ?")
+    @Transactional
     public void checkBetTicketFinish() {
         List<BetTicketModel> betTickets = getUnfinishedBetTickets();
         for (BetTicketModel betTicket : betTickets) {
@@ -28,6 +30,7 @@ public class BetTicketScheduledTaskServiceImpl extends DefaultBetTicketServiceIm
 
     @Override
     @Scheduled(cron = "0 0/10 * * * ?")
+    @Transactional
     public void checkBetTicketResults() {
         List<BetTicketModel> betTickets = getFinishedAndUncheckedBetTicket();
         for (BetTicketModel betTicket : betTickets) {
