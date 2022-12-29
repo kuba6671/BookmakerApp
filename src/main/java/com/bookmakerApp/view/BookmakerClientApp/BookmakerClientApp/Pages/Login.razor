@@ -32,8 +32,7 @@
 
 @code{
     UserAuthModel user = new UserAuthModel();
-    string message;
-    string token;
+    string message = "EMPTY";
 
     private async Task Submit()
     {
@@ -43,9 +42,15 @@
         if (statusCode.Equals("OK"))
         {
             HttpResponseHeaders headers = response.Headers;
+
             IEnumerable<string> authorizations = headers.GetValues("Authorization");
-            token = authorizations.First().ToString();
-            SaveTokenInLocalStorage(token);
+            string token = authorizations.First().ToString();
+            SaveValueInLocalStorage("Token", token);
+
+            IEnumerable<string> idUserCollection = headers.GetValues("id-user");
+            string idUser = idUserCollection.First().ToString();
+            SaveValueInLocalStorage("idUser", idUser);
+
             navigationManager.NavigateTo("/index");
         }
         else
@@ -54,11 +59,10 @@
         }
     }
 
-    private void SaveTokenInLocalStorage(string token)
+    private void SaveValueInLocalStorage(string key, string value)
     {
         LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
-        localStorage.Store("Token", token);
-        //localStorage.Store("Token", "Bearer " + token);
+        localStorage.Store(key, value);
     }
 
     private void SignUp()

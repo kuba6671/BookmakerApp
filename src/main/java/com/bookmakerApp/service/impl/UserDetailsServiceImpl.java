@@ -28,4 +28,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return springUser;
     }
+
+    public Long getUserIdByUsername(String username){
+        return userRepository.findUserModelByMail(username).getIdUser();
+    }
 }

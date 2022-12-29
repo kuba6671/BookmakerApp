@@ -3,6 +3,7 @@ package com.bookmakerApp.controller;
 import com.bookmakerApp.config.security.JwtUtil;
 import com.bookmakerApp.facade.dtos.AuthCredentialsRequestDto;
 import com.bookmakerApp.model.UserModel;
+import com.bookmakerApp.service.impl.UserDetailsServiceImpl;
 import com.bookmakerApp.service.impl.UserRegistrationServiceImpl;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class AuthController {
     private JwtUtil jwtUtil;
     @Autowired
     private UserRegistrationServiceImpl userRegistrationService;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AuthCredentialsRequestDto request) {
@@ -39,11 +42,13 @@ public class AuthController {
                                     request.getUsername(), request.getPassword()));
 
             User user = (User) authenticate.getPrincipal();
+            String id = userDetailsService.getUserIdByUsername(user.getUsername()).toString();
 
             return ResponseEntity.ok()
                     .header(
                             HttpHeaders.AUTHORIZATION,
                             jwtUtil.generateToken(user))
+                    .header("id-user", id)
                     .body(user);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
