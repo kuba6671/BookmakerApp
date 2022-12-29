@@ -6,7 +6,7 @@
 @inject UserService userService
 @inject NavigationManager navigationManager
 @using Hanssens.Net
-@inject LocalStorage localStorage
+@using BookmakerClientApp.Data.Extension
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -39,7 +39,7 @@
     {
         HttpResponseMessage response = await userService.UserLogin(user);
         string statusCode = response.StatusCode.ToString();
-       
+
         if (statusCode.Equals("OK"))
         {
             HttpResponseHeaders headers = response.Headers;
@@ -56,7 +56,9 @@
 
     private void SaveTokenInLocalStorage(string token)
     {
-        localStorage.Store("Token", "Bearer " + token);
+        LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
+        localStorage.Store("Token", token);
+        //localStorage.Store("Token", "Bearer " + token);
     }
 
     private void SignUp()

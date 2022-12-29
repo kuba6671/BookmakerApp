@@ -1,7 +1,19 @@
 ﻿@page "/index"
+@using BookmakerClientApp.Data.Model
+@using BookmakerClientApp.Data.Service
+@inject EventService eventService
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
-
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<div>
+    <button class="btn btn-primary" >Fetch Data</button>
+</div>
+
+
+@code{
+  
+
+}
+

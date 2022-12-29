@@ -1,0 +1,140 @@
+﻿::-webkit-scrollbar {
+    width: 0.15em;
+    height: 0.15em;
+}
+
+::-webkit-scrollbar-thumb {
+    background: slategray;
+}
+
+::-webkit-scrollbar-track {
+    background: #b8c0c8;
+}
+
+body {
+    scrollbar-face-color: slategray;
+    scrollbar-track-color: #b8c0c8;
+}
+
+body,
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    font-family: "Roboto";
+}
+
+.wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background: #f8f8f8;
+}
+
+button.btn {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    border: 0;
+    border-radius: 0px;
+}
+
+    button.btn i {
+        margin-right: 3px;
+    }
+
+body.large-screen .table-wrapper {
+    max-width: 1500px;
+}
+
+body.large-screen .card-list-table {
+    width: auto;
+    background: white;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}
+
+    body.large-screen .card-list-table tbody tr {
+        background: transparent;
+        box-shadow: none;
+        margin: 0;
+    }
+
+        body.large-screen .card-list-table tbody tr:nth-of-type(even) {
+            background: #dfdfdf;
+        }
+
+    body.large-screen .card-list-table thead {
+        background-color: lightblue;
+        display: table-header-group;
+    }
+
+        body.large-screen .card-list-table thead th:last-child {
+            box-shadow: none;
+        }
+
+        body.large-screen .card-list-table thead th {
+            text-transform: uppercase;
+            font-size: 0.85em;
+            color: rgba(0, 0, 0, 0.35);
+            letter-spacing: 0.5pt;
+            border-bottom: 1px solid #dfdfdf;
+            padding: 12px 24px;
+        }
+
+    body.large-screen .card-list-table tbody tr {
+        display: table-row;
+        padding-bottom: 0;
+    }
+
+        body.large-screen .card-list-table tbody tr:nth-of-type(even) {
+            background: #fff;
+        }
+
+    body.large-screen .card-list-table tbody td {
+        width:300px;
+        border-bottom: 1px solid #dfdfdf;
+        cursor: pointer;
+        display: table-cell;
+        padding: 20px 24px;
+        transition: background 0.2s ease-out;
+        vertical-align: middle;
+    }
+
+        body.large-screen .card-list-table tbody td:after {
+            display: none;
+        }
+
+        body.large-screen .card-list-table tbody td:before {
+            content: "";
+        }
+
+    body.large-screen .card-list-table tbody tr:hover td {
+        background: #fcf3d0;
+    }
+
+.buttons {
+    margin: 10px 0 50px;
+}
+
+.table-wrapper {
+    max-width: 300px;
+    width: 80%;
+    margin: 0 auto 0;
+    max-height: 700px;
+    overflow-y: scroll;
+    position: relative;
+    transition: all 0.2s ease-out;
+}
+
+
+
+      
+
+   

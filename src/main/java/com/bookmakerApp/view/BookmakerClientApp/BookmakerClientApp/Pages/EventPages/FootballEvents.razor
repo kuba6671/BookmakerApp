@@ -1,13 +1,43 @@
 ﻿@page "/footballEvents"
 @inherits LayoutComponentBase
+@using BookmakerClientApp.Data.Service
+@using BookmakerClientApp.Data.Model
+@inject EventService eventService
+
 
 <div class="topnav">
     <EventNavMenu />
 </div>
 
-<h1>Hello footballEvents</h1>
+@if (footballEventModelDtos == null)
+{
+    <p><em>@listSize</em></p>
+}
+else
+{
+    <EventComponent footballEventModelDtos="@footballEventModelDtos" />
+}
+
+@listSize
+
 
 
 @code{
+    public List<FootballEventDto> footballEventModelDtos;
+    public string listSize = "Brak zdarzeń";
+
+    protected override async Task OnInitializedAsync()
+    {
+        footballEventModelDtos = await eventService.GetUnfinishedFootballEvents();
+        bool isEmpty = !footballEventModelDtos.Any();
+        if (isEmpty)
+        {
+            listSize = "Brak zdarzeń";
+        }
+        else
+        {
+            listSize = "Size = " + footballEventModelDtos.Count.ToString();
+        }
+    }
 
 }

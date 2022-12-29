@@ -20,6 +20,7 @@ public class FootballEventModelDtoMapper {
     private static FootballEventModelDto mapToFootballEventModelDto
             (EventModel event, FootballMatchModel match){
         return FootballEventModelDto.builder()
+                .idEvent(event.getIdEvent())
                 .odds(event.getOdds())
                 .success(event.getSuccess())
                 .finish(event.isFinish())
@@ -31,6 +32,7 @@ public class FootballEventModelDtoMapper {
                 .visitingTeamName(match.getVisitingTeam().getName())
                 .visitingTeamCountry(match.getVisitingTeam().getCountry())
                 .visitingTeamGoals(match.getVisitingTeamGoals())
+                .chosenResult(event.getChosenResult().toString())
                 .build();
     }
 }

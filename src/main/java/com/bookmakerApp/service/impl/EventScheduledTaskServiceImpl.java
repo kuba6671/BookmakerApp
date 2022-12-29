@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,8 @@ public class EventScheduledTaskServiceImpl extends DefaultEventServiceImpl imple
 
 
     @Override
-    @Scheduled(cron = "0 0/8 * * * ?")
+    @Scheduled(cron = "0 0/7 * * * ?")
+    @Transactional
     public void simulateEvents() {
         Date date = new Date();
         List<EventModel> events = getEventByDateBefore(date);
@@ -36,7 +38,8 @@ public class EventScheduledTaskServiceImpl extends DefaultEventServiceImpl imple
                         && !event.isResultIsChecked())
                 .collect(Collectors.toList());
         for (EventModel footballMatch : footballMatchEvents) {
-            footballMatchSimulatorService.simulate(footballMatch);
+            if(!footballMatch.isResultIsChecked())
+                footballMatchSimulatorService.simulate(footballMatch);
         }
     }
 }
