@@ -8,40 +8,12 @@
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 <div>
-    <button class="btn btn-primary" @onclick="getUnfinishedFootballEvents">Fetch Data</button>
+    <button class="btn btn-primary" >Fetch Data</button>
 </div>
 
 
-@if (footballEventModelDtos == null)
-{
-    <p><em>Loading2...</em></p>
-}
-else
-{
-    <EventComponent footballEventModelDtos="@footballEventModelDtos" />
-}
-
-@listSize
-
-
-
 @code{
-    public List<FootballEventDto> footballEventModelDtos;
-    public string listSize = "NULL";
-
-    private async Task getUnfinishedFootballEvents()
-    {
-        footballEventModelDtos = await eventService.GetUnfinishedFootballEvents();
-        bool isEmpty = !footballEventModelDtos.Any();
-        if (isEmpty)
-        {
-            listSize = "LIST IS EMPTY";
-        }
-        else
-        {
-            listSize = footballEventModelDtos.Count().ToString();
-        }
-    }
+  
 
 }
 

@@ -1,4 +1,4 @@
-﻿@page "/eventComponent"
+﻿@page "/finishedEventComponent"
 @using BookmakerClientApp.Data.Model
 
 
@@ -17,6 +17,7 @@ else
                             <th>Drużyny</th>
                             <th>Dyscyplina</th>
                             <th>Data</th>
+                            <th>Wynik</th>
                             <th>1</th>
                             <th>0</th>
                             <th>2</th>
@@ -29,9 +30,10 @@ else
                                 <td data-title="Drużyny">@footballMatch.FootballTeams</td>
                                 <td data-title="Dyscyplina">@footballMatch.SportName</td>
                                 <td data-title="Data">@footballMatch.Date</td>
-                                <td data-title="1"><button class="btn btn-primary" @onclick="() => displayId(footballMatch.FirstTeamWinEventId)">@footballMatch.FirstTeamWinOdds</button></td>
-                                <td data-title="0"><button class="btn btn-primary" @onclick="() => displayId(footballMatch.DraftEventId)">@footballMatch.DraftOdds</button></td>
-                                <td data-title="2"><button class="btn btn-primary" @onclick="() => displayId(footballMatch.SecondTeamWinEventId)">@footballMatch.SecondTeamWinOdds</button></td>
+                                <td data-title="Wynik">@footballMatch.HomeTeamGoals : @footballMatch.VisitingTeamGoals</td>
+                                <td data-title="1"><button class="btn btn-primary" disabled>@footballMatch.FirstTeamWinOdds</button></td>
+                                <td data-title="0"><button class="btn btn-primary" disabled>@footballMatch.DraftOdds</button></td>
+                                <td data-title="2"><button class="btn btn-primary" disabled>@footballMatch.SecondTeamWinOdds</button></td>
                             </tr>
                         }
                     </tbody>
@@ -41,7 +43,7 @@ else
     </body>
 }
 
-<div>Id = @id</div>
+
 
 
 
@@ -49,11 +51,5 @@ else
     [Parameter]
     public IReadOnlyList<FootballEventDto> FootballEventModelDtos { get; set; }
 
-    private long id = 0;
-
-    private void displayId(long id)
-    {
-        this.id = id;
-    }
 }
 
