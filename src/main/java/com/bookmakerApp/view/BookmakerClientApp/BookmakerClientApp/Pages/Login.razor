@@ -49,7 +49,7 @@
 
             IEnumerable<string> idUserCollection = headers.GetValues("id-user");
             string idUser = idUserCollection.First().ToString();
-            SaveValueInLocalStorage("idUser", idUser);
+            SaveValueInLocalStorage("id-user", idUser);
 
             navigationManager.NavigateTo("/index");
         }

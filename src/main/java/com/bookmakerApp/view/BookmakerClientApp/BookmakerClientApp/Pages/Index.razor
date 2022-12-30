@@ -2,18 +2,16 @@
 @using BookmakerClientApp.Data.Model
 @using BookmakerClientApp.Data.Service
 @inject EventService eventService
+@inject BetTicketService betTicketService
 
-<h1>Hello, world!</h1>
+<button class="btn btn-primary" @onclick="GetDataFromApi">Fetch Data</button>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
-
-<div>
-    <button class="btn btn-primary" >Fetch Data</button>
-</div>
 
 
 @code{
-  
-
+    public async Task GetDataFromApi()
+    {
+        List<BetTicketDto> betTicketDtos = await betTicketService.GetAllBetTicketForUser();
+    }
 }
 
