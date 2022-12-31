@@ -1,4 +1,6 @@
-﻿<div class="grid-container">
+﻿@using BookmakerClientApp.Data.Model
+
+<div class="grid-container">
     <div class="item1">Data zawarcia: </div>
     <div class="item2">Ilość zdarzeń na kuponie: </div>
     <div class="item3">Wynik: </div>
@@ -9,5 +11,6 @@
 
 
 @code {
-
+    [Parameter]
+    public BetTicketDto BetTicketDtos { get; set; }
 }

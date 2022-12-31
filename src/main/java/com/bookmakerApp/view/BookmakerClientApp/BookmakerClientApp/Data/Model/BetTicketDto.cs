@@ -7,5 +7,21 @@ namespace BookmakerClientApp.Data.Model
 {
     public class BetTicketDto
     {
+        private bool? finish;
+        private bool? success;
+        private Decimal deposit;
+        private Decimal toWin;
+        private Double odds;
+        private DateTime date;
+        List<FootballEventModel> events;
+
+
+        public decimal Deposit { get => deposit; set => deposit = value; }
+        public decimal ToWin { get => toWin; set => toWin = value; }
+        public double Odds { get => odds; set => odds = value; }
+        public DateTime Date { get => date; set => date = value; }
+        public List<FootballEventModel> Events { get => events; set => events = value; }
+        public bool? Finish { get => finish; set => finish = value; }
+        public bool? Success { get => success; set => success = value; }
     }
 }

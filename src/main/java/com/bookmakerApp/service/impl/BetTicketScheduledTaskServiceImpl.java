@@ -1,7 +1,10 @@
 package com.bookmakerApp.service.impl;
 
 import com.bookmakerApp.model.BetTicketModel;
+import com.bookmakerApp.repository.AccountRepository;
 import com.bookmakerApp.repository.BetTicketRepository;
+import com.bookmakerApp.repository.EventRepository;
+import com.bookmakerApp.repository.UserRepository;
 import com.bookmakerApp.service.interfaces.BetTicketScheduledTaskService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,8 +17,9 @@ import java.util.List;
 @Qualifier("BetTicketScheduledTaskServiceImpl")
 public class BetTicketScheduledTaskServiceImpl extends DefaultBetTicketServiceImpl implements BetTicketScheduledTaskService {
 
-    public BetTicketScheduledTaskServiceImpl(BetTicketRepository betTicketRepository) {
-        super(betTicketRepository);
+
+    public BetTicketScheduledTaskServiceImpl(BetTicketRepository betTicketRepository, EventRepository eventRepository, AccountRepository accountRepository, UserRepository userRepository) {
+        super(betTicketRepository, eventRepository, accountRepository, userRepository);
     }
 
     @Override
