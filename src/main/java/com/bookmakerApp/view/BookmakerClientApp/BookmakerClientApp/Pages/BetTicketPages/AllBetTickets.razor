@@ -1,13 +1,30 @@
 ﻿@page "/allBetTickets"
 @inherits LayoutComponentBase
+@using BookmakerClientApp.Data.Model
+@using BookmakerClientApp.Data.Service
+@inject BetTicketService betTicketService
 
 <div class="topnav">
     <BetTicketNavMenu />
 </div>
 
-<h1>Hello AllBetTickets</h1>
+<br />
+@if (betTicketDtos != null)
+{
+    @foreach (BetTicketDto betTicket in betTicketDtos)
+    {
+        <BetTicketComponent BetTicketDto="betTicket" />
+        <br />
+    }
+}
 
 
 @code{
+    List<BetTicketDto> betTicketDtos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        betTicketDtos = await betTicketService.GetAllBetTicketForUser();
+    }
 
 }
