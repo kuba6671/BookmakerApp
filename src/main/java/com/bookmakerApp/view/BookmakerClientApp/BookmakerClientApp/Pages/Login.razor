@@ -7,6 +7,7 @@
 @inject NavigationManager navigationManager
 @using Hanssens.Net
 @using BookmakerClientApp.Data.Extension
+@using Newtonsoft.Json.Linq
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -33,6 +34,7 @@
 @code{
     UserAuthModel user = new UserAuthModel();
     string message = "";
+    JArray eventsId = new JArray();
 
     private async Task Submit()
     {
@@ -51,6 +53,8 @@
             string idUser = idUserCollection.First().ToString();
             SaveValueInLocalStorage("id-user", idUser);
 
+            SaveValueInLocalStorage("events-list", eventsId);
+
             navigationManager.NavigateTo("/index");
         }
         else
@@ -59,7 +63,7 @@
         }
     }
 
-    private void SaveValueInLocalStorage(string key, string value)
+    private void SaveValueInLocalStorage<T>(string key, T value)
     {
         LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
         localStorage.Store(key, value);

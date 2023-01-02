@@ -13,7 +13,8 @@ namespace BookmakerClientApp.Data.Model
         private Decimal toWin;
         private Double totalOdds;
         private DateTime date;
-        List<FootballEventModel> events;
+        private List<FootballEventModel> events;
+        private UserModel user;
 
 
         public decimal Deposit { get => deposit; set => deposit = value; }
@@ -23,5 +24,6 @@ namespace BookmakerClientApp.Data.Model
         public List<FootballEventModel> Events { get => events; set => events = value; }
         public bool? Finish { get => finish; set => finish = value; }
         public bool? Success { get => success; set => success = value; }
+        public UserModel User { get => user; set => user = value; }
     }
 }

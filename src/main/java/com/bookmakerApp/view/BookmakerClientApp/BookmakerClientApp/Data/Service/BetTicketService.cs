@@ -49,5 +49,10 @@ namespace BookmakerClientApp.Data.Service
                  URL + idUser);
         }
 
+        public async Task<HttpResponseMessage> AddBetTicket(BetTicketDto betTicket)
+        {
+            return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.ADD_BET_TICKET_URL, betTicket);
+        }
+
     }
 }

@@ -12,12 +12,12 @@
         </div>
 
         <EditForm Model="@user" OnValidSubmit="Submit">
-            <input type="text" id="mail" class="fadeIn second" @bind-value="user.mail" name="login" placeholder="Adres e-mail">
-            <input type="password" id="password" class="fadeIn third" name="login" @bind-value="user.password" placeholder="Hasło">
+            <input type="text" id="mail" class="fadeIn second" @bind-value="user.Mail" name="login" placeholder="Adres e-mail">
+            <input type="password" id="password" class="fadeIn third" name="login" @bind-value="user.Password" placeholder="Hasło">
             <input type="password" id="passwordAgain" class="fadeIn third" name="login" placeholder="Powtórz hasło">
-            <input type="text" id="name" class="fadeIn second" @bind-value="user.name" name="login" placeholder="Imie">
-            <input type="text" id="surname" class="fadeIn second" @bind-value="user.surname" name="login" placeholder="Nazwisko">
-            <input type="text" id="age" class="fadeIn second" @bind-value="user.age" name="login" placeholder="Wiek">
+            <input type="text" id="name" class="fadeIn second" @bind-value="user.Name" name="login" placeholder="Imie">
+            <input type="text" id="surname" class="fadeIn second" @bind-value="user.Surname" name="login" placeholder="Nazwisko">
+            <input type="text" id="age" class="fadeIn second" @bind-value="user.Age" name="login" placeholder="Wiek">
             <input type="submit" class="fadeIn fourth" value="Zarejestuj się">
         </EditForm>
 

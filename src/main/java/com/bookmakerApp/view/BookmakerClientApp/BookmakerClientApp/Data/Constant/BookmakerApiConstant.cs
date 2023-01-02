@@ -16,5 +16,6 @@ namespace BookmakerClientApp.Data.Constant
         public const string WON_BET_TICKET_FOR_USER = BASE_URL + "betTicketsWon/";
         public const string LOST_BET_TICKET_FOR_USER = BASE_URL + "betTicketsLost/";
         public const string UNFINISHED_BET_TICKET_FOR_USER = BASE_URL + "betTicketsUnfinished/";
+        public const string ADD_BET_TICKET_URL = BASE_URL + "betTickets";
     }
 }

@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="LocalStorage" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Quartz" Version="3.5.0" />
   </ItemGroup>
 
 </Project>

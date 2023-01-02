@@ -9,13 +9,13 @@ namespace BookmakerClientApp.Data.Service
         public String getToken()
         {
             LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
-            return localStorage.Get("Token");
+            return localStorage.Get<String>("Token");
         }
 
         public String getUserId()
         {
             LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
-            return localStorage.Get("id-user");
+            return localStorage.Get<String>("id-user");
         }
     }
 }

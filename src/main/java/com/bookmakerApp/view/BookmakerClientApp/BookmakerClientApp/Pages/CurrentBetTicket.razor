@@ -1,8 +1,43 @@
 ﻿@page "/currentBetTicket"
+@using BookmakerClientApp.Data.Model
+@using Newtonsoft.Json.Linq
+@using BookmakerClientApp.Data.Extension
+@using BookmakerClientApp.Data.Service
+@inject BetTicketService betTicketService
 
 <h1>Hello currentBetTicket</h1>
 
 
 @code{
+    JArray eventsIdList = new JArray();
+    List<FootballEventModel> eventsList = new List<FootballEventModel>();
+    double deposit;
+    BetTicketDto betTicketDto = new BetTicketDto();
 
+    protected override void OnInitialized()
+    {
+        GetListFromLocalStorage();
+    }
+
+    private void GetListFromLocalStorage()
+    {
+        string key = "events-list";
+        LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
+        eventsIdList = localStorage.Get<JArray>(key);
+
+        foreach (long idEvent in eventsIdList)
+        {
+            FootballEventModel footballEvent = new FootballEventModel();
+            footballEvent.IdEvent = idEvent;
+            eventsList.Add(footballEvent);
+        }
+
+        betTicketDto.Events = eventsList;
+
+    }
+
+    public async Task AddBetTicket()
+    {
+        await betTicketService.AddBetTicket(betTicketDto);
+    }
 }
