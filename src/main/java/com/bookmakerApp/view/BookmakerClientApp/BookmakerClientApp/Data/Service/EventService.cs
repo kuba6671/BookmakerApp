@@ -1,6 +1,7 @@
 ﻿using BookmakerClientApp.Data.Constant;
 using BookmakerClientApp.Data.Extension;
 using BookmakerClientApp.Data.Model;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,12 +28,20 @@ namespace BookmakerClientApp.Data.Service
                 BookmakerApiConstant.UNFINISHED_FOOTBALL_EVENTS));
         }
 
-        public async Task<List<FootballEventDto>> GetFiinishedFootballEvents()
+        public async Task<List<FootballEventDto>> GetFinishedFootballEvents()
         {
             var token = authService.getToken();
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
             return FinishedEventModelDtoMapper(await HttpClientExtensions.GetAsJsonAsync<List<FootballEventModel>>(httpClient,
                 BookmakerApiConstant.FINISHED_FOOTBALL_EVENTS));
+        }
+
+        public async Task<List<FootballEventModel>> GetFootballEventsByIds(JArray idEvents)
+        {
+            var token = authService.getToken();
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            return await HttpClientExtensions.GetAsJsonAsyncWithListParameter<List<FootballEventModel>>(httpClient,
+                BookmakerApiConstant.FOOTBALL_EVENTS_BY_IDS, "idEvents", idEvents);
         }
 
         private List<FootballEventDto> EventModelDtoMapper(List<FootballEventModel> footballEventDtos)

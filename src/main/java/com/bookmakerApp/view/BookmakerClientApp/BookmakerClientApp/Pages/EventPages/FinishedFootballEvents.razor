@@ -27,7 +27,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        footballEventModelDtos = await eventService.GetFiinishedFootballEvents();
+        footballEventModelDtos = await eventService.GetFinishedFootballEvents();
         bool isEmpty = !footballEventModelDtos.Any();
         if (isEmpty)
         {

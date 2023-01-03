@@ -4,8 +4,12 @@
 @using BookmakerClientApp.Data.Extension
 @using BookmakerClientApp.Data.Service
 @inject BetTicketService betTicketService
+@inject EventService eventService
 
 <h1>Hello currentBetTicket</h1>
+
+@listSize
+@odds
 
 
 @code{
@@ -13,10 +17,17 @@
     List<FootballEventModel> eventsList = new List<FootballEventModel>();
     double deposit;
     BetTicketDto betTicketDto = new BetTicketDto();
+    string listSize = "EMPTY";
+    double odds = 1.0;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         GetListFromLocalStorage();
+        eventsIdList.Add(9);
+        eventsIdList.Add(10);
+        await GetFootballEvents();
+        betTicketDto.Events = eventsList;
+        listSize = eventsList.Count.ToString();
     }
 
     private void GetListFromLocalStorage()
@@ -24,20 +35,26 @@
         string key = "events-list";
         LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
         eventsIdList = localStorage.Get<JArray>(key);
+    }
 
-        foreach (long idEvent in eventsIdList)
-        {
-            FootballEventModel footballEvent = new FootballEventModel();
-            footballEvent.IdEvent = idEvent;
-            eventsList.Add(footballEvent);
-        }
-
-        betTicketDto.Events = eventsList;
-
+    private async Task GetFootballEvents()
+    {
+        eventsList = await eventService.GetFootballEventsByIds(eventsIdList);
+        CountOdds();
     }
 
     public async Task AddBetTicket()
     {
         await betTicketService.AddBetTicket(betTicketDto);
     }
+
+    private double CountOdds()
+    {
+        foreach (FootballEventModel footballEvent in eventsList)
+        {
+            odds *= footballEvent.Odds;
+        }
+        return odds;
+    }
+
 }

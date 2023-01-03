@@ -41,6 +41,15 @@ public class FootballEventFacadeImpl implements EventFacade {
         return footballEventModelDtoMapper.mapToFootballEventModelDtos(events);
     }
 
+    @Override
+    public List<FootballEventModelDto> getFootballEventsByIds(List<Long> idEvents) {
+        List<EventModel> events = defaultEventService.getEventsByIds(idEvents);
+        events.stream()
+                .filter(event -> event.getSport() instanceof FootballMatchModel)
+                .collect(Collectors.toList());
+        return footballEventModelDtoMapper.mapToFootballEventModelDtos(events);
+    }
+
     public EventModel addEvent(EventModel event) {
         return defaultEventService.addEventModel(event);
     }
