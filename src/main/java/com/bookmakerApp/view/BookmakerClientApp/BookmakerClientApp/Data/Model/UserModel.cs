@@ -1,4 +1,6 @@
-﻿namespace BookmakerClientApp.Data.Model
+﻿using Newtonsoft.Json;
+
+namespace BookmakerClientApp.Data.Model
 {
     public class UserModel
     {
@@ -7,6 +9,7 @@
         private string name;
         private string surname;
         private int age;
+        [JsonProperty(PropertyName = "idUser")]
         private long idUser;
 
         public string Mail { get => mail; set => mail = value; }
