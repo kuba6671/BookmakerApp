@@ -44,14 +44,22 @@ namespace BookmakerClientApp.Data.Service
         {
             var token = authService.getToken();
             var idUser = authService.getUserId();
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            if (httpClient.DefaultRequestHeaders.Authorization == null)
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            }
             return await HttpClientExtensions.GetAsJsonAsync<List<BetTicketDto>>(httpClient,
                  URL + idUser);
         }
 
-        public async Task<HttpResponseMessage> AddBetTicket(BetTicketDto betTicket)
+        public async Task<HttpResponseMessage> AddBetTicket(BetTicketDto newBetTicket)
         {
-            return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.ADD_BET_TICKET_URL, betTicket);
+            var token = authService.getToken();
+            if (httpClient.DefaultRequestHeaders.Authorization == null)
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            }
+            return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.ADD_BET_TICKET_URL, newBetTicket);
         }
 
     }

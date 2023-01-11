@@ -5,11 +5,74 @@
 @using BookmakerClientApp.Data.Service
 @inject BetTicketService betTicketService
 @inject EventService eventService
+@inject AuthService authService
 
-<h1>Hello currentBetTicket</h1>
-
-@listSize
-@odds
+<br />
+@if (eventsList.Count != 0)
+{
+    <body class="large-screen">
+        <div class="wrap">
+            <div class="table-wrapper">
+                <table class="table-responsive card-list-table">
+                    <thead>
+                        <tr>
+                            <th>Drużyny</th>
+                            <th>Dyscyplina</th>
+                            <th>Data</th>
+                            <th>Kurs</th>
+                            <th>Wybrany wynik</th>
+                            <th>Usuń</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (FootballEventModel eventModel in eventsList)
+                        {
+                            <tr>
+                                <td data-title="Drużyny">@eventModel.HomeTeamName-@eventModel.VisitingTeamName</td>
+                                <td data-title="Dyscyplina">Piłka nożna</td>
+                                <td data-title="Data">@eventModel.Date</td>
+                                <td data-title="Kurs">@eventModel.Odds</td>
+                                <td data-title="Wybrany wynik">@eventModel.ChosenResult</td>
+                                <td data-title="Usuń"><button class="btn btn-primary" @onclick="() => RemoveEvent(eventModel.IdEvent)">Usuń</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form>
+            <div class="form-row align-items-center">
+                <div class="col-auto" style="padding-left: 160px;width:25%;">
+                    <label class="sr-only" for="inlineFormInput">Wkład</label>
+                    <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Wkład" value="@deposit" @oninput="CountToWin" style="background-color:white">
+                </div>
+                <div class="col-auto" style="width: 25%;">
+                    <label class="sr-only" for="inlineFormInput">Kurs</label>
+                    <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Kurs: @odds" style="background-color:white" readonly>
+                </div>
+                <div class="col-auto" style="width:25%">
+                    <label class="sr-only" for="inlineFormInput">Do wygrania</label>
+                    <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Do wygrania: @toWin" style="background-color:white" readonly>
+                </div>
+                <div class="col-auto" style="width:25%">
+                    <button type="submit" class="btn btn-primary mb-2" style="width:25%" @onclick="AddBetTicket">Zagraj</button>
+                </div>
+            </div>
+        </form>
+    </body>
+}
+else
+{
+    <style>
+        .center {
+            text-align: center;
+        }
+    </style>
+    <br />
+    <div class="center">
+        <h1>Kupon jest pusty</h1>
+    </div>
+}
 
 
 @code{
@@ -17,17 +80,15 @@
     List<FootballEventModel> eventsList = new List<FootballEventModel>();
     double deposit;
     BetTicketDto betTicketDto = new BetTicketDto();
-    string listSize = "EMPTY";
     double odds = 1.0;
+    private string toWin = "0";
+    UserModel user = new UserModel();
 
     protected override async Task OnInitializedAsync()
     {
         GetListFromLocalStorage();
-        eventsIdList.Add(9);
-        eventsIdList.Add(10);
         await GetFootballEvents();
         betTicketDto.Events = eventsList;
-        listSize = eventsList.Count.ToString();
     }
 
     private void GetListFromLocalStorage()
@@ -45,7 +106,19 @@
 
     public async Task AddBetTicket()
     {
-        await betTicketService.AddBetTicket(betTicketDto);
+        user.IdUser = long.Parse(authService.getUserId());
+        betTicketDto.User = user;
+        betTicketDto.Deposit = deposit;
+        HttpResponseMessage response = await betTicketService.AddBetTicket(betTicketDto);
+        string statusCode = response.StatusCode.ToString();
+
+        if (statusCode.Equals("OK"))
+        {
+            string key = "events-list";
+            eventsList = new List<FootballEventModel>();
+            LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
+            localStorage.Store(key, eventsList);
+        }
     }
 
     private double CountOdds()
@@ -57,4 +130,29 @@
         return odds;
     }
 
+    private void CountToWin(ChangeEventArgs args)
+    {
+        var newValue = args.Value?.ToString() ?? string.Empty;
+        deposit = double.Parse(newValue);
+        double toWinDouble = 0.0;
+        toWinDouble = odds * deposit;
+        toWin = toWinDouble.ToString();
+    }
+
+    private async Task RemoveEvent(long id)
+    {
+        string key = "events-list";
+        LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
+        JArray newArray = localStorage.Get<JArray>(key);
+        List<long> newEventsList = newArray.ToObject<List<long>>();
+        if (newEventsList.Contains(id))
+        {
+            newEventsList.Remove(id);
+            newArray = new JArray();
+            newArray.Add(newEventsList);
+            odds = 1.0;
+        }
+        localStorage.Store(key, newArray);
+        await OnInitializedAsync();
+    }
 }

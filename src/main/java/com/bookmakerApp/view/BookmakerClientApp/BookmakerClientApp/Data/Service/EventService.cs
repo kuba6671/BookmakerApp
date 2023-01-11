@@ -23,7 +23,10 @@ namespace BookmakerClientApp.Data.Service
         public async Task<List<FootballEventDto>> GetUnfinishedFootballEvents()
         {
             var token = authService.getToken();
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            if (httpClient.DefaultRequestHeaders.Authorization == null)
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            }
             return EventModelDtoMapper(await HttpClientExtensions.GetAsJsonAsync<List<FootballEventModel>>(httpClient,
                 BookmakerApiConstant.UNFINISHED_FOOTBALL_EVENTS));
         }
@@ -31,7 +34,10 @@ namespace BookmakerClientApp.Data.Service
         public async Task<List<FootballEventDto>> GetFinishedFootballEvents()
         {
             var token = authService.getToken();
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            if (httpClient.DefaultRequestHeaders.Authorization == null)
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            }
             return FinishedEventModelDtoMapper(await HttpClientExtensions.GetAsJsonAsync<List<FootballEventModel>>(httpClient,
                 BookmakerApiConstant.FINISHED_FOOTBALL_EVENTS));
         }
@@ -39,7 +45,10 @@ namespace BookmakerClientApp.Data.Service
         public async Task<List<FootballEventModel>> GetFootballEventsByIds(JArray idEvents)
         {
             var token = authService.getToken();
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            if (httpClient.DefaultRequestHeaders.Authorization == null)
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            }
             return await HttpClientExtensions.GetAsJsonAsyncWithListParameter<List<FootballEventModel>>(httpClient,
                 BookmakerApiConstant.FOOTBALL_EVENTS_BY_IDS, "idEvents", idEvents);
         }

@@ -68,7 +68,8 @@ else
     {
         LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
         JArray newArray = localStorage.Get<JArray>(key);
-        if (newArray.Contains(id.ToString()))
+        List<long> newEventsList = newArray.ToObject<List<long>>();
+        if (newEventsList.Contains(id))
         {
             return;
         }
