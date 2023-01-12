@@ -10,4 +10,5 @@ public interface EventRepository extends JpaRepository<EventModel, Long> {
     List<EventModel> getEventModelsByFinish(boolean finish);
     List<EventModel> getEventModelsByDateBefore(Date date);
     List<EventModel> getEventModelsBySport_IdSport(Long idSport);
+    List<EventModel> getEventModelsByIdEventIn(List<Long> idEvents);
 }

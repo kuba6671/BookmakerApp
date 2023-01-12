@@ -44,6 +44,11 @@ public class DefaultEventServiceImpl implements EventService {
         return eventRepository.save(event);
     }
 
+    @Override
+    public List<EventModel> getEventsByIds(List<Long> idEvents) {
+        return eventRepository.getEventModelsByIdEventIn(idEvents);
+    }
+
     private void setOdds(EventModel event) {
         SportModel sport = event.getSport();
         if (sport.getSportName().equals("Piłka nożna")) {

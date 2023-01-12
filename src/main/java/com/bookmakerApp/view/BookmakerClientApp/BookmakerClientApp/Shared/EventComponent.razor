@@ -1,5 +1,7 @@
 ﻿@page "/eventComponent"
 @using BookmakerClientApp.Data.Model
+@using Newtonsoft.Json.Linq
+@using BookmakerClientApp.Data.Extension
 
 
 @if (FootballEventModelDtos == null)
@@ -29,9 +31,9 @@ else
                                 <td data-title="Drużyny">@footballMatch.FootballTeams</td>
                                 <td data-title="Dyscyplina">@footballMatch.SportName</td>
                                 <td data-title="Data">@footballMatch.Date</td>
-                                <td data-title="1"><button class="btn btn-primary" @onclick="() => displayId(footballMatch.FirstTeamWinEventId)">@footballMatch.FirstTeamWinOdds</button></td>
-                                <td data-title="0"><button class="btn btn-primary" @onclick="() => displayId(footballMatch.DraftEventId)">@footballMatch.DraftOdds</button></td>
-                                <td data-title="2"><button class="btn btn-primary" @onclick="() => displayId(footballMatch.SecondTeamWinEventId)">@footballMatch.SecondTeamWinOdds</button></td>
+                                <td data-title="1"><button class="btn btn-primary" @onclick="() => addEventToBetTicket(footballMatch.FirstTeamWinEventId)">@footballMatch.FirstTeamWinOdds</button></td>
+                                <td data-title="0"><button class="btn btn-primary" @onclick="() => addEventToBetTicket(footballMatch.DraftEventId)">@footballMatch.DraftOdds</button></td>
+                                <td data-title="2"><button class="btn btn-primary" @onclick="() => addEventToBetTicket(footballMatch.SecondTeamWinEventId)">@footballMatch.SecondTeamWinOdds</button></td>
                             </tr>
                         }
                     </tbody>
@@ -54,6 +56,28 @@ else
     private void displayId(long id)
     {
         this.id = id;
+    }
+
+    private void addEventToBetTicket(long id)
+    {
+        string key = "events-list";
+        SaveEventListInLocalStorage(id, key);
+    }
+
+    public void SaveEventListInLocalStorage(long id, string key)
+    {
+        LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
+        JArray newArray = localStorage.Get<JArray>(key);
+        List<long> newEventsList = newArray.ToObject<List<long>>();
+        if (newEventsList.Contains(id))
+        {
+            return;
+        }
+        else
+        {
+            newArray.Add(id.ToString());
+        }
+        localStorage.Store(key, newArray);
     }
 }
 

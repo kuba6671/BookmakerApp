@@ -1,5 +1,8 @@
 ﻿using Hanssens.Net;
 using System;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using Quartz.Util;
 
 namespace BookmakerClientApp.Data.Extension
 {
@@ -11,27 +14,27 @@ namespace BookmakerClientApp.Data.Extension
 
         private LocalStorageExtension()
         {
-            if(localStorage == null)
+            if (localStorage == null)
                 localStorage = new LocalStorage();
         }
 
         public static LocalStorageExtension GetInstance()
         {
-            if(localStorageExtension == null)
+            if (localStorageExtension == null)
             {
                 localStorageExtension = new LocalStorageExtension();
             }
             return localStorageExtension;
         }
 
-        public String Get(string key)
+        public T Get<T>(string key)
         {
-            return localStorage.Get(key).ToString();
+            return (T)localStorage.Get(key);
         }
 
-        public void Store(string key, string value)
+        public void Store<T>(string key, T value)
         {
-            localStorage.Store(key,value);
+            localStorage.Store(key, value);
         }
     }
 }

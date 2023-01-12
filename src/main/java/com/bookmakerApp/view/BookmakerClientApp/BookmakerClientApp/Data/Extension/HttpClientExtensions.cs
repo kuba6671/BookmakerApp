@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -25,8 +27,7 @@ namespace BookmakerClientApp.Data.Extension
 
         public static async Task<T> GetAsJsonAsync<T>(this HttpClient httpClient, string url)
         {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get,
-                url);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             HttpResponseMessage response = await httpClient.SendAsync(request);
             string statusCode = response.StatusCode.ToString();
             if (statusCode.Equals("OK"))
@@ -36,11 +37,41 @@ namespace BookmakerClientApp.Data.Extension
             }
             else
             {
-                IList<T> list= new List<T>();
+                IList<T> list = new List<T>();
                 return (T)list;
             }
         }
 
+        public static async Task<T> GetAsJsonAsyncWithListParameter<T>(this HttpClient httpClient, string url, 
+            string key, JArray values)
+        {
+            string queryString = BuildUrl(key, values);
+            string newUrl = url + queryString;
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, newUrl);
+            HttpResponseMessage response = await httpClient.SendAsync(request);
+            string statusCode = response.StatusCode.ToString();
+            if (statusCode.Equals("OK"))
+            {
+                HttpContent httpContent = response.Content;
+                return await HttpClientExtensions.ReadAsJsonAsync<T>(httpContent);
+            }
+            else
+            {
+                IList<T> list = new List<T>();
+                return (T)list;
+            }
+        }
+
+        private static string BuildUrl(string key, JArray values)
+        {
+            NameValueCollection queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+            foreach(long value in values)
+            {
+                queryString.Add(key, value.ToString());
+            }
+            return queryString.ToString() != string.Empty ? "?"+queryString.ToString() : string.Empty;
+        }
 
     }
 }

@@ -1,13 +1,18 @@
 package com.bookmakerApp.service.impl;
 
+import com.bookmakerApp.model.AccountModel;
 import com.bookmakerApp.model.BetTicketModel;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.UserModel;
+import com.bookmakerApp.repository.AccountRepository;
 import com.bookmakerApp.repository.BetTicketRepository;
+import com.bookmakerApp.repository.EventRepository;
+import com.bookmakerApp.repository.UserRepository;
 import com.bookmakerApp.service.interfaces.BetTicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -19,6 +24,12 @@ import java.util.List;
 public class DefaultBetTicketServiceImpl implements BetTicketService {
 
     private final BetTicketRepository betTicketRepository;
+
+    private final EventRepository eventRepository;
+
+    private final AccountRepository accountRepository;
+
+    private final UserRepository userRepository;
 
     @Override
     public List<BetTicketModel> getBetTicketsByUser(Long id){
@@ -51,6 +62,7 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
     }
 
     @Override
+    @Transactional
     public BetTicketModel addBetTicket(BetTicketModel betTicket){
         BigDecimal deposit = betTicket.getDeposit();
         UserModel user = betTicket.getUser();
@@ -64,6 +76,7 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         Double totalOdds = 1.0;
         List<EventModel> events = betTicket.getEvents();
         for(EventModel event : events){
+            event = eventRepository.getById(event.getIdEvent());
             totalOdds *= event.getOdds();
         }
         BigDecimal toWin = BigDecimal.valueOf(betTicket.getDeposit().doubleValue() * totalOdds);
@@ -73,12 +86,15 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
     }
 
     private UserModel updateAccountBalance(UserModel user, BigDecimal deposit){
-        BigDecimal userBankBalance = user.getAccount().getBankBalance();
+        UserModel newUser = userRepository.getById(user.getIdUser());
+        AccountModel account = accountRepository.getAccountModelByUser_IdUser(newUser.getIdUser());
+        BigDecimal userBankBalance = account.getBankBalance();
         if(deposit.doubleValue() > userBankBalance.doubleValue()){
             throw new IllegalArgumentException("You don't have enough money on your account");
         }
-        user.getAccount().setBankBalance(BigDecimal.valueOf(userBankBalance.doubleValue() - deposit.doubleValue()));
-        return user;
+        account.setBankBalance(BigDecimal.valueOf(userBankBalance.doubleValue() - deposit.doubleValue()));
+        newUser.setAccount(account);
+        return newUser;
     }
 
     protected Boolean isWonBetTicket(BetTicketModel betTicket){

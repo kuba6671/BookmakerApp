@@ -10,4 +10,5 @@ public interface EventService {
     List<EventModel> getFinishedEvents();
     List<EventModel> getEventByDateBefore(Date date);
     EventModel addEventModel(EventModel event);
+    List<EventModel> getEventsByIds(List<Long> idEvents);
 }

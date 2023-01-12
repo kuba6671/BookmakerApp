@@ -27,6 +27,11 @@ public class EventController {
         return footballEventFacade.getFinishedFootballEvents();
     }
 
+    @GetMapping("/events/footballEventsByIds")
+    public List<FootballEventModelDto> getFootballEventsByIds(@RequestParam(required = false, defaultValue = "") List<Long> idEvents) {
+        return footballEventFacade.getFootballEventsByIds(idEvents);
+    }
+
     @PostMapping("/footballEvent")
     public EventModel addFootballEvent(@RequestBody EventModel event) {
         return footballEventFacade.addEvent(event);
