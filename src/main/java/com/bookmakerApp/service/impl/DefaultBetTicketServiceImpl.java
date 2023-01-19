@@ -76,7 +76,7 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         Double totalOdds = 1.0;
         List<EventModel> events = betTicket.getEvents();
         for(EventModel event : events){
-            event = eventRepository.getById(event.getIdEvent());
+            event = eventRepository.getEventModelsByIdEvent(event.getIdEvent());
             totalOdds *= event.getOdds();
         }
         BigDecimal toWin = BigDecimal.valueOf(betTicket.getDeposit().doubleValue() * totalOdds);
@@ -86,7 +86,7 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
     }
 
     private UserModel updateAccountBalance(UserModel user, BigDecimal deposit){
-        UserModel newUser = userRepository.getById(user.getIdUser());
+        UserModel newUser = userRepository.findUserModelByIdUser(user.getIdUser());
         AccountModel account = accountRepository.getAccountModelByUser_IdUser(newUser.getIdUser());
         BigDecimal userBankBalance = account.getBankBalance();
         if(deposit.doubleValue() > userBankBalance.doubleValue()){

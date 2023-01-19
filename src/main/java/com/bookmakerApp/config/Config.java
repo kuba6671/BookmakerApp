@@ -23,10 +23,10 @@ import static java.util.Collections.singletonList;
 @EnableScheduling
 public class Config {
     @Bean
-    public Docket swaggerApi(){
+    public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .paths(PathSelectors. regex ( "^(?!/(error).*$).*$" ))
+                .paths(PathSelectors.regex("^(?!/(error).*$).*$"))
                 .build()
                 .securitySchemes(singletonList(createSchema()))
                 .securityContexts(singletonList(createContext()));
