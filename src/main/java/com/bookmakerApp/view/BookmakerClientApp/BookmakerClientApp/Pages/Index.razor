@@ -4,20 +4,10 @@
 @inject EventService eventService
 @inject BetTicketService betTicketService
 
-<button class="btn btn-primary" @onclick="GetDataFromApi">Fetch Data</button>
-
-@listSize
-
+<IndexComponent />
 
 
 @code{
-    string listSize = "EMPTY";
 
-    public async Task GetDataFromApi()
-    {
-        List<BetTicketDto> betTicketDtos = await betTicketService.GetAllBetTicketForUser();
-        int size = betTicketDtos.Count;
-        listSize = size.ToString();
-    }
 }
 
