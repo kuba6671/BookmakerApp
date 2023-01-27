@@ -4,7 +4,7 @@
     <div class="item1">Data zawarcia: @BetTicketDto.Date</div>
     <div class="item2">Ilość zdarzeń na kuponie: @BetTicketDto.Events.Count</div>
     <div class="item3">
-        Wynik: @BetTicketDto.Success
+        Wynik:
         @if (@BetTicketDto.Success == null)
         {
             <span class="dot-black"></span>
@@ -27,8 +27,4 @@
 @code {
     [Parameter]
     public BetTicketDto BetTicketDto { get; set; }
-
-    /*
-    <span class="dot-black"></span>
-    */
 }
