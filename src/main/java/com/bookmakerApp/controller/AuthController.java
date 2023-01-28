@@ -55,7 +55,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/registration")
+    @PostMapping("registration")
     public UserModel addUser(@RequestBody UserModel newUser) {
         if (ObjectUtils.isEmpty(newUser)) {
             throw new IllegalArgumentException("User is empty or null");

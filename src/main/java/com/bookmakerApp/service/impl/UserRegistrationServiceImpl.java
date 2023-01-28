@@ -28,7 +28,6 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     public UserModel registerUserAccount(UserModel user) {
         UserModel existingUser = userRepository.findUserModelByMail(user.getMail());
         if (ObjectUtils.isNotEmpty(existingUser)) {
-            //UserAlreadyExistAuthenticationException
             throw new IllegalArgumentException("User already exist");
         }
         AccountModel account = new AccountModel();
