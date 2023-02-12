@@ -1,6 +1,6 @@
 package com.bookmakerApp.config.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,14 +14,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private CustomPasswordEncoder customPasswordEncoder;
-    @Autowired
-    private JwtFilter jwtFilter;
+    private final UserDetailsService userDetailsService;
+    private final CustomPasswordEncoder customPasswordEncoder;
+    private final JwtFilter jwtFilter;
 
     @Override
     @Bean

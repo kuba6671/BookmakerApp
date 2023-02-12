@@ -24,13 +24,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    //@Autowired
     private final AuthenticationManager authenticationManager;
-    //@Autowired
     private final JwtUtil jwtUtil;
-    //@Autowired
     private final UserRegistrationServiceImpl userRegistrationService;
-    //@Autowired
     private final UserDetailsServiceImpl userDetailsService;
     private final DefaultUserFacadeImpl userFacade;
 
