@@ -3,9 +3,11 @@ package com.bookmakerApp.facade.impl;
 import com.bookmakerApp.facade.dtos.UserModelDto;
 import com.bookmakerApp.facade.interfaces.UserFacade;
 import com.bookmakerApp.facade.mappers.UserModelDtoMapper;
+import com.bookmakerApp.model.UserModel;
 import com.bookmakerApp.service.impl.DefaultUserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -23,5 +25,21 @@ public class DefaultUserFacadeImpl implements UserFacade {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public UserModelDto changePassword(String oldPassword, String newPassword) {
+        UserModel user = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        try {
+            UserModel changedUser = userService.changePassword(user, oldPassword, newPassword);
+            if (ObjectUtils.isNotEmpty(changedUser)) {
+                return userModelDtoMapper.mapToUserModelDto(changedUser);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

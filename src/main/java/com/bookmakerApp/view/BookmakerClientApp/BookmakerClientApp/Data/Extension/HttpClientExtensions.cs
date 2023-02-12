@@ -42,7 +42,7 @@ namespace BookmakerClientApp.Data.Extension
             }
         }
 
-        public static async Task<T> GetAsJsonAsyncWithListParameter<T>(this HttpClient httpClient, string url, 
+        public static async Task<T> GetAsJsonAsyncWithListParameter<T>(this HttpClient httpClient, string url,
             string key, JArray values)
         {
             string queryString = BuildUrl(key, values);
@@ -66,11 +66,11 @@ namespace BookmakerClientApp.Data.Extension
         {
             NameValueCollection queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-            foreach(long value in values)
+            foreach (long value in values)
             {
                 queryString.Add(key, value.ToString());
             }
-            return queryString.ToString() != string.Empty ? "?"+queryString.ToString() : string.Empty;
+            return queryString.ToString() != string.Empty ? "?" + queryString.ToString() : string.Empty;
         }
 
     }
