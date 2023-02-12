@@ -29,7 +29,12 @@ namespace BookmakerClientApp.Data.Service
 
         public async Task<HttpResponseMessage> ChangePassword(UserPasswordDto user)
         {
-            return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.CHANGE_PASSWORD_URL, user);
+            return await HttpClientExtensions.PutAsJsonAsync(httpClient, BookmakerApiConstant.CHANGE_PASSWORD_URL, user);
+        }
+
+        public async Task<HttpResponseMessage> ChangeData(UserDataDto user)
+        {
+            return await HttpClientExtensions.PutAsJsonAsync(httpClient, BookmakerApiConstant.CHANGE_DATA_URL, user);
         }
 
         public async Task<UserDataDto> GetUserById()

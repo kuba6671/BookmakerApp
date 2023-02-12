@@ -2,17 +2,13 @@ package com.bookmakerApp.controller;
 
 import com.bookmakerApp.config.security.JwtUtil;
 import com.bookmakerApp.facade.dtos.AuthCredentialsRequestDto;
-import com.bookmakerApp.facade.dtos.UserModelDto;
 import com.bookmakerApp.facade.impl.DefaultUserFacadeImpl;
 import com.bookmakerApp.model.UserModel;
 import com.bookmakerApp.service.impl.UserDetailsServiceImpl;
 import com.bookmakerApp.service.impl.UserRegistrationServiceImpl;
-import com.fasterxml.jackson.core.json.JsonWriteFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,7 +65,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("changePassword")
+    @PutMapping("changePassword")
     public ResponseEntity<?> changePassword(@RequestBody final ObjectNode objectNode) {
         final String oldPassword = String.valueOf(objectNode.get("oldPassword")).replaceAll("\"", "");
         final String newPassword = String.valueOf(objectNode.get("newPassword")).replaceAll("\"", "");

@@ -42,4 +42,9 @@ public class DefaultUserFacadeImpl implements UserFacade {
         }
         return null;
     }
+
+    @Override
+    public UserModel changeUserData(final UserModel user) {
+        return userService.changeUserPersonalData(user);
+    }
 }

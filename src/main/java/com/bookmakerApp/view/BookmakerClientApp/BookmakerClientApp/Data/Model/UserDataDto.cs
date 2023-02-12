@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace BookmakerClientApp.Data.Model
 {
     public class UserDataDto
     {
+        [JsonProperty(PropertyName = "name")]
         private String name;
+        [JsonProperty(PropertyName = "surname")]
         private String surname;
+        [JsonProperty(PropertyName = "age")]
         private int age;
         private String mail;
         private double bankBalance;

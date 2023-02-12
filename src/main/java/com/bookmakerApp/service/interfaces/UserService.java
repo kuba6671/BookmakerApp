@@ -7,4 +7,5 @@ public interface UserService {
     UserModel getUserByEmail(String email);
     boolean checkPasswordIsValid(UserModel user, String password);
     UserModel changePassword(UserModel user,String oldPassword, String newPassword);
+    UserModel changeUserPersonalData(UserModel changedUser);
 }

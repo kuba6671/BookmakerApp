@@ -1,5 +1,6 @@
 package com.bookmakerApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +29,7 @@ public class UserModel implements UserDetails {
     private String mail;
     @OneToOne
     @JoinColumn(name = "idAccount")
+    @JsonIgnore
     private AccountModel account;
 
 

@@ -1,13 +1,22 @@
 ﻿@page "/personalDataChange"
 @inherits LayoutComponentBase
+@using BookmakerClientApp.Data.Service
+@using BookmakerClientApp.Data.Model
+@inject UserService userService
+
 
 <div class="topnav">
     <MyAccountNavMenu />
 </div>
 
-<h1>Hello personalDataChange</h1>
-
+<UserChangedDataComponent userDataDto="@userDataDto" />
 
 @code{
+    UserDataDto userDataDto = new UserDataDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        userDataDto = await userService.GetUserById();
+    }
 
 }
