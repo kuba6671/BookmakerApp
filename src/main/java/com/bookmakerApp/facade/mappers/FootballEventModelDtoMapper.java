@@ -9,16 +9,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FootballEventModelDtoMapper {
-    private FootballEventModelDtoMapper(){}
+    private FootballEventModelDtoMapper() {
+    }
 
-    public static List<FootballEventModelDto> mapToFootballEventModelDtos(List<EventModel> events){
+    public static List<FootballEventModelDto> mapToFootballEventModelDtos(List<EventModel> events) {
         return events.stream()
                 .map(event -> mapToFootballEventModelDto(event, (FootballMatchModel) event.getSport()))
                 .collect(Collectors.toList());
     }
 
     private static FootballEventModelDto mapToFootballEventModelDto
-            (EventModel event, FootballMatchModel match){
+            (EventModel event, FootballMatchModel match) {
         return FootballEventModelDto.builder()
                 .idEvent(event.getIdEvent())
                 .odds(event.getOdds())

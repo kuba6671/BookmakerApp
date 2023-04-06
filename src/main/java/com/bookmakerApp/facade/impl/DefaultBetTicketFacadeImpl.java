@@ -19,29 +19,27 @@ public class DefaultBetTicketFacadeImpl implements BetTicketFacade {
     @Qualifier("DefaultBetTicketServiceImpl")
     private final DefaultBetTicketServiceImpl defaultBetTicketService;
 
-    private BetTicketModelDtoMapper betTicketModelDtoMapper;
-
     @Override
     public List<BetTicketModelDto> getBetTicketsByUser(Long id) {
-        return betTicketModelDtoMapper.
+        return BetTicketModelDtoMapper.
                 mapToBetTicketModelDtos(defaultBetTicketService.getBetTicketsByUser(id));
     }
 
     @Override
     public List<BetTicketModelDto> getWonBetTicketsByUser(Long id) {
-        return betTicketModelDtoMapper.
+        return BetTicketModelDtoMapper.
                 mapToBetTicketModelDtos(defaultBetTicketService.getWonBetTicketsByUser(id));
     }
 
     @Override
     public List<BetTicketModelDto> getLostBetTicketByUser(Long id) {
-        return betTicketModelDtoMapper.
+        return BetTicketModelDtoMapper.
                 mapToBetTicketModelDtos(defaultBetTicketService.getLostBetTicketByUsers(id));
     }
 
     @Override
     public List<BetTicketModelDto> getUnfinishedBetTicketsByUser(Long id) {
-        return betTicketModelDtoMapper.
+        return BetTicketModelDtoMapper.
                 mapToBetTicketModelDtos(defaultBetTicketService.getUnfinishedBetTicketsByUser(id));
     }
 

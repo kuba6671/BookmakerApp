@@ -16,12 +16,10 @@ public class DefaultUserFacadeImpl implements UserFacade {
 
     private final DefaultUserServiceImpl userService;
 
-    private UserModelDtoMapper userModelDtoMapper;
-
     @Override
     public UserModelDto getUserById(Long idUser) {
         if (ObjectUtils.isNotEmpty(userService.getUserById(idUser))) {
-            return userModelDtoMapper.mapToUserModelDto(userService.getUserById(idUser));
+            return UserModelDtoMapper.mapToUserModelDto(userService.getUserById(idUser));
         } else {
             return null;
         }
@@ -33,7 +31,7 @@ public class DefaultUserFacadeImpl implements UserFacade {
         try {
             UserModel changedUser = userService.changePassword(user, oldPassword, newPassword);
             if (ObjectUtils.isNotEmpty(changedUser)) {
-                return userModelDtoMapper.mapToUserModelDto(changedUser);
+                return UserModelDtoMapper.mapToUserModelDto(changedUser);
             } else {
                 return null;
             }
