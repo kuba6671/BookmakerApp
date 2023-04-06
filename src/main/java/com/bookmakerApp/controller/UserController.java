@@ -14,12 +14,12 @@ public class UserController {
     private final DefaultUserFacadeImpl userFacade;
 
     @GetMapping("/user/{idUser}")
-    public UserModelDto getUserById(@PathVariable Long idUser){
+    public UserModelDto getUserById(@PathVariable Long idUser) {
         return userFacade.getUserById(idUser);
     }
 
     @PutMapping("/user/changeUserData")
-    public UserModel changeUserData(@RequestBody UserModel user){
+    public UserModel changeUserData(@RequestBody UserModel user) {
         return userFacade.changeUserData(user);
     }
 
