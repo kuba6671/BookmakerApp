@@ -15,10 +15,13 @@ import java.util.List;
 
 @Service
 @Qualifier("BetTicketScheduledTaskServiceImpl")
-public class BetTicketScheduledTaskServiceImpl extends DefaultBetTicketServiceImpl implements BetTicketScheduledTaskService {
+public class BetTicketScheduledTaskServiceImpl extends
+        DefaultBetTicketServiceImpl implements BetTicketScheduledTaskService {
 
-
-    public BetTicketScheduledTaskServiceImpl(BetTicketRepository betTicketRepository, EventRepository eventRepository, AccountRepository accountRepository, UserRepository userRepository) {
+    public BetTicketScheduledTaskServiceImpl(BetTicketRepository betTicketRepository,
+                                             EventRepository eventRepository,
+                                             AccountRepository accountRepository,
+                                             UserRepository userRepository) {
         super(betTicketRepository, eventRepository, accountRepository, userRepository);
     }
 
@@ -26,19 +29,15 @@ public class BetTicketScheduledTaskServiceImpl extends DefaultBetTicketServiceIm
     @Scheduled(cron = "0 0/9 * * * ?")
     @Transactional
     public void checkBetTicketFinish() {
-        List<BetTicketModel> betTickets = getUnfinishedBetTickets();
-        for (BetTicketModel betTicket : betTickets) {
-            isFinishBetTicket(betTicket);
-        }
+        final List<BetTicketModel> betTickets = getUnfinishedBetTickets();
+        betTickets.forEach(this::isFinishBetTicket);
     }
 
     @Override
     @Scheduled(cron = "0 0/10 * * * ?")
     @Transactional
     public void checkBetTicketResults() {
-        List<BetTicketModel> betTickets = getFinishedAndUncheckedBetTicket();
-        for (BetTicketModel betTicket : betTickets) {
-            isWonBetTicket(betTicket);
-        }
+        final List<BetTicketModel> betTickets = getFinishedAndUncheckedBetTicket();
+        betTickets.forEach(this::isWonBetTicket);
     }
 }

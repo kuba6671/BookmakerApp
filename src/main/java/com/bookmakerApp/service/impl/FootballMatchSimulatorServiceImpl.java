@@ -17,12 +17,15 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
 
     private final EventRepository eventRepository;
 
+    private static final String FIRST_TEAM_WIN = "FIRST_TEAM_WIN";
+    private static final String SECOND_TEAM_WIN = "SECOND_TEAM_WIN";
+    private static final String DRAFT = "DRAFT";
+
     @Override
     public void simulate(EventModel event) {
-        SportModel footballMatch = event.getSport();
-        if (footballMatch instanceof FootballMatchModel && !event.isResultIsChecked()) {
+        if (isFootballMatchWithNoCheckedResult(event)) {
             simulateFootballMatchGoals(event);
-            setSimulateResult(footballMatch.getIdSport());
+            setSimulateResult(event.getSport().getIdSport());
         } else {
             throw new IllegalArgumentException("SportModel is not FootballMatchModel");
         }
@@ -30,63 +33,49 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
 
     private void setSimulateResult(Long idSport) {
         List<EventModel> events = eventRepository.getEventModelsBySport_IdSport(idSport);
-        events.stream()
-                .filter(event -> event.getSport() instanceof FootballMatchModel
-                        && !event.isResultIsChecked());
+        events.stream().filter(this::isFootballMatchWithNoCheckedResult);
+
         for (EventModel event : events) {
             FootballMatchModel footballMatch = (FootballMatchModel) event.getSport();
-            String choosenResult = String.valueOf(event.getChosenResult());
-            if (choosenResult.equals("DRAFT") && checkDraft(footballMatch)) {
+            String chosenResult = String.valueOf(event.getChosenResult());
+            if (DRAFT.equals(chosenResult) && checkDraft(footballMatch)) {
                 event.setSuccess(true);
-                event.setFinish(true);
-                event.setResultIsChecked(true);
-            } else if (choosenResult.equals("FIRST_TEAM_WIN") && checkTeamsGoals(footballMatch)) {
+            } else if (FIRST_TEAM_WIN.equals(chosenResult) && checkHomeTeamWin(footballMatch)) {
                 event.setSuccess(true);
-                event.setFinish(true);
-                event.setResultIsChecked(true);
-            } else if (choosenResult.equals("SECOND_TEAM_WIN") && !checkTeamsGoals(footballMatch)) {
-                event.setSuccess(true);
-                event.setFinish(true);
-                event.setResultIsChecked(true);
             } else {
-                event.setSuccess(false);
-                event.setFinish(true);
-                event.setResultIsChecked(true);
+                event.setSuccess(SECOND_TEAM_WIN.equals(chosenResult) && !checkHomeTeamWin(footballMatch));
             }
+            event.setFinish(true);
+            event.setResultIsChecked(true);
         }
     }
 
-    private boolean checkTeamsGoals(FootballMatchModel match) {
+    private boolean checkHomeTeamWin(FootballMatchModel match) {
         int homeTeamGoals = match.getHomeTeamGoals();
         int visitingTeamGoals = match.getVisitingTeamGoals();
-        if (homeTeamGoals > visitingTeamGoals) {
-            return true;
-        } else {
-            return false;
-        }
+        return homeTeamGoals > visitingTeamGoals;
     }
 
     private boolean checkDraft(FootballMatchModel match) {
-        if (match.getHomeTeamGoals() == match.getVisitingTeamGoals()) {
-            return true;
-        } else {
-            return false;
-        }
+        return match.getHomeTeamGoals() == match.getVisitingTeamGoals();
     }
 
     private void simulateFootballMatchGoals(EventModel event) {
         SportModel footballMatch = event.getSport();
         if (footballMatch instanceof FootballMatchModel) {
-            int probability;
-            String choosenResult = String.valueOf(event.getChosenResult());
-            if (choosenResult.equals("FIRST_TEAM_WIN")) {
-                probability = (int) (((FootballMatchModel) footballMatch).getHomeTeamWinOdds() * 10);
-            } else if (choosenResult.equals("SECOND_TEAM_WIN")) {
-                probability = (int) (((FootballMatchModel) footballMatch).getVisitingTeamWinOdds() * 10);
-            } else {
-                probability = (int) (((FootballMatchModel) footballMatch).getDraftOdds() * 10);
-            }
+            String chosenResult = String.valueOf(event.getChosenResult());
+            int probability = calculateProbabilityForChosenResult((FootballMatchModel) footballMatch, chosenResult);
             simulateGoalsForTeams((FootballMatchModel) footballMatch, probability);
+        }
+    }
+
+    private int calculateProbabilityForChosenResult(FootballMatchModel footballMatch, String chosenResult) {
+        if (FIRST_TEAM_WIN.equals(chosenResult)) {
+            return (int) (footballMatch.getHomeTeamWinOdds() * 10);
+        } else if (SECOND_TEAM_WIN.equals(chosenResult)) {
+            return (int) (footballMatch.getVisitingTeamWinOdds() * 10);
+        } else {
+            return (int) (footballMatch.getDraftOdds() * 10);
         }
     }
 
@@ -113,5 +102,10 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
                 match.setHomeTeamGoals(0);
             }
         }
+    }
+
+    private boolean isFootballMatchWithNoCheckedResult(EventModel event) {
+        SportModel footballMatch = event.getSport();
+        return footballMatch instanceof FootballMatchModel && !event.isResultIsChecked();
     }
 }

@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class DefaultUserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
     private final CustomPasswordEncoder customPasswordEncoder;
 
     @Override

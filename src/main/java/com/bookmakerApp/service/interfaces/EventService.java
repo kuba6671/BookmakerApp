@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface EventService {
     List<EventModel> getUnfinishedEvents();
+
     List<EventModel> getFinishedEvents();
+
     List<EventModel> getEventByDateBefore(Date date);
+
     EventModel addEventModel(EventModel event);
+
     List<EventModel> getEventsByIds(List<Long> idEvents);
 }

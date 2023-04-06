@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 public class FootballMatchServiceImpl implements FootballMatchService {
 
     private final FootballMatchRepository footballMatchRepository;
-
     private final FootballTeamRepository footballTeamRepository;
 
-    @Override
+    private static final String FOOTBALL_MATCH = "Piłka nożna";
+
     public FootballMatchModel addFootballMatch(FootballMatchModel footballMatch) {
-        footballMatch.setSportName("Piłka nożna");
+        footballMatch.setSportName(FOOTBALL_MATCH);
         return footballMatchRepository.save(footballMatch);
     }
 
@@ -26,5 +26,4 @@ public class FootballMatchServiceImpl implements FootballMatchService {
     public FootballTeamModel addFootballTeam(FootballTeamModel footballTeam) {
         return footballTeamRepository.save(footballTeam);
     }
-
 }

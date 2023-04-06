@@ -24,30 +24,27 @@ import java.util.List;
 public class DefaultBetTicketServiceImpl implements BetTicketService {
 
     private final BetTicketRepository betTicketRepository;
-
     private final EventRepository eventRepository;
-
     private final AccountRepository accountRepository;
-
     private final UserRepository userRepository;
 
     @Override
-    public List<BetTicketModel> getBetTicketsByUser(Long id){
+    public List<BetTicketModel> getBetTicketsByUser(Long id) {
         return betTicketRepository.getBetTicketModelsByUserIdUser(id);
     }
 
     @Override
-    public List<BetTicketModel> getWonBetTicketsByUser(Long id){
-       return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.TRUE);
+    public List<BetTicketModel> getWonBetTicketsByUser(Long id) {
+        return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.TRUE);
     }
 
     @Override
-    public List<BetTicketModel> getLostBetTicketByUsers(Long id){
+    public List<BetTicketModel> getLostBetTicketByUsers(Long id) {
         return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.FALSE);
     }
 
     @Override
-    public List<BetTicketModel> getUnfinishedBetTicketsByUser(Long id){
+    public List<BetTicketModel> getUnfinishedBetTicketsByUser(Long id) {
         return betTicketRepository.getBetTicketModelsByUserIdUserAndFinish(id, false);
     }
 
@@ -63,19 +60,18 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
 
     @Override
     @Transactional
-    public BetTicketModel addBetTicket(BetTicketModel betTicket){
-        BigDecimal deposit = betTicket.getDeposit();
-        UserModel user = betTicket.getUser();
+    public BetTicketModel addBetTicket(BetTicketModel betTicket) {
         betTicket.setDate(new Date());
         calculateBetTicket(betTicket);
-        updateAccountBalance(user,deposit);
+        updateAccountBalance(betTicket.getUser(), betTicket.getDeposit());
+
         return betTicketRepository.save(betTicket);
     }
 
-    private BetTicketModel calculateBetTicket(BetTicketModel betTicket){
+    private BetTicketModel calculateBetTicket(BetTicketModel betTicket) {
         Double totalOdds = 1.0;
         List<EventModel> events = betTicket.getEvents();
-        for(EventModel event : events){
+        for (EventModel event : events) {
             event = eventRepository.getEventModelsByIdEvent(event.getIdEvent());
             totalOdds *= event.getOdds();
         }
@@ -85,22 +81,23 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         return betTicket;
     }
 
-    private UserModel updateAccountBalance(UserModel user, BigDecimal deposit){
-        UserModel newUser = userRepository.findUserModelByIdUser(user.getIdUser());
-        AccountModel account = accountRepository.getAccountModelByUser_IdUser(newUser.getIdUser());
+    private UserModel updateAccountBalance(UserModel user, BigDecimal deposit) {
+        UserModel updatedUser = userRepository.findUserModelByIdUser(user.getIdUser());
+        AccountModel account = accountRepository.getAccountModelByUser_IdUser(updatedUser.getIdUser());
         BigDecimal userBankBalance = account.getBankBalance();
-        if(deposit.doubleValue() > userBankBalance.doubleValue()){
+        if (deposit.doubleValue() > userBankBalance.doubleValue()) {
             throw new IllegalArgumentException("You don't have enough money on your account");
         }
         account.setBankBalance(BigDecimal.valueOf(userBankBalance.doubleValue() - deposit.doubleValue()));
-        newUser.setAccount(account);
-        return newUser;
+        updatedUser.setAccount(account);
+
+        return updatedUser;
     }
 
-    protected Boolean isWonBetTicket(BetTicketModel betTicket){
-        List<EventModel> events = betTicket.getEvents();
-        for(EventModel event : events){
-            if(!event.getSuccess()) {
+    protected Boolean isWonBetTicket(BetTicketModel betTicket) {
+        final List<EventModel> events = betTicket.getEvents();
+        for (EventModel event : events) {
+            if (!event.getSuccess()) {
                 betTicket.setSuccess(Boolean.FALSE);
                 betTicket.setResultIsChecked(true);
                 return Boolean.FALSE;
@@ -111,10 +108,10 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         return Boolean.TRUE;
     }
 
-    protected boolean isFinishBetTicket(BetTicketModel betTicket){
+    protected boolean isFinishBetTicket(BetTicketModel betTicket) {
         List<EventModel> events = betTicket.getEvents();
-        for(EventModel event : events){
-            if(!event.isFinish()) {
+        for (EventModel event : events) {
+            if (!event.isFinish()) {
                 betTicket.setFinish(false);
                 return false;
             }
