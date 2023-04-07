@@ -14,7 +14,7 @@ public class DefaultSportServiceImpl implements SportService {
 
     private final SportRepository sportRepository;
 
-    private static final String FOOTBALL_MATCH = "Piłka nożna";
+    private static final String FOOTBALL_MATCH = "Football";
 
     @Override
     public List<SportModel> getFootballMatches() {

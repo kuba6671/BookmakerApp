@@ -15,7 +15,7 @@ public class FootballMatchServiceImpl implements FootballMatchService {
     private final FootballMatchRepository footballMatchRepository;
     private final FootballTeamRepository footballTeamRepository;
 
-    private static final String FOOTBALL_MATCH = "Piłka nożna";
+    private static final String FOOTBALL_MATCH = "Football";
 
     public FootballMatchModel addFootballMatch(FootballMatchModel footballMatch) {
         footballMatch.setSportName(FOOTBALL_MATCH);

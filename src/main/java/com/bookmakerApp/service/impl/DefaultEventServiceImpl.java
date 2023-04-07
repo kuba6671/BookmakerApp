@@ -21,7 +21,7 @@ public class DefaultEventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final SportRepository sportRepository;
 
-    private static final String FOOTBALL_MATCH = "Piłka nożna";
+    private static final String FOOTBALL_MATCH = "Football";
     private static final String FIRST_TEAM_WIN = "FIRST_TEAM_WIN";
     private static final String SECOND_TEAM_WIN = "SECOND_TEAM_WIN";
 
