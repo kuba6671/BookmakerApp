@@ -19,31 +19,31 @@ public class BetTicketController {
     private final DefaultBetTicketFacadeImpl defaultBetTicketFacade;
 
     @PostMapping("betTickets")
-    public BetTicketModel addBetTicket(@RequestBody BetTicketModel newBetTicket){
-        if(ObjectUtils.isEmpty(newBetTicket)){
+    public BetTicketModel addBetTicket(@RequestBody BetTicketModel newBetTicket) {
+        if (ObjectUtils.isEmpty(newBetTicket)) {
             throw new IllegalArgumentException("BetTicket is empty or null");
-        }else{
+        } else {
             return defaultBetTicketFacade.addBetTicket(newBetTicket);
         }
     }
 
     @GetMapping("/betTicketsUser/{id}")
-    public List<BetTicketModelDto> getBetTicketsByUser(@PathVariable Long id){
+    public List<BetTicketModelDto> getBetTicketsByUser(@PathVariable Long id) {
         return defaultBetTicketFacade.getBetTicketsByUser(id);
     }
 
     @GetMapping("/betTicketsWon/{id}")
-    public List<BetTicketModelDto> getWonBetTicketsByUser(@PathVariable Long id){
+    public List<BetTicketModelDto> getWonBetTicketsByUser(@PathVariable Long id) {
         return defaultBetTicketFacade.getWonBetTicketsByUser(id);
     }
 
     @GetMapping("/betTicketsLost/{id}")
-    public List<BetTicketModelDto> getLostBetTicketByUsers(@PathVariable Long id){
+    public List<BetTicketModelDto> getLostBetTicketByUsers(@PathVariable Long id) {
         return defaultBetTicketFacade.getLostBetTicketByUser(id);
     }
 
     @GetMapping("/betTicketsUnfinished/{id}")
-    public List<BetTicketModelDto> getUnfinishedBetTicketsByUser(@PathVariable Long id){
+    public List<BetTicketModelDto> getUnfinishedBetTicketsByUser(@PathVariable Long id) {
         return defaultBetTicketFacade.getUnfinishedBetTicketsByUser(id);
     }
 

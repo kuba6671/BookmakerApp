@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface SportRepository extends JpaRepository<SportModel, Long> {
     List<SportModel> getSportModelsBySportName(String sportName);
+
     SportModel getSportModelByIdSport(Long idSport);
 }

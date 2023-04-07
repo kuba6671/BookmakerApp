@@ -28,7 +28,8 @@ public class EventController {
     }
 
     @GetMapping("/events/footballEventsByIds")
-    public List<FootballEventModelDto> getFootballEventsByIds(@RequestParam(required = false, defaultValue = "") List<Long> idEvents) {
+    public List<FootballEventModelDto> getFootballEventsByIds(
+            @RequestParam(required = false, defaultValue = "") List<Long> idEvents) {
         return footballEventFacade.getFootballEventsByIds(idEvents);
     }
 

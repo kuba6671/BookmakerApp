@@ -27,6 +27,16 @@ namespace BookmakerClientApp.Data.Service
             return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.REGISTRATION_URL, user);
         }
 
+        public async Task<HttpResponseMessage> ChangePassword(UserPasswordDto user)
+        {
+            return await HttpClientExtensions.PutAsJsonAsync(httpClient, BookmakerApiConstant.CHANGE_PASSWORD_URL, user);
+        }
+
+        public async Task<HttpResponseMessage> ChangeData(UserDataDto user)
+        {
+            return await HttpClientExtensions.PutAsJsonAsync(httpClient, BookmakerApiConstant.CHANGE_DATA_URL, user);
+        }
+
         public async Task<UserDataDto> GetUserById()
         {
             var token = authService.getToken();

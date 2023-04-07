@@ -18,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User springUser = null;
+        User springUser;
         UserModel user = userRepository.findUserModelByMail(username);
 
         if (ObjectUtils.isNotEmpty(user)) {
@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return springUser;
     }
 
-    public Long getUserIdByUsername(String username){
+    public Long getUserIdByUsername(String username) {
         return userRepository.findUserModelByMail(username).getIdUser();
     }
 }

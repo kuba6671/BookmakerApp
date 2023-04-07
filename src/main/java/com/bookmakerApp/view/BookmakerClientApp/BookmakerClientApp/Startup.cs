@@ -31,7 +31,6 @@ namespace BookmakerClientApp
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<UserService>();
             services.AddTransient<EventService>();
             services.AddTransient<AuthService>();

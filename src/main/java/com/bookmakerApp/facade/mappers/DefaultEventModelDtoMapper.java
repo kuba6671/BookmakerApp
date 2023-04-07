@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DefaultEventModelDtoMapper {
-    private DefaultEventModelDtoMapper(){}
+    private DefaultEventModelDtoMapper() {
+    }
 
-    public static List<DefaultEventModelDto> mapToDefaultEventModelDtos(List<EventModel> events){
+    public static List<DefaultEventModelDto> mapToDefaultEventModelDtos(List<EventModel> events) {
         return events.stream()
-                .map(event -> mapToDefaultEventModelDto(event))
+                .map(DefaultEventModelDtoMapper::mapToDefaultEventModelDto)
                 .collect(Collectors.toList());
     }
 
-    private static DefaultEventModelDto mapToDefaultEventModelDto(EventModel event){
+    private static DefaultEventModelDto mapToDefaultEventModelDto(EventModel event) {
         return DefaultEventModelDto.builder()
                 .idEvent(event.getIdEvent())
                 .odds(event.getOdds())

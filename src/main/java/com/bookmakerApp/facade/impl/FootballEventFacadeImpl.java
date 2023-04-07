@@ -21,15 +21,13 @@ public class FootballEventFacadeImpl implements EventFacade {
     @Qualifier("DefaultEventServiceImpl")
     private final DefaultEventServiceImpl defaultEventService;
 
-    private FootballEventModelDtoMapper footballEventModelDtoMapper;
-
     @Override
     public List<FootballEventModelDto> getUnfinishedFootballEvents() {
         List<EventModel> events = defaultEventService.getUnfinishedEvents();
         events.stream()
                 .filter(event -> event.getSport() instanceof FootballMatchModel)
                 .collect(Collectors.toList());
-        return footballEventModelDtoMapper.mapToFootballEventModelDtos(events);
+        return FootballEventModelDtoMapper.mapToFootballEventModelDtos(events);
     }
 
     @Override
@@ -38,7 +36,7 @@ public class FootballEventFacadeImpl implements EventFacade {
         events.stream()
                 .filter(event -> event.getSport() instanceof FootballMatchModel)
                 .collect(Collectors.toList());
-        return footballEventModelDtoMapper.mapToFootballEventModelDtos(events);
+        return FootballEventModelDtoMapper.mapToFootballEventModelDtos(events);
     }
 
     @Override
@@ -47,7 +45,7 @@ public class FootballEventFacadeImpl implements EventFacade {
         events.stream()
                 .filter(event -> event.getSport() instanceof FootballMatchModel)
                 .collect(Collectors.toList());
-        return footballEventModelDtoMapper.mapToFootballEventModelDtos(events);
+        return FootballEventModelDtoMapper.mapToFootballEventModelDtos(events);
     }
 
     public EventModel addEvent(EventModel event) {

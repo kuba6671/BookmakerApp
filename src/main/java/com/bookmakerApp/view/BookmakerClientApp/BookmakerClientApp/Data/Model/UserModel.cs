@@ -4,10 +4,15 @@ namespace BookmakerClientApp.Data.Model
 {
     public class UserModel
     {
+        [JsonProperty(PropertyName = "mail")]
         private string mail;
+        [JsonProperty(PropertyName = "password")]
         private string password;
+        [JsonProperty(PropertyName = "name")]
         private string name;
+        [JsonProperty(PropertyName = "surname")]
         private string surname;
+        [JsonProperty(PropertyName = "age")]
         private int age;
         [JsonProperty(PropertyName = "idUser")]
         private long idUser;

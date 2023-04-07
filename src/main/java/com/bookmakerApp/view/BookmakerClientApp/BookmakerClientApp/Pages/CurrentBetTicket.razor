@@ -6,6 +6,7 @@
 @inject BetTicketService betTicketService
 @inject EventService eventService
 @inject AuthService authService
+@inject IJSRuntime JS
 
 <br />
 @if (eventsList.Count != 0)
@@ -32,7 +33,7 @@
                                 <td data-title="Dyscyplina">Piłka nożna</td>
                                 <td data-title="Data">@eventModel.Date</td>
                                 <td data-title="Kurs">@eventModel.Odds</td>
-                                <td data-title="Wybrany wynik">@eventModel.ChosenResult</td>
+                                <td data-title="Wybrany wynik">@ChangeFormat(@eventModel.ChosenResult)</td>
                                 <td data-title="Usuń"><button class="btn btn-primary" @onclick="() => RemoveEvent(eventModel.IdEvent)">Usuń</button></td>
                             </tr>
                         }
@@ -48,7 +49,7 @@
                 </div>
                 <div class="col-auto" style="width: 25%;">
                     <label class="sr-only" for="inlineFormInput">Kurs</label>
-                    <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Kurs: @odds" style="background-color:white" readonly>
+                    <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Kurs: @odds.ToString("0.00")" style="background-color:white" readonly>
                 </div>
                 <div class="col-auto" style="width:25%">
                     <label class="sr-only" for="inlineFormInput">Do wygrania</label>
@@ -119,6 +120,12 @@ else
             LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
             localStorage.Store(key, eventsList);
         }
+        else
+        {
+            bool confirmed = await JS.InvokeAsync<bool>("alert", "Zbyt mały stan konta");
+            string Result = confirmed ? "You clicked OK" : "You clicked Cancel";
+            Console.WriteLine(Result);
+        }
     }
 
     private double CountOdds()
@@ -133,10 +140,16 @@ else
     private void CountToWin(ChangeEventArgs args)
     {
         var newValue = args.Value?.ToString() ?? string.Empty;
-        deposit = double.Parse(newValue);
-        double toWinDouble = 0.0;
-        toWinDouble = odds * deposit;
-        toWin = toWinDouble.ToString();
+        if (newValue != string.Empty && double.TryParse(newValue, out deposit))
+        {
+            double toWinDouble = 0.0;
+            toWinDouble = odds * deposit;
+            toWin = toWinDouble.ToString("0.00");
+        }
+        else
+        {
+            toWin = "0.00";
+        }
     }
 
     private async Task RemoveEvent(long id)
@@ -154,5 +167,22 @@ else
         }
         localStorage.Store(key, newArray);
         await OnInitializedAsync();
+    }
+
+    private String ChangeFormat(String result)
+    {
+        if (result.Equals("FIRST_TEAM_WIN"))
+        {
+            result = "Drużyna gospodarzy wygra";
+        }
+        else if (result.Equals("SECOND_TEAM_WIN"))
+        {
+            result = "Drużyna gości wygra";
+        }
+        else
+        {
+            result = "Remis";
+        }
+        return result;
     }
 }

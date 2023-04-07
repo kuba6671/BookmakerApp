@@ -14,7 +14,6 @@ public class AccountModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idAccount;
     private BigDecimal bankBalance;
-    @OneToOne
-    @JoinColumn(name = "idUser")
+    @OneToOne(mappedBy = "account")
     private UserModel user;
 }

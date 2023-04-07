@@ -1,0 +1,68 @@
+﻿@using BookmakerClientApp.Data.Model
+@using BookmakerClientApp.Data.Service
+@inject UserService userService
+
+<div class="input-group input-group-lg">
+    <div class="input-group-prepend">
+        <span style="width:150px;" class="input-group-text" id="inputGroup-sizing-lg">Imie</span>
+    </div>
+    <input type="text" @bind-value="name" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="@userDataDto.Name">
+</div>
+<div class="input-group input-group-lg">
+    <div class="input-group-prepend">
+        <span style="width:150px;" class="input-group-text" id="inputGroup-sizing-lg">Nazwisko</span>
+    </div>
+    <input type="text" @bind-value="surname" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="@userDataDto.Surname">
+</div>
+<div class="input-group input-group-lg">
+    <div class="input-group-prepend">
+        <span style="width:150px;" class="input-group-text" id="inputGroup-sizing-lg">Wiek</span>
+    </div>
+    <input type="text" @bind-value="age" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="@userDataDto.Age">
+</div>
+<div class="input-group input-group-lg">
+    <button style="background-color: #0275d8; color: white" @onclick="() => ChangePassword()" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">Zmień hasło</button>
+</div>
+<div class="input-group input-group-lg">
+    @message
+</div>
+
+@code {
+    String message = "";
+    string name;
+    String surname;
+    int age;
+    [Parameter]
+    public UserDataDto userDataDto { get; set; }
+
+    private async Task ChangePassword()
+    {
+        if (!IsNullOrEmpty(name))
+        {
+            userDataDto.Name = name;
+        }
+        if (!IsNullOrEmpty(surname))
+        {
+            userDataDto.Surname = surname;
+        }
+        if (!IsNullOrEmpty(age.ToString()))
+        {
+            userDataDto.Age = age;
+        }
+        HttpResponseMessage response = await userService.ChangeData(userDataDto);
+        string statusCode = response.StatusCode.ToString();
+        if (statusCode.Equals("OK"))
+        {
+            message = "Dane zostały pomyślnie zmienione";
+        }
+        else
+        {
+            message = "Coś poszło nie tak. Podaj poprawne dane";
+        }
+    }
+
+    public static bool IsNullOrEmpty(string s)
+    {
+        return (s == null || s == String.Empty) ? true : false;
+    }
+}

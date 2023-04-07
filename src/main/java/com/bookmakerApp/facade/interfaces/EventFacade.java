@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface EventFacade {
     List<FootballEventModelDto> getUnfinishedFootballEvents();
+
     List<FootballEventModelDto> getFinishedFootballEvents();
+
     List<FootballEventModelDto> getFootballEventsByIds(List<Long> idEvents);
 }

@@ -18,9 +18,7 @@ import java.math.BigDecimal;
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private final UserRepository userRepository;
-
     private final AccountRepository accountRepository;
-
     private final CustomPasswordEncoder customPasswordEncoder;
 
     @Override
@@ -28,7 +26,6 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     public UserModel registerUserAccount(UserModel user) {
         UserModel existingUser = userRepository.findUserModelByMail(user.getMail());
         if (ObjectUtils.isNotEmpty(existingUser)) {
-            //UserAlreadyExistAuthenticationException
             throw new IllegalArgumentException("User already exist");
         }
         AccountModel account = new AccountModel();
@@ -36,8 +33,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         account.setUser(user);
         accountRepository.save(account);
         user.setAccount(account);
-        String password = user.getPassword();
-        user.setPassword(customPasswordEncoder.getPasswordEncoder().encode(password));
+        user.setPassword(customPasswordEncoder.getPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
     }
 }
