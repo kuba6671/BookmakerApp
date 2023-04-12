@@ -10,7 +10,7 @@ public interface EventService {
 
     List<EventModel> getFinishedEvents();
 
-    List<EventModel> getEventByDateBefore(Date date);
+    List<EventModel> getEventByDateBeforeAndResultIsChecked(Date date, boolean isChecked);
 
     EventModel addEventModel(EventModel event);
 

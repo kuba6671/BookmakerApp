@@ -21,5 +21,7 @@ namespace BookmakerClientApp.Data.Constant
         public const string ADD_BET_TICKET_URL = BASE_URL + "betTickets";
         public const string USER_DATA_URL = BASE_URL + "user/";
         public const string CHANGE_DATA_URL = BASE_URL + "user/changeUserData";
-    }
+		public const string MAKE_PAYMENT_URL = BASE_URL + "makePayment";
+		public const string GET_PAYMENTS_URL = BASE_URL + "payments";
+	}
 }

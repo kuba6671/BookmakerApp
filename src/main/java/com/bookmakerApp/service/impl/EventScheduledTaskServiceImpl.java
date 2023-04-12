@@ -1,7 +1,6 @@
 package com.bookmakerApp.service.impl;
 
 import com.bookmakerApp.model.EventModel;
-import com.bookmakerApp.model.SportModel;
 import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.repository.EventRepository;
 import com.bookmakerApp.repository.SportRepository;
@@ -34,9 +33,9 @@ public class EventScheduledTaskServiceImpl extends
     @Transactional
     public void simulateEvents() {
         Date date = new Date();
-        List<EventModel> events = getEventByDateBefore(date);
+        List<EventModel> events = getEventByDateBeforeAndResultIsChecked(date, Boolean.FALSE);
         List<EventModel> footballMatchEvents = events.stream()
-                .filter(this::isFootballMatchWithNoCheckedResult)
+                .filter(event -> event.getSport() instanceof FootballMatchModel)
                 .toList();
 
         footballMatchEvents.forEach(footballMatch -> {
@@ -44,10 +43,5 @@ public class EventScheduledTaskServiceImpl extends
                 footballMatchSimulatorService.simulate(footballMatch);
             }
         });
-    }
-
-    private boolean isFootballMatchWithNoCheckedResult(EventModel event) {
-        SportModel footballMatch = event.getSport();
-        return footballMatch instanceof FootballMatchModel && !event.isResultIsChecked();
     }
 }
