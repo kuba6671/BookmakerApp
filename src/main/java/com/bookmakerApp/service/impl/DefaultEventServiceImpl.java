@@ -36,8 +36,8 @@ public class DefaultEventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventModel> getEventByDateBefore(Date date) {
-        return eventRepository.getEventModelsByDateBefore(date);
+    public List<EventModel> getEventByDateBeforeAndResultIsChecked(Date date, boolean isChecked) {
+        return eventRepository.getEventModelsByDateBeforeAndResultIsChecked(date, isChecked);
     }
 
     @Override

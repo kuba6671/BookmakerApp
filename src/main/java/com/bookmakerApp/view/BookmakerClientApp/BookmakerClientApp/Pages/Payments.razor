@@ -1,0 +1,98 @@
+﻿@page "/payments"
+@using BookmakerClientApp.Data.Model
+@using BookmakerClientApp.Data.Service
+@using System.Numerics
+@using System.Text.Json
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inject PaymentService paymentService
+@inject NavigationManager navigationManager
+
+
+<body class="large-screen">
+	<form>
+		<div class="form-row align-items-center">
+			<div class="col-auto" style="padding-left: 160px;width:25%;">
+				<label class="sr-only" for="inlineFormInput">Wkład</label>
+				<input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Kwota płatności" @bind="@totalAmount" style="background-color:white">
+			</div>
+			<div class="col-auto" style="width:25%">
+				<button type="button" class="btn btn-primary mb-2" style="width:25%" @onclick="MakePayment">Zapłać</button>
+			</div>
+			<div class="col-auto" style="width:50%">
+				<button type="button" class="btn btn-primary mb-2" disabled="@(paymentResponseDto.RedirectUri == null ? true : false)" style="width:25%" @onclick="GoToPaymentSite">Przejdź po strony płatności</button>
+			</div>
+		</div>
+	</form>
+	<div class="wrap">
+		<div class="table-wrapper">
+			<table class="table-responsive card-list-table">
+				<thead>
+					<tr>
+						<th>Numer płatności</th>
+						<th>Kwota</th>
+						<th>Status</th>
+						<th>Waluta</th>
+						<th>Dokończ płatność</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (PaymentDto payment in payments)
+					{
+						<tr>
+							<td data-title="PaymentNumber">@payment.OrderId</td>
+							<td data-title="TotalAmount">@payment.TotalAmount</td>
+							<td data-title="Status">@payment.StatusCode</td>
+							<td data-title="Currency">@payment.CurrencyCode</td>
+							@if (@payment.StatusCode.Equals("NEW"))
+							{
+								<td data-title="FinishPayment"><button type="button" class="btn btn-primary mb-2" style="width:auto" @onclick="() => GoToPaymentSite(payment.RedirectUri)">Zapłać</button></td>
+							}
+							else
+							{
+								<td data-title="FinishPayment">Płatność zakończona</td>
+							}
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
+@code {
+	List<PaymentDto> payments = new List<PaymentDto>();
+	MakePaymentDto makePaymentDto = new MakePaymentDto();
+	string totalAmount;
+	string message;
+	PaymentResponseDto paymentResponseDto = new PaymentResponseDto();
+
+	protected override async Task OnInitializedAsync()
+	{
+		payments = await paymentService.GetPayments();
+	}
+
+	public async Task MakePayment()
+	{
+		makePaymentDto.TotalAmount = Decimal.Parse(totalAmount) * 100;
+		makePaymentDto.CurrencyCode = "PLN";
+		HttpResponseMessage response = await paymentService.MakePayment(makePaymentDto);
+
+		string responseContent = await response.Content.ReadAsStringAsync();
+		paymentResponseDto = JsonConvert.DeserializeObject<PaymentResponseDto>(responseContent);
+
+	}
+
+	public void GoToPaymentSite()
+	{
+		if (paymentResponseDto.RedirectUri != null)
+			navigationManager.NavigateTo(paymentResponseDto.RedirectUri);
+	}
+
+	public void GoToPaymentSite(string redirectUri)
+	{
+		if (redirectUri != null)
+			navigationManager.NavigateTo(redirectUri);
+	}
+
+}
