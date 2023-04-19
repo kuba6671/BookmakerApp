@@ -33,7 +33,8 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
 
     private void setSimulateResult(Long idSport) {
         List<EventModel> events = eventRepository.getEventModelsBySport_IdSport(idSport);
-        events.stream().filter(this::isFootballMatchWithNoCheckedResult);
+        events = events.stream()
+                .filter(this::isFootballMatchWithNoCheckedResult).toList();
 
         for (EventModel event : events) {
             FootballMatchModel footballMatch = (FootballMatchModel) event.getSport();

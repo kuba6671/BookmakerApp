@@ -3,7 +3,6 @@ package com.bookmakerApp.facade.mappers;
 import com.bookmakerApp.facade.dtos.FootballEventModelDto;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.football.FootballMatchModel;
-import com.bookmakerApp.model.football.FootballTeamModel;
 
 import java.util.List;
 import java.util.stream.Collectors;

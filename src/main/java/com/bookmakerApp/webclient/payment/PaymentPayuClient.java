@@ -26,7 +26,7 @@ import static com.bookmakerApp.config.constants.payu.PaymentPayuConstants.*;
 @Slf4j
 public class PaymentPayuClient {
 
-    private WebClient webClient;
+    private final WebClient webClient;
 
     @Value("${grant_type}")
     private String grantType;

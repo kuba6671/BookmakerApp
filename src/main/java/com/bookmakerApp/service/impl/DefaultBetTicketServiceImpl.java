@@ -68,7 +68,7 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         return betTicketRepository.save(betTicket);
     }
 
-    private BetTicketModel calculateBetTicket(BetTicketModel betTicket) {
+    private void calculateBetTicket(BetTicketModel betTicket) {
         Double totalOdds = 1.0;
         List<EventModel> events = betTicket.getEvents();
         for (EventModel event : events) {
@@ -78,10 +78,9 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         BigDecimal toWin = BigDecimal.valueOf(betTicket.getDeposit().doubleValue() * totalOdds);
         betTicket.setTotalOdds(totalOdds);
         betTicket.setToWin(toWin);
-        return betTicket;
     }
 
-    private UserModel updateAccountBalance(UserModel user, BigDecimal deposit) {
+    private void updateAccountBalance(UserModel user, BigDecimal deposit) {
         UserModel updatedUser = userRepository.findUserModelByIdUser(user.getIdUser());
         AccountModel account = accountRepository.getAccountModelByUser_IdUser(updatedUser.getIdUser());
         BigDecimal userBankBalance = account.getBankBalance();
@@ -90,8 +89,6 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         }
         account.setBankBalance(BigDecimal.valueOf(userBankBalance.doubleValue() - deposit.doubleValue()));
         updatedUser.setAccount(account);
-
-        return updatedUser;
     }
 
     protected Boolean isWonBetTicket(BetTicketModel betTicket) {
