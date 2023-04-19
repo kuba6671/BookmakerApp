@@ -1,13 +1,13 @@
 package com.bookmakerApp.controller;
 
+import com.bookmakerApp.facade.dtos.MakePaymentDto;
+import com.bookmakerApp.facade.dtos.MakePaymentResponseDto;
 import com.bookmakerApp.facade.dtos.PaymentDto;
 import com.bookmakerApp.facade.interfaces.PaymentFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +17,14 @@ public class PaymentController {
     private final PaymentFacade paymentFacade;
 
     @PostMapping("/makePayment")
-    public PaymentDto makePayment(BigDecimal totalAmount, String currencyCode) {
-        return paymentFacade.makePayment(totalAmount, currencyCode);
+    public MakePaymentResponseDto makePayment(@RequestBody MakePaymentDto payment)
+            throws IllegalArgumentException {
+        return paymentFacade.makePayment(payment);
+    }
+
+    @GetMapping("/payments")
+    public List<PaymentDto> getPaymentsForUser() {
+        return paymentFacade.getPaymentsForUser();
     }
 
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.List;
 
 import static com.bookmakerApp.config.constants.payu.PaymentPayuConstants.STATUS_NEW;
 
@@ -47,6 +48,13 @@ public class PayuPaymentServiceImpl implements PaymentService {
         return paymentClient.getPaymentStatus(orderId);
     }
 
+    @Override
+    @Transactional
+    public List<PaymentModel> getPaymentsForUser() {
+        UserModel user = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        return paymentRepository.getPaymentModelsByUser_IdUser(user.getIdUser());
+    }
+
     private PaymentModel populatePaymentAttributes(PaymentResponseDto paymentResponseDto,
                                                    BigDecimal totalAmount,
                                                    String currencyCode) {
@@ -59,6 +67,7 @@ public class PayuPaymentServiceImpl implements PaymentService {
         payment.setTotalAmount(paymentAmount);
         payment.setStatus(STATUS_NEW);
         payment.setCurrencyCode(currencyCode);
+        payment.setRedirectUri(paymentResponseDto.getRedirectUri());
         payment.setUser(user);
         return payment;
     }

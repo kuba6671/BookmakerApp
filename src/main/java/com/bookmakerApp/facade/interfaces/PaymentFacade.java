@@ -1,10 +1,14 @@
 package com.bookmakerApp.facade.interfaces;
 
+import com.bookmakerApp.facade.dtos.MakePaymentDto;
+import com.bookmakerApp.facade.dtos.MakePaymentResponseDto;
 import com.bookmakerApp.facade.dtos.PaymentDto;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 public interface PaymentFacade {
 
-    PaymentDto makePayment(BigDecimal totalAmount, String currencyCode);
+    MakePaymentResponseDto makePayment(MakePaymentDto payment);
+
+    List<PaymentDto> getPaymentsForUser();
 }

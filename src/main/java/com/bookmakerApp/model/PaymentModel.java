@@ -18,6 +18,8 @@ public class PaymentModel {
     private String status;
     private boolean isChecked;
     private String currencyCode;
+    @Column(columnDefinition = "TEXT")
+    private String redirectUri;
     @ManyToOne
     @JoinColumn(name = "idUser")
     private UserModel user;
