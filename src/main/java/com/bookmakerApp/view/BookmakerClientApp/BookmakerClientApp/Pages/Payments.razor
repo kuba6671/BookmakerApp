@@ -56,20 +56,34 @@
 					}
 				</tbody>
 			</table>
+			<br />
+			<PaginationComponent numberOfPages="@numberOfPages" currentPageNumber="@currentPageNumber"
+								 ChangeCurrentPageNumber="@ChangeCurrentPageNumber" />
 		</div>
 	</div>
 </body>
-
 @code {
-	List<PaymentDto> payments = new List<PaymentDto>();
-	MakePaymentDto makePaymentDto = new MakePaymentDto();
-	string totalAmount;
-	string message;
-	PaymentResponseDto paymentResponseDto = new PaymentResponseDto();
+	private List<PaymentDto> payments = new List<PaymentDto>();
+	private MakePaymentDto makePaymentDto = new MakePaymentDto();
+	private string totalAmount;
+	private string message;
+	private PaymentResponseDto paymentResponseDto = new PaymentResponseDto();
+	private int currentPageNumber = 0;
+	private int numberOfPages = 0;
+
 
 	protected override async Task OnInitializedAsync()
 	{
-		payments = await paymentService.GetPayments();
+		await GetPayments();
+		if (payments.Any())
+		{
+			numberOfPages = payments.First().NumberOfPages;
+		}
+	}
+
+	private async Task GetPayments()
+	{
+		payments = await paymentService.GetPayments(currentPageNumber);
 	}
 
 	public async Task MakePayment()
@@ -93,6 +107,12 @@
 	{
 		if (redirectUri != null)
 			navigationManager.NavigateTo(redirectUri);
+	}
+
+	public async Task ChangeCurrentPageNumber(int pageNumber)
+	{
+		currentPageNumber = pageNumber;
+		await GetPayments();
 	}
 
 }

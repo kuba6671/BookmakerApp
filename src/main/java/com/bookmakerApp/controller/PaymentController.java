@@ -23,8 +23,8 @@ public class PaymentController {
     }
 
     @GetMapping("/payments")
-    public List<PaymentDto> getPaymentsForUser() {
-        return paymentFacade.getPaymentsForUser();
+    public List<PaymentDto> getPaymentsForUser(@RequestParam(defaultValue = "0") int pageNumber) {
+        return paymentFacade.getPaymentsForUser(pageNumber);
     }
 
 }

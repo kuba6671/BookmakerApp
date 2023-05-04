@@ -13,4 +13,5 @@ public class PaymentDto {
     private String orderId;
     private String currencyCode;
     private BigDecimal totalAmount;
+    private int numberOfPages;
 }

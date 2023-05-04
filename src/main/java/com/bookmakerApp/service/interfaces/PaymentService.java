@@ -3,6 +3,7 @@ package com.bookmakerApp.service.interfaces;
 import com.bookmakerApp.model.PaymentModel;
 import com.bookmakerApp.webclient.payment.dto.PaymentResponseDto;
 import com.bookmakerApp.webclient.payment.dto.PaymentStatusDto;
+import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,5 +16,5 @@ public interface PaymentService {
 
     PaymentStatusDto getPaymentStatus(String orderId);
 
-    List<PaymentModel> getPaymentsForUser();
+    Page<PaymentModel> getPaymentsForUser(int pageNumber);
 }
