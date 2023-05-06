@@ -11,14 +11,14 @@ public class FootballEventModelDtoMapper {
     private FootballEventModelDtoMapper() {
     }
 
-    public static List<FootballEventModelDto> mapToFootballEventModelDtos(List<EventModel> events) {
+    public static List<FootballEventModelDto> mapToFootballEventModelDtos(List<EventModel> events, int numberOfPages) {
         return events.stream()
-                .map(event -> mapToFootballEventModelDto(event, (FootballMatchModel) event.getSport()))
+                .map(event -> mapToFootballEventModelDto(event, (FootballMatchModel) event.getSport(), numberOfPages))
                 .collect(Collectors.toList());
     }
 
     private static FootballEventModelDto mapToFootballEventModelDto
-            (EventModel event, FootballMatchModel match) {
+            (EventModel event, FootballMatchModel match, int numberOfPages) {
         return FootballEventModelDto.builder()
                 .idEvent(event.getIdEvent())
                 .odds(event.getOdds())
@@ -33,6 +33,7 @@ public class FootballEventModelDtoMapper {
                 .visitingTeamCountry(match.getVisitingTeam().getCountry())
                 .visitingTeamGoals(match.getVisitingTeamGoals())
                 .chosenResult(event.getChosenResult().toString())
+                .numberOfPages(numberOfPages)
                 .build();
     }
 }

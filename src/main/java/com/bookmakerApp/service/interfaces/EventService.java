@@ -1,14 +1,15 @@
 package com.bookmakerApp.service.interfaces;
 
 import com.bookmakerApp.model.EventModel;
+import org.springframework.data.domain.Page;
 
 import java.util.Date;
 import java.util.List;
 
 public interface EventService {
-    List<EventModel> getUnfinishedEvents();
+    Page<EventModel> getUnfinishedEvents(int pageNumber);
 
-    List<EventModel> getFinishedEvents();
+    Page<EventModel> getFinishedEvents(int pageNumber);
 
     List<EventModel> getEventByDateBeforeAndResultIsChecked(Date date, boolean isChecked);
 
