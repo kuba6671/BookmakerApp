@@ -11,6 +11,8 @@ import com.bookmakerApp.repository.UserRepository;
 import com.bookmakerApp.service.interfaces.BetTicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,24 +30,26 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
 
+    private final static int PAGE_SIZE = 10;
+
     @Override
-    public List<BetTicketModel> getBetTicketsByUser(Long id) {
-        return betTicketRepository.getBetTicketModelsByUserIdUser(id);
+    public Page<BetTicketModel> getBetTicketsByUser(Long id, int pageNumber) {
+        return betTicketRepository.getBetTicketModelsByUserIdUser(id, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override
-    public List<BetTicketModel> getWonBetTicketsByUser(Long id) {
-        return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.TRUE);
+    public Page<BetTicketModel> getWonBetTicketsByUser(Long id, int pageNumber) {
+        return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.TRUE, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override
-    public List<BetTicketModel> getLostBetTicketByUsers(Long id) {
-        return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.FALSE);
+    public Page<BetTicketModel> getLostBetTicketByUsers(Long id, int pageNumber) {
+        return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.FALSE, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override
-    public List<BetTicketModel> getUnfinishedBetTicketsByUser(Long id) {
-        return betTicketRepository.getBetTicketModelsByUserIdUserAndFinish(id, false);
+    public Page<BetTicketModel> getUnfinishedBetTicketsByUser(Long id, int pageNumber) {
+        return betTicketRepository.getBetTicketModelsByUserIdUserAndFinish(id, false, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override

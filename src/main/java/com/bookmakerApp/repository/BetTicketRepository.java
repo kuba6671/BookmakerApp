@@ -1,16 +1,18 @@
 package com.bookmakerApp.repository;
 
 import com.bookmakerApp.model.BetTicketModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface BetTicketRepository extends JpaRepository<BetTicketModel, Long> {
-    List<BetTicketModel> getBetTicketModelsByUserIdUser(Long id);
+    Page<BetTicketModel> getBetTicketModelsByUserIdUser(Long id, Pageable pageable);
 
-    List<BetTicketModel> getBetTicketModelsByUserIdUserAndSuccess(Long id, Boolean success);
+    Page<BetTicketModel> getBetTicketModelsByUserIdUserAndSuccess(Long id, Boolean success, Pageable pageable);
 
-    List<BetTicketModel> getBetTicketModelsByUserIdUserAndFinish(Long id, boolean finish);
+    Page<BetTicketModel> getBetTicketModelsByUserIdUserAndFinish(Long id, boolean finish, Pageable pageable);
 
     List<BetTicketModel> getBetTicketModelsByFinish(boolean finish);
 
