@@ -27,13 +27,13 @@ public class DefaultBetTicketFacadeImpl implements BetTicketFacade {
     @Override
     public List<BetTicketModelDto> getWonBetTicketsByUser(Long id, int pageNumber) {
         return BetTicketModelDtoMapper.
-                mapToBetTicketModelDtos(defaultBetTicketService.getWonBetTicketsByUser(id, pageNumber));
+                mapToBetTicketModelDtos(defaultBetTicketService.getBetTicketsByUserAndResult(id, pageNumber, Boolean.TRUE));
     }
 
     @Override
     public List<BetTicketModelDto> getLostBetTicketByUser(Long id, int pageNumber) {
         return BetTicketModelDtoMapper.
-                mapToBetTicketModelDtos(defaultBetTicketService.getLostBetTicketByUsers(id, pageNumber));
+                mapToBetTicketModelDtos(defaultBetTicketService.getBetTicketsByUserAndResult(id, pageNumber, Boolean.FALSE));
     }
 
     @Override

@@ -30,7 +30,7 @@ public class BetTicketScheduledTaskServiceImpl extends
     @Transactional
     public void checkBetTicketFinish() {
         final List<BetTicketModel> betTickets = getUnfinishedBetTickets();
-        betTickets.forEach(this::isFinishBetTicket);
+        betTickets.forEach(this::setBetTicketFinish);
     }
 
     @Override
@@ -38,6 +38,6 @@ public class BetTicketScheduledTaskServiceImpl extends
     @Transactional
     public void checkBetTicketResults() {
         final List<BetTicketModel> betTickets = getFinishedAndUncheckedBetTicket();
-        betTickets.forEach(this::isWonBetTicket);
+        betTickets.forEach(this::setBetTicketResult);
     }
 }

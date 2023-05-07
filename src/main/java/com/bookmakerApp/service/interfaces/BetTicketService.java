@@ -8,9 +8,7 @@ import java.util.List;
 public interface BetTicketService {
     Page<BetTicketModel> getBetTicketsByUser(Long id, int pageNumber);
 
-    Page<BetTicketModel> getWonBetTicketsByUser(Long id, int pageNumber);
-
-    Page<BetTicketModel> getLostBetTicketByUsers(Long id, int pageNumber);
+    Page<BetTicketModel> getBetTicketsByUserAndResult(Long id, int pageNumber, boolean result);
 
     Page<BetTicketModel> getUnfinishedBetTicketsByUser(Long id, int pageNumber);
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static com.bookmakerApp.config.constants.payu.PaymentPayuConstants.STATUS_NEW;
 
@@ -66,7 +67,7 @@ public class PayuPaymentServiceImpl implements PaymentService {
 
         payment.setOrderId(paymentResponseDto.getOrderId());
         BigDecimal divisor = new BigDecimal(100);
-        BigDecimal paymentAmount = totalAmount.divide(divisor);
+        BigDecimal paymentAmount = totalAmount.divide(divisor, RoundingMode.HALF_UP);
         payment.setTotalAmount(paymentAmount);
         payment.setStatus(STATUS_NEW);
         payment.setCurrencyCode(currencyCode);

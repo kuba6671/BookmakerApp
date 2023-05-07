@@ -9,7 +9,6 @@ import com.bookmakerApp.repository.BetTicketRepository;
 import com.bookmakerApp.repository.EventRepository;
 import com.bookmakerApp.repository.UserRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -101,8 +99,8 @@ public class DefaultBetTicketServiceImplTest {
         betTicket.setEvents(events);
         betTicket.setDeposit(deposit);
         //when
-        Exception exception = Assert.assertThrows(IllegalArgumentException.class, () ->{
-            defaultBetTicketService.addBetTicket(betTicket);});
+        Exception exception = Assert.assertThrows(IllegalArgumentException.class,
+                () -> defaultBetTicketService.addBetTicket(betTicket));
         //then
         Assertions.assertNotNull(exception);
     }

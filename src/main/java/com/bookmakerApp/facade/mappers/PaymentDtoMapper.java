@@ -5,10 +5,8 @@ import com.bookmakerApp.facade.dtos.PaymentDto;
 import com.bookmakerApp.model.PaymentModel;
 import com.bookmakerApp.webclient.payment.dto.PaymentResponseDto;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PaymentDtoMapper {
 

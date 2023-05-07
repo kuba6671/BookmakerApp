@@ -38,13 +38,8 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
     }
 
     @Override
-    public Page<BetTicketModel> getWonBetTicketsByUser(Long id, int pageNumber) {
-        return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.TRUE, PageRequest.of(pageNumber, PAGE_SIZE));
-    }
-
-    @Override
-    public Page<BetTicketModel> getLostBetTicketByUsers(Long id, int pageNumber) {
-        return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, Boolean.FALSE, PageRequest.of(pageNumber, PAGE_SIZE));
+    public Page<BetTicketModel> getBetTicketsByUserAndResult(Long id, int pageNumber, boolean result) {
+        return betTicketRepository.getBetTicketModelsByUserIdUserAndSuccess(id, result, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override
@@ -95,29 +90,25 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         updatedUser.setAccount(account);
     }
 
-    protected Boolean isWonBetTicket(BetTicketModel betTicket) {
+    protected void setBetTicketResult(BetTicketModel betTicket) {
         final List<EventModel> events = betTicket.getEvents();
         for (EventModel event : events) {
             if (!event.getSuccess()) {
                 betTicket.setSuccess(Boolean.FALSE);
                 betTicket.setResultIsChecked(true);
-                return Boolean.FALSE;
             }
         }
         betTicket.setResultIsChecked(true);
         betTicket.setSuccess(Boolean.TRUE);
-        return Boolean.TRUE;
     }
 
-    protected boolean isFinishBetTicket(BetTicketModel betTicket) {
+    protected void setBetTicketFinish(BetTicketModel betTicket) {
         List<EventModel> events = betTicket.getEvents();
         for (EventModel event : events) {
             if (!event.isFinish()) {
                 betTicket.setFinish(false);
-                return false;
             }
         }
         betTicket.setFinish(true);
-        return true;
     }
 }
