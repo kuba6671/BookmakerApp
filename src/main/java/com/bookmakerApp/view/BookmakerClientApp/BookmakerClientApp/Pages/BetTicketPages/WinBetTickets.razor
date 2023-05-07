@@ -16,15 +16,36 @@
         <BetTicketComponent BetTicketDto="betTicket" />
         <br />
     }
+    <div>
+        <PaginationComponent numberOfPages="@numberOfPages" currentPageNumber="@currentPageNumber"
+                             ChangeCurrentPageNumber="@ChangeCurrentPageNumber"/>
+    </div>
 }
 
 
 @code{
-    List<BetTicketDto> betTicketDtos;
+    private List<BetTicketDto> betTicketDtos;
+    private int currentPageNumber;
+    private int numberOfPages;
 
     protected override async Task OnInitializedAsync()
     {
-        betTicketDtos = await betTicketService.GetWonBetTicketForUser();
+        await GetBetTickets();
+        if (betTicketDtos.Any())
+        {
+            numberOfPages = betTicketDtos.First().NumberOfPages;
+        }
+    }
+    
+    private async Task GetBetTickets()
+    {
+        betTicketDtos = await betTicketService.GetWonBetTicketForUser(currentPageNumber);
+    }
+
+    private async Task ChangeCurrentPageNumber(int pageNumber)
+    {
+        currentPageNumber = pageNumber;
+        await GetBetTickets();
     }
 
 }

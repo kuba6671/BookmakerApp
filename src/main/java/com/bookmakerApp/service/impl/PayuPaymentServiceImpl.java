@@ -9,12 +9,13 @@ import com.bookmakerApp.webclient.payment.PaymentPayuClient;
 import com.bookmakerApp.webclient.payment.dto.PaymentResponseDto;
 import com.bookmakerApp.webclient.payment.dto.PaymentStatusDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.List;
 
 import static com.bookmakerApp.config.constants.payu.PaymentPayuConstants.STATUS_NEW;
 
@@ -25,6 +26,8 @@ public class PayuPaymentServiceImpl implements PaymentService {
     private final PaymentPayuClient paymentClient;
     private final PaymentRepository paymentRepository;
     private final UserService userService;
+
+    private final static int PAGE_SIZE = 10;
 
 
     @Override
@@ -50,9 +53,9 @@ public class PayuPaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public List<PaymentModel> getPaymentsForUser() {
+    public Page<PaymentModel> getPaymentsForUser(int pageNumber) {
         UserModel user = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        return paymentRepository.getPaymentModelsByUser_IdUser(user.getIdUser());
+        return paymentRepository.getPaymentModelsByUser_IdUser(user.getIdUser(), PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     private PaymentModel populatePaymentAttributes(PaymentResponseDto paymentResponseDto,

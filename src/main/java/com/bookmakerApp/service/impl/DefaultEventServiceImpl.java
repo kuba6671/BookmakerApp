@@ -8,6 +8,8 @@ import com.bookmakerApp.repository.SportRepository;
 import com.bookmakerApp.service.interfaces.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,15 +26,16 @@ public class DefaultEventServiceImpl implements EventService {
     private static final String FOOTBALL_MATCH = "Football";
     private static final String FIRST_TEAM_WIN = "FIRST_TEAM_WIN";
     private static final String SECOND_TEAM_WIN = "SECOND_TEAM_WIN";
+    private final static int PAGE_SIZE = 10;
 
     @Override
-    public List<EventModel> getUnfinishedEvents() {
-        return eventRepository.getEventModelsByFinish(false);
+    public Page<EventModel> getUnfinishedEvents(int pageNumber) {
+        return eventRepository.getEventModelsByFinish(false, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override
-    public List<EventModel> getFinishedEvents() {
-        return eventRepository.getEventModelsByFinish(true);
+    public Page<EventModel> getFinishedEvents(int pageNumber) {
+        return eventRepository.getEventModelsByFinish(true, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override

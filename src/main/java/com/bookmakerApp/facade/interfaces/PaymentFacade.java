@@ -10,5 +10,5 @@ public interface PaymentFacade {
 
     MakePaymentResponseDto makePayment(MakePaymentDto payment);
 
-    List<PaymentDto> getPaymentsForUser();
+    List<PaymentDto> getPaymentsForUser(int pageNumber);
 }

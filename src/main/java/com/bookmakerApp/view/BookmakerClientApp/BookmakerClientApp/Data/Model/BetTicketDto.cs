@@ -19,6 +19,7 @@ namespace BookmakerClientApp.Data.Model
         private List<FootballEventModel> events;
         [JsonProperty(PropertyName = "user")]
         private UserModel user;
+        private int numberOfPages;
 
 
         public double Deposit { get => deposit; set => deposit = value; }
@@ -29,5 +30,6 @@ namespace BookmakerClientApp.Data.Model
         public bool? Finish { get => finish; set => finish = value; }
         public bool? Success { get => success; set => success = value; }
         public UserModel User { get => user; set => user = value; }
+        public int NumberOfPages { get => numberOfPages; set => numberOfPages = value; }
     }
 }

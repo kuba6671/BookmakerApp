@@ -15,6 +15,8 @@ namespace BookmakerClientApp.Data.Model
         private double draftOdds;
         private int homeTeamGoals;
         private int visitingTeamGoals;
+        private int numberOfPages;
+        
 
         public long FirstTeamWinEventId { get => firstTeamWinEventId; set => firstTeamWinEventId = value; }
         public long SecondTeamWinEventId { get => secondTeamWinEventId; set => secondTeamWinEventId = value; }
@@ -27,5 +29,6 @@ namespace BookmakerClientApp.Data.Model
         public double DraftOdds { get => draftOdds; set => draftOdds = value; }
         public int HomeTeamGoals { get => homeTeamGoals; set => homeTeamGoals = value; }
         public int VisitingTeamGoals { get => visitingTeamGoals; set => visitingTeamGoals = value; }
+        public int NumberOfPages { get => numberOfPages; set => numberOfPages = value; }
     }
 }

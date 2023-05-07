@@ -32,8 +32,8 @@ public class DefaultPaymentFacade implements PaymentFacade {
     }
 
     @Override
-    public List<PaymentDto> getPaymentsForUser() {
+    public List<PaymentDto> getPaymentsForUser(int pageNumber) {
         return PaymentDtoMapper.mapToPaymentDtos(
-                paymentService.getPaymentsForUser());
+                paymentService.getPaymentsForUser(pageNumber));
     }
 }

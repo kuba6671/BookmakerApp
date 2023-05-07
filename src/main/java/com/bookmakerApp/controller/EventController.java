@@ -18,13 +18,13 @@ public class EventController {
     private final FootballEventFacadeImpl footballEventFacade;
 
     @GetMapping("/events/unfinishedFootballEvents")
-    public List<FootballEventModelDto> getUnfinishedFootballEvents() {
-        return footballEventFacade.getUnfinishedFootballEvents();
+    public List<FootballEventModelDto> getUnfinishedFootballEvents(@RequestParam(defaultValue = "0") int pageNumber) {
+        return footballEventFacade.getUnfinishedFootballEvents(pageNumber);
     }
 
     @GetMapping("/events/finishedFootballEvents")
-    public List<FootballEventModelDto> getFinishedFootballEvents() {
-        return footballEventFacade.getFinishedFootballEvents();
+    public List<FootballEventModelDto> getFinishedFootballEvents(@RequestParam(defaultValue = "0") int pageNumber) {
+        return footballEventFacade.getFinishedFootballEvents(pageNumber);
     }
 
     @GetMapping("/events/footballEventsByIds")

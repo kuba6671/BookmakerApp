@@ -4,6 +4,8 @@ import com.bookmakerApp.facade.dtos.MakePaymentResponseDto;
 import com.bookmakerApp.facade.dtos.PaymentDto;
 import com.bookmakerApp.model.PaymentModel;
 import com.bookmakerApp.webclient.payment.dto.PaymentResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,19 +23,21 @@ public class PaymentDtoMapper {
                 .build();
     }
 
-    public static List<PaymentDto> mapToPaymentDtos(List<PaymentModel> payments) {
+    public static List<PaymentDto> mapToPaymentDtos(Page<PaymentModel> payments) {
+        int numberOfPages = payments.getTotalPages();
         return payments.stream()
-                .map(PaymentDtoMapper::mapToPaymentDto)
-                .collect(Collectors.toList());
+                .map(payment -> mapToPaymentDto(payment, numberOfPages))
+                .toList();
     }
 
-    private static PaymentDto mapToPaymentDto(PaymentModel payment) {
+    private static PaymentDto mapToPaymentDto(PaymentModel payment, int numberOfPages) {
         return PaymentDto.builder()
                 .statusCode(payment.getStatus())
                 .redirectUri(payment.getRedirectUri())
                 .orderId(payment.getOrderId())
                 .currencyCode(payment.getCurrencyCode())
                 .totalAmount(payment.getTotalAmount())
+                .numberOfPages(numberOfPages)
                 .build();
     }
 

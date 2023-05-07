@@ -1,17 +1,18 @@
 package com.bookmakerApp.service.interfaces;
 
 import com.bookmakerApp.model.BetTicketModel;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface BetTicketService {
-    List<BetTicketModel> getBetTicketsByUser(Long id);
+    Page<BetTicketModel> getBetTicketsByUser(Long id, int pageNumber);
 
-    List<BetTicketModel> getWonBetTicketsByUser(Long id);
+    Page<BetTicketModel> getWonBetTicketsByUser(Long id, int pageNumber);
 
-    List<BetTicketModel> getLostBetTicketByUsers(Long id);
+    Page<BetTicketModel> getLostBetTicketByUsers(Long id, int pageNumber);
 
-    List<BetTicketModel> getUnfinishedBetTicketsByUser(Long id);
+    Page<BetTicketModel> getUnfinishedBetTicketsByUser(Long id, int pageNumber);
 
     List<BetTicketModel> getUnfinishedBetTickets();
 

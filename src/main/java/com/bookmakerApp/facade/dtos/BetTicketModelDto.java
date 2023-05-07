@@ -19,4 +19,5 @@ public class BetTicketModelDto {
     private String surname;
     private Date date;
     private List<DefaultEventModelDto> events;
+    private int numberOfPages;
 }

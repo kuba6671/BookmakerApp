@@ -1,6 +1,7 @@
 ﻿using BookmakerClientApp.Data.Constant;
 using BookmakerClientApp.Data.Extension;
 using BookmakerClientApp.Data.Model;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
@@ -14,6 +15,8 @@ namespace BookmakerClientApp.Data.Service
 		private readonly HttpClient httpClient;
 
 		private readonly AuthService authService;
+
+		private const string PAGE = "pageNumber";
 
 		public PaymentService()
 		{
@@ -32,15 +35,16 @@ namespace BookmakerClientApp.Data.Service
 
 		}
 
-		public async Task<List<PaymentDto>> GetPayments()
+		public async Task<List<PaymentDto>> GetPayments(int pageNumber)
 		{
 			var token = authService.getToken();
 			if (httpClient.DefaultRequestHeaders.Authorization == null)
 			{
 				httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
 			}
-			return await HttpClientExtensions.GetAsJsonAsync <List<PaymentDto>>(httpClient,
-				BookmakerApiConstant.GET_PAYMENTS_URL);
+			JArray pages = new JArray(pageNumber);
+			return await HttpClientExtensions.GetAsJsonAsyncWithListParameter<List<PaymentDto>>(httpClient,
+				BookmakerApiConstant.GET_PAYMENTS_URL, PAGE, pages);
 		}
 
 	}

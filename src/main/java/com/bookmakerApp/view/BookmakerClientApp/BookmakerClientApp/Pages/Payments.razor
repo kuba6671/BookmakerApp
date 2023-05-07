@@ -56,23 +56,36 @@
 					}
 				</tbody>
 			</table>
+			<br />
+			<PaginationComponent numberOfPages="@numberOfPages" currentPageNumber="@currentPageNumber"
+								 ChangeCurrentPageNumber="@ChangeCurrentPageNumber" />
 		</div>
 	</div>
 </body>
-
 @code {
-	List<PaymentDto> payments = new List<PaymentDto>();
-	MakePaymentDto makePaymentDto = new MakePaymentDto();
-	string totalAmount;
-	string message;
-	PaymentResponseDto paymentResponseDto = new PaymentResponseDto();
+	private List<PaymentDto> payments = new List<PaymentDto>();
+	private MakePaymentDto makePaymentDto = new MakePaymentDto();
+	private string totalAmount;
+	private PaymentResponseDto paymentResponseDto = new PaymentResponseDto();
+	private int currentPageNumber = 0;
+	private int numberOfPages = 0;
+
 
 	protected override async Task OnInitializedAsync()
 	{
-		payments = await paymentService.GetPayments();
+		await GetPayments();
+		if (payments.Any())
+		{
+			numberOfPages = payments.First().NumberOfPages;
+		}
 	}
 
-	public async Task MakePayment()
+	private async Task GetPayments()
+	{
+		payments = await paymentService.GetPayments(currentPageNumber);
+	}
+
+	private async Task MakePayment()
 	{
 		makePaymentDto.TotalAmount = Decimal.Parse(totalAmount) * 100;
 		makePaymentDto.CurrencyCode = "PLN";
@@ -83,16 +96,22 @@
 
 	}
 
-	public void GoToPaymentSite()
+	private void GoToPaymentSite()
 	{
 		if (paymentResponseDto.RedirectUri != null)
 			navigationManager.NavigateTo(paymentResponseDto.RedirectUri);
 	}
 
-	public void GoToPaymentSite(string redirectUri)
+	private void GoToPaymentSite(string redirectUri)
 	{
 		if (redirectUri != null)
 			navigationManager.NavigateTo(redirectUri);
+	}
+
+	private async Task ChangeCurrentPageNumber(int pageNumber)
+	{
+		currentPageNumber = pageNumber;
+		await GetPayments();
 	}
 
 }
