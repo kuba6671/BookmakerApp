@@ -11,8 +11,9 @@ namespace BookmakerClientApp.Data.Service
     public class EventService
     {
         private readonly HttpClient httpClient;
-
         private readonly AuthService authService;
+        
+        private const string PAGE = "pageNumber";
 
         public EventService()
         {
@@ -20,26 +21,28 @@ namespace BookmakerClientApp.Data.Service
             this.authService = new AuthService();
         }
 
-        public async Task<List<FootballEventDto>> GetUnfinishedFootballEvents()
+        public async Task<List<FootballEventDto>> GetUnfinishedFootballEvents(int pageNumber)
         {
             var token = authService.getToken();
             if (httpClient.DefaultRequestHeaders.Authorization == null)
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
             }
-            return EventModelDtoMapper(await HttpClientExtensions.GetAsJsonAsync<List<FootballEventModel>>(httpClient,
-                BookmakerApiConstant.UNFINISHED_FOOTBALL_EVENTS));
+            JArray pages = new JArray(pageNumber);
+            return EventModelDtoMapper(await HttpClientExtensions.GetAsJsonAsyncWithListParameter<List<FootballEventModel>>(httpClient,
+                BookmakerApiConstant.UNFINISHED_FOOTBALL_EVENTS, PAGE, pages));
         }
 
-        public async Task<List<FootballEventDto>> GetFinishedFootballEvents()
+        public async Task<List<FootballEventDto>> GetFinishedFootballEvents(int pageNumber)
         {
             var token = authService.getToken();
             if (httpClient.DefaultRequestHeaders.Authorization == null)
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
             }
-            return FinishedEventModelDtoMapper(await HttpClientExtensions.GetAsJsonAsync<List<FootballEventModel>>(httpClient,
-                BookmakerApiConstant.FINISHED_FOOTBALL_EVENTS));
+            JArray pages = new JArray(pageNumber);
+            return FinishedEventModelDtoMapper(await HttpClientExtensions.GetAsJsonAsyncWithListParameter<List<FootballEventModel>>(httpClient,
+                BookmakerApiConstant.FINISHED_FOOTBALL_EVENTS, PAGE, pages));
         }
 
         public async Task<List<FootballEventModel>> GetFootballEventsByIds(JArray idEvents)

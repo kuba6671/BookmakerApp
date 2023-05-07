@@ -6,16 +6,22 @@
 
 
 <div class="topnav">
-    <EventNavMenu />
+    <EventNavMenu/>
 </div>
 
 @if (footballEventModelDtos == null)
 {
-    <p><em>@listSize</em></p>
+    <p>
+        <em>@listSize</em>
+    </p>
 }
 else
 {
-    <EventComponent footballEventModelDtos="@footballEventModelDtos" />
+    <EventComponent footballEventModelDtos="@footballEventModelDtos"/>
+    <div>
+        <PaginationComponent numberOfPages="@numberOfPages" currentPageNumber="@currentPageNumber"
+                             ChangeCurrentPageNumber="@ChangeCurrentPageNumber"/>
+    </div>
 }
 
 
@@ -23,14 +29,31 @@ else
 @code{
     public List<FootballEventDto> footballEventModelDtos;
     public string listSize = "Brak zdarzeń";
+    private int currentPageNumber;
+    private int numberOfPages;
 
     protected override async Task OnInitializedAsync()
     {
-        footballEventModelDtos = await eventService.GetUnfinishedFootballEvents();
-        bool isEmpty = !footballEventModelDtos.Any();
-        if (isEmpty)
+        await GetFootballEvents();
+        if (footballEventModelDtos.Any())
+        {
+            numberOfPages = footballEventModelDtos.First().NumberOfPages;
+        }
+        else
         {
             listSize = "Brak zdarzeń";
         }
     }
+
+    private async Task GetFootballEvents()
+    {
+        footballEventModelDtos = await eventService.GetUnfinishedFootballEvents(currentPageNumber);
+    }
+
+    private async Task ChangeCurrentPageNumber(int pageNumber)
+    {
+        currentPageNumber = pageNumber;
+        await GetFootballEvents();
+    }
+
 }

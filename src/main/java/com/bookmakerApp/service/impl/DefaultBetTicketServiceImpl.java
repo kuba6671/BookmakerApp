@@ -30,7 +30,7 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
 
-    private final static int PAGE_SIZE = 10;
+    private final static int PAGE_SIZE = 5;
 
     @Override
     public Page<BetTicketModel> getBetTicketsByUser(Long id, int pageNumber) {

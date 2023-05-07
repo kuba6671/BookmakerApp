@@ -4,14 +4,16 @@ using BookmakerClientApp.Data.Model;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace BookmakerClientApp.Data.Service
 {
     public class BetTicketService
     {
         private readonly HttpClient httpClient;
-
         private readonly AuthService authService;
+        
+        private const string PAGE = "pageNumber";
 
         public BetTicketService()
         {
@@ -20,27 +22,27 @@ namespace BookmakerClientApp.Data.Service
         }
 
 
-        public async Task<List<BetTicketDto>> GetAllBetTicketForUser()
+        public async Task<List<BetTicketDto>> GetAllBetTicketForUser(int pageNumber)
         {
-            return await getBetTickets(BookmakerApiConstant.ALL_BET_TICKET_FOR_USER);
+            return await getBetTickets(BookmakerApiConstant.ALL_BET_TICKET_FOR_USER, pageNumber);
         }
 
-        public async Task<List<BetTicketDto>> GetWonBetTicketForUser()
+        public async Task<List<BetTicketDto>> GetWonBetTicketForUser(int pageNumber)
         {
-            return await getBetTickets(BookmakerApiConstant.WON_BET_TICKET_FOR_USER);
+            return await getBetTickets(BookmakerApiConstant.WON_BET_TICKET_FOR_USER, pageNumber);
         }
 
-        public async Task<List<BetTicketDto>> GetLostBetTicketForUser()
+        public async Task<List<BetTicketDto>> GetLostBetTicketForUser(int pageNumber)
         {
-            return await getBetTickets(BookmakerApiConstant.LOST_BET_TICKET_FOR_USER);
+            return await getBetTickets(BookmakerApiConstant.LOST_BET_TICKET_FOR_USER, pageNumber);
         }
 
-        public async Task<List<BetTicketDto>> GetUnfinishedBetTicketForUser()
+        public async Task<List<BetTicketDto>> GetUnfinishedBetTicketForUser(int pageNumber)
         {
-            return await getBetTickets(BookmakerApiConstant.UNFINISHED_BET_TICKET_FOR_USER);
+            return await getBetTickets(BookmakerApiConstant.UNFINISHED_BET_TICKET_FOR_USER, pageNumber);
         }
 
-        private async Task<List<BetTicketDto>> getBetTickets(string URL)
+        private async Task<List<BetTicketDto>> getBetTickets(string URL, int pageNumber)
         {
             var token = authService.getToken();
             var idUser = authService.getUserId();
@@ -48,8 +50,10 @@ namespace BookmakerClientApp.Data.Service
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
             }
-            return await HttpClientExtensions.GetAsJsonAsync<List<BetTicketDto>>(httpClient,
-                 URL + idUser);
+            JArray pages = new JArray(pageNumber);
+
+            return await HttpClientExtensions.GetAsJsonAsyncWithListParameter<List<BetTicketDto>>(httpClient,
+                URL + idUser, PAGE, pages);
         }
 
         public async Task<HttpResponseMessage> AddBetTicket(BetTicketDto newBetTicket)
@@ -59,8 +63,9 @@ namespace BookmakerClientApp.Data.Service
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
             }
-            return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.ADD_BET_TICKET_URL, newBetTicket);
-        }
 
+            return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.ADD_BET_TICKET_URL,
+                newBetTicket);
+        }
     }
 }

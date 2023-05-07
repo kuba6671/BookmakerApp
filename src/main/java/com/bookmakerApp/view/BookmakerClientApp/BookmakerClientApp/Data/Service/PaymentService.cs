@@ -16,7 +16,7 @@ namespace BookmakerClientApp.Data.Service
 
 		private readonly AuthService authService;
 
-		public const string PAGE = "page";
+		private const string PAGE = "pageNumber";
 
 		public PaymentService()
 		{
