@@ -5,17 +5,16 @@ namespace BookmakerClientApp.Data.Service
 {
     public class AuthService
     {
-
-        public String getToken()
+        public String GetToken()
         {
             LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
-            return localStorage.Get<String>("Token");
+            return localStorage.Get<string>("Token");
         }
 
-        public String getUserId()
+        public String GetUserId()
         {
             LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
-            return localStorage.Get<String>("id-user");
+            return localStorage.Get<string>("id-user");
         }
     }
 }

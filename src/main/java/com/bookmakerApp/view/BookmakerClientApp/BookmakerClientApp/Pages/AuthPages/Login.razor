@@ -1,18 +1,18 @@
 ﻿@page "/"
 @layout LoginLayout
 @using BookmakerClientApp.Data.Service
-@using BookmakerClientApp.Data.Model
 @using System.Net.Http.Headers
 @inject UserService userService
 @inject NavigationManager navigationManager
-@using Hanssens.Net
 @using BookmakerClientApp.Data.Extension
+@using BookmakerClientApp.Data.Model.User
+@using BookmakerClientApp.Shared.AuthComponents
 @using Newtonsoft.Json.Linq
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <div class="fadeIn first">
-            <img src="/logo.svg" id="icon" alt="User Icon" />
+            <img src="/logo.svg" id="icon" alt="User Icon"/>
         </div>
 
         <EditForm Model="@user" OnValidSubmit="Submit">
@@ -24,7 +24,7 @@
         <div id="formFooter">
             @message
             <a class="underlineHover" href="#">
-                <input type="button" class="fadeIn fourth" value="Zarejestruj sie" @onclick="SignUp" />
+                <input type="button" class="fadeIn fourth" value="Zarejestruj sie" @onclick="@SignUp"/>
             </a>
         </div>
 
@@ -32,9 +32,9 @@
 </div>
 
 @code{
-    UserAuthModel user = new UserAuthModel();
-    string message = "";
-    JArray eventsId = new JArray();
+    private UserAuthModel user = new();
+    private string message = "";
+    private JArray eventsId = new();
 
     private async Task Submit()
     {
@@ -46,11 +46,11 @@
             HttpResponseHeaders headers = response.Headers;
 
             IEnumerable<string> authorizations = headers.GetValues("Authorization");
-            string token = authorizations.First().ToString();
+            string token = authorizations.First();
             SaveValueInLocalStorage("Token", token);
 
             IEnumerable<string> idUserCollection = headers.GetValues("id-user");
-            string idUser = idUserCollection.First().ToString();
+            string idUser = idUserCollection.First();
             SaveValueInLocalStorage("id-user", idUser);
 
             SaveValueInLocalStorage("events-list", eventsId);
@@ -73,4 +73,5 @@
     {
         navigationManager.NavigateTo("/registration");
     }
+
 }

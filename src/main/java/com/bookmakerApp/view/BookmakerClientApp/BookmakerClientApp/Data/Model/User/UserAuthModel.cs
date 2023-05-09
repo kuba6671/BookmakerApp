@@ -1,4 +1,4 @@
-﻿namespace BookmakerClientApp.Data.Model
+﻿namespace BookmakerClientApp.Data.Model.User
 {
     public class UserAuthModel
     {

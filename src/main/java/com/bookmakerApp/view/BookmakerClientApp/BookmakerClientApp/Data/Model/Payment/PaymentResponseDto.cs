@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BookmakerClientApp.Data.Model
+﻿namespace BookmakerClientApp.Data.Model.Payment
 {
     public class PaymentResponseDto
     {

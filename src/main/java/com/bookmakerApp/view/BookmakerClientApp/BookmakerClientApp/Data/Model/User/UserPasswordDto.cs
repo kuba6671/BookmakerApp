@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using Newtonsoft.Json;
 
-namespace BookmakerClientApp.Data.Model
+namespace BookmakerClientApp.Data.Model.User
 {
     public class UserPasswordDto
     {

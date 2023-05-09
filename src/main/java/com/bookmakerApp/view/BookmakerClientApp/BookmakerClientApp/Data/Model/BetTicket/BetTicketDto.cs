@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BookmakerClientApp.Data.Model.Event;
+using BookmakerClientApp.Data.Model.User;
+using Newtonsoft.Json;
 
-namespace BookmakerClientApp.Data.Model
+namespace BookmakerClientApp.Data.Model.BetTicket
 {
     public class BetTicketDto
     {

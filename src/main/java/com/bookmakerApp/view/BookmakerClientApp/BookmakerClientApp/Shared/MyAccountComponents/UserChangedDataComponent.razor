@@ -1,8 +1,8 @@
-﻿@using BookmakerClientApp.Data.Model
+﻿@using BookmakerClientApp.Data.Model.User
 @using BookmakerClientApp.Data.Service
 @inject UserService userService
 
-<br />
+<br/>
 <div class="input-group input-group-lg">
     <div class="input-group-prepend">
         <span style="width:150px;" class="input-group-text" id="inputGroup-sizing-lg">Imie</span>
@@ -22,48 +22,38 @@
     <input type="text" @bind-value="age" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="@userDataDto.Age">
 </div>
 <div class="input-group input-group-lg">
-    <button style="background-color: #0275d8; color: white" @onclick="() => ChangeData()" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">Zmień dane</button>
+    <button style="background-color: #0275d8; color: white" @onclick="@ChangeData" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">Zmień dane</button>
 </div>
 <div class="input-group input-group-lg">
     @message
 </div>
 
 @code {
-    String message = "";
-    string name;
-    String surname;
-    int age;
+    private string message = "";
+    private string name;
+    private string surname;
+    private int age;
+
     [Parameter]
     public UserDataDto userDataDto { get; set; }
 
     private async Task ChangeData()
     {
-        if (!IsNullOrEmpty(name))
+        if (!string.IsNullOrEmpty(name))
         {
             userDataDto.Name = name;
         }
-        if (!IsNullOrEmpty(surname))
+        if (!string.IsNullOrEmpty(surname))
         {
             userDataDto.Surname = surname;
         }
-        if (!IsNullOrEmpty(age.ToString()))
+        if (!string.IsNullOrEmpty(age.ToString()))
         {
             userDataDto.Age = age;
         }
         HttpResponseMessage response = await userService.ChangeData(userDataDto);
         string statusCode = response.StatusCode.ToString();
-        if (statusCode.Equals("OK"))
-        {
-            message = "Dane zostały pomyślnie zmienione";
-        }
-        else
-        {
-            message = "Coś poszło nie tak. Podaj poprawne dane";
-        }
+        message = statusCode.Equals("OK") ? "Dane zostały pomyślnie zmienione" : "Coś poszło nie tak. Podaj poprawne dane";
     }
 
-    public static bool IsNullOrEmpty(string s)
-    {
-        return (s == null || s == String.Empty) ? true : false;
-    }
 }

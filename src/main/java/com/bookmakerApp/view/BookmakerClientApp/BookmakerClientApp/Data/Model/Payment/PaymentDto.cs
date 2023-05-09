@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Numerics;
 
-namespace BookmakerClientApp.Data.Model
+namespace BookmakerClientApp.Data.Model.Payment
 {
 	public class PaymentDto
 	{

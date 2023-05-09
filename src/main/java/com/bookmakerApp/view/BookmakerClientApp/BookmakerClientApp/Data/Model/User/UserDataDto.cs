@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace BookmakerClientApp.Data.Model
+namespace BookmakerClientApp.Data.Model.User
 {
     public class UserDataDto
     {

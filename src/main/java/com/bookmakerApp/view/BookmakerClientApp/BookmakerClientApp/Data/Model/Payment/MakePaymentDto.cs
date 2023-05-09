@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Numerics;
+﻿using System;
+using Newtonsoft.Json;
 
-namespace BookmakerClientApp.Data.Model
+namespace BookmakerClientApp.Data.Model.Payment
 {
 	public class MakePaymentDto
 	{
