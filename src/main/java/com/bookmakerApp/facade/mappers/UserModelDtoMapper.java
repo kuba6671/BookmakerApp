@@ -1,6 +1,6 @@
 package com.bookmakerApp.facade.mappers;
 
-import com.bookmakerApp.facade.dtos.UserModelDto;
+import com.bookmakerApp.facade.dtos.user.UserModelDto;
 import com.bookmakerApp.model.UserModel;
 
 public class UserModelDtoMapper {

@@ -8,6 +8,7 @@ import com.bookmakerApp.repository.AccountRepository;
 import com.bookmakerApp.repository.BetTicketRepository;
 import com.bookmakerApp.repository.EventRepository;
 import com.bookmakerApp.repository.UserRepository;
+import com.bookmakerApp.service.impl.betticket.DefaultBetTicketServiceImpl;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

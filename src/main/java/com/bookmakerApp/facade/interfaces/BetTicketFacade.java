@@ -1,6 +1,6 @@
 package com.bookmakerApp.facade.interfaces;
 
-import com.bookmakerApp.facade.dtos.BetTicketModelDto;
+import com.bookmakerApp.facade.dtos.betticket.BetTicketModelDto;
 import com.bookmakerApp.model.BetTicketModel;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.bookmakerApp.facade.interfaces;
 
-import com.bookmakerApp.facade.dtos.MakePaymentDto;
-import com.bookmakerApp.facade.dtos.MakePaymentResponseDto;
-import com.bookmakerApp.facade.dtos.PaymentDto;
+import com.bookmakerApp.facade.dtos.payment.MakePaymentDto;
+import com.bookmakerApp.facade.dtos.payment.MakePaymentResponseDto;
+import com.bookmakerApp.facade.dtos.payment.PaymentDto;
 
 import java.util.List;
 

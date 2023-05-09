@@ -1,10 +1,10 @@
 package com.bookmakerApp.facade.impl;
 
-import com.bookmakerApp.facade.dtos.UserModelDto;
+import com.bookmakerApp.facade.dtos.user.UserModelDto;
 import com.bookmakerApp.facade.interfaces.UserFacade;
 import com.bookmakerApp.facade.mappers.UserModelDtoMapper;
 import com.bookmakerApp.model.UserModel;
-import com.bookmakerApp.service.impl.DefaultUserServiceImpl;
+import com.bookmakerApp.service.impl.user.DefaultUserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.core.context.SecurityContextHolder;

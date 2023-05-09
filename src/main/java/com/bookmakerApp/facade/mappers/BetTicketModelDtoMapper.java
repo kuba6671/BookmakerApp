@@ -1,7 +1,7 @@
 package com.bookmakerApp.facade.mappers;
 
-import com.bookmakerApp.facade.dtos.BetTicketModelDto;
-import com.bookmakerApp.facade.dtos.DefaultEventModelDto;
+import com.bookmakerApp.facade.dtos.betticket.BetTicketModelDto;
+import com.bookmakerApp.facade.dtos.event.DefaultEventModelDto;
 import com.bookmakerApp.model.BetTicketModel;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.UserModel;

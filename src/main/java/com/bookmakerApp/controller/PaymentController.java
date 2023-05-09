@@ -1,8 +1,8 @@
 package com.bookmakerApp.controller;
 
-import com.bookmakerApp.facade.dtos.MakePaymentDto;
-import com.bookmakerApp.facade.dtos.MakePaymentResponseDto;
-import com.bookmakerApp.facade.dtos.PaymentDto;
+import com.bookmakerApp.facade.dtos.payment.MakePaymentDto;
+import com.bookmakerApp.facade.dtos.payment.MakePaymentResponseDto;
+import com.bookmakerApp.facade.dtos.payment.PaymentDto;
 import com.bookmakerApp.facade.interfaces.PaymentFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

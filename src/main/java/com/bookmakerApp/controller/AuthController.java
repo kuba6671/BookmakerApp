@@ -1,11 +1,11 @@
 package com.bookmakerApp.controller;
 
 import com.bookmakerApp.config.security.JwtUtil;
-import com.bookmakerApp.facade.dtos.AuthCredentialsRequestDto;
+import com.bookmakerApp.facade.dtos.auth.AuthCredentialsRequestDto;
 import com.bookmakerApp.facade.impl.DefaultUserFacadeImpl;
 import com.bookmakerApp.model.UserModel;
-import com.bookmakerApp.service.impl.UserDetailsServiceImpl;
-import com.bookmakerApp.service.impl.UserRegistrationServiceImpl;
+import com.bookmakerApp.service.impl.user.UserDetailsServiceImpl;
+import com.bookmakerApp.service.impl.user.UserRegistrationServiceImpl;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;

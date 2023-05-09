@@ -1,10 +1,10 @@
 package com.bookmakerApp.facade.impl;
 
-import com.bookmakerApp.facade.dtos.BetTicketModelDto;
+import com.bookmakerApp.facade.dtos.betticket.BetTicketModelDto;
 import com.bookmakerApp.facade.interfaces.BetTicketFacade;
 import com.bookmakerApp.facade.mappers.BetTicketModelDtoMapper;
 import com.bookmakerApp.model.BetTicketModel;
-import com.bookmakerApp.service.impl.DefaultBetTicketServiceImpl;
+import com.bookmakerApp.service.impl.betticket.DefaultBetTicketServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

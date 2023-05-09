@@ -1,11 +1,11 @@
 package com.bookmakerApp.facade.impl;
 
-import com.bookmakerApp.facade.dtos.FootballEventModelDto;
+import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
 import com.bookmakerApp.facade.interfaces.EventFacade;
 import com.bookmakerApp.facade.mappers.FootballEventModelDtoMapper;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.football.FootballMatchModel;
-import com.bookmakerApp.service.impl.DefaultEventServiceImpl;
+import com.bookmakerApp.service.impl.event.DefaultEventServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
