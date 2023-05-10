@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using BookmakerClientApp.Data.Model.Payment;
 
 namespace BookmakerClientApp.Data.Service
 {
@@ -26,7 +27,7 @@ namespace BookmakerClientApp.Data.Service
 
 		public async Task<HttpResponseMessage> MakePayment(MakePaymentDto payment)
 		{
-			var token = authService.getToken();
+			var token = authService.GetToken();
 			if (httpClient.DefaultRequestHeaders.Authorization == null)
 			{
 				httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
@@ -37,7 +38,7 @@ namespace BookmakerClientApp.Data.Service
 
 		public async Task<List<PaymentDto>> GetPayments(int pageNumber)
 		{
-			var token = authService.getToken();
+			var token = authService.GetToken();
 			if (httpClient.DefaultRequestHeaders.Authorization == null)
 			{
 				httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);

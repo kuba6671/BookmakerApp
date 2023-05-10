@@ -1,6 +1,6 @@
 package com.bookmakerApp.controller;
 
-import com.bookmakerApp.facade.dtos.FootballEventModelDto;
+import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
 import com.bookmakerApp.facade.impl.FootballEventFacadeImpl;
 import com.bookmakerApp.model.EventModel;
 import lombok.RequiredArgsConstructor;

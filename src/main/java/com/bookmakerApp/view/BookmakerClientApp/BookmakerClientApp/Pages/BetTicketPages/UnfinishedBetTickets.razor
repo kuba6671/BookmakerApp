@@ -1,20 +1,20 @@
 ﻿@page "/unfinishedBetTickets"
 @inherits LayoutComponentBase
-@using BookmakerClientApp.Data.Model
+@using BookmakerClientApp.Data.Model.BetTicket
 @using BookmakerClientApp.Data.Service
 @inject BetTicketService betTicketService
 
 <div class="topnav">
-    <BetTicketNavMenu />
+    <BetTicketNavMenu/>
 </div>
 
-<br />
+<br/>
 @if (betTicketDtos != null)
 {
     @foreach (BetTicketDto betTicket in betTicketDtos)
     {
-        <BetTicketComponent BetTicketDto="betTicket" />
-        <br />
+        <BetTicketComponent BetTicketDto="@betTicket"/>
+        <br/>
     }
     <div>
         <PaginationComponent numberOfPages="@numberOfPages" currentPageNumber="@currentPageNumber"
@@ -36,7 +36,7 @@
             numberOfPages = betTicketDtos.First().NumberOfPages;
         }
     }
-    
+
     private async Task GetBetTickets()
     {
         betTicketDtos = await betTicketService.GetUnfinishedBetTicketForUser(currentPageNumber);

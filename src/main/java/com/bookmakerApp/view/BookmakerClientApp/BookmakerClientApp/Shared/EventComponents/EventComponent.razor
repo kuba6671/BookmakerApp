@@ -1,0 +1,83 @@
+﻿@page "/eventComponent"
+@using Newtonsoft.Json.Linq
+@using BookmakerClientApp.Data.Extension
+@using BookmakerClientApp.Data.Model.Event
+
+
+@if (footballEventModelDtos == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <body class="large-screen">
+    <div class="wrap">
+        <div class="table-wrapper">
+            <table class="table-responsive card-list-table">
+                <thead>
+                <tr>
+                    <th>Drużyny</th>
+                    <th>Dyscyplina</th>
+                    <th>Data</th>
+                    <th>1</th>
+                    <th>0</th>
+                    <th>2</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (FootballEventDto footballMatch in footballEventModelDtos)
+                {
+                    <tr>
+                        <td data-title="Drużyny">@footballMatch.FootballTeams</td>
+                        <td data-title="Dyscyplina">@footballMatch.SportName</td>
+                        <td data-title="Data">@footballMatch.Date</td>
+                        <td data-title="1">
+                            <button class="btn btn-primary" @onclick="() => AddEventToBetTicket(footballMatch.FirstTeamWinEventId)">@footballMatch.FirstTeamWinOdds</button>
+                        </td>
+                        <td data-title="0">
+                            <button class="btn btn-primary" @onclick="() => AddEventToBetTicket(footballMatch.DraftEventId)">@footballMatch.DraftOdds</button>
+                        </td>
+                        <td data-title="2">
+                            <button class="btn btn-primary" @onclick="() => AddEventToBetTicket(footballMatch.SecondTeamWinEventId)">@footballMatch.SecondTeamWinOdds</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+}
+
+
+
+@code {
+
+    [Parameter]
+    public IReadOnlyList<FootballEventDto> footballEventModelDtos { get; set; }
+
+    private void AddEventToBetTicket(long id)
+    {
+        string key = "events-list";
+        SaveEventListInLocalStorage(id, key);
+    }
+
+    private void SaveEventListInLocalStorage(long id, string key)
+    {
+        LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
+        JArray newArray = localStorage.Get<JArray>(key);
+        List<long> newEventsList = newArray.ToObject<List<long>>();
+        if (newEventsList.Contains(id))
+        {
+            return;
+        }
+        else
+        {
+            newArray.Add(id.ToString());
+        }
+        localStorage.Store(key, newArray);
+    }
+
+}

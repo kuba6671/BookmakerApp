@@ -1,0 +1,59 @@
+﻿@using BookmakerClientApp.Data.Model.User
+@using BookmakerClientApp.Data.Service
+@inject UserService userService
+
+<br/>
+<div class="input-group input-group-lg">
+    <div class="input-group-prepend">
+        <span style="width:150px;" class="input-group-text" id="inputGroup-sizing-lg">Imie</span>
+    </div>
+    <input type="text" @bind-value="name" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="@userDataDto.Name">
+</div>
+<div class="input-group input-group-lg">
+    <div class="input-group-prepend">
+        <span style="width:150px;" class="input-group-text" id="inputGroup-sizing-lg">Nazwisko</span>
+    </div>
+    <input type="text" @bind-value="surname" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="@userDataDto.Surname">
+</div>
+<div class="input-group input-group-lg">
+    <div class="input-group-prepend">
+        <span style="width:150px;" class="input-group-text" id="inputGroup-sizing-lg">Wiek</span>
+    </div>
+    <input type="text" @bind-value="age" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="@userDataDto.Age">
+</div>
+<div class="input-group input-group-lg">
+    <button style="background-color: #0275d8; color: white" @onclick="@ChangeData" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">Zmień dane</button>
+</div>
+<div class="input-group input-group-lg">
+    @message
+</div>
+
+@code {
+    private string message = "";
+    private string name;
+    private string surname;
+    private int age;
+
+    [Parameter]
+    public UserDataDto userDataDto { get; set; }
+
+    private async Task ChangeData()
+    {
+        if (!string.IsNullOrEmpty(name))
+        {
+            userDataDto.Name = name;
+        }
+        if (!string.IsNullOrEmpty(surname))
+        {
+            userDataDto.Surname = surname;
+        }
+        if (!string.IsNullOrEmpty(age.ToString()))
+        {
+            userDataDto.Age = age;
+        }
+        HttpResponseMessage response = await userService.ChangeData(userDataDto);
+        string statusCode = response.StatusCode.ToString();
+        message = statusCode.Equals("OK") ? "Dane zostały pomyślnie zmienione" : "Coś poszło nie tak. Podaj poprawne dane";
+    }
+
+}

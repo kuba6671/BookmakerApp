@@ -1,8 +1,8 @@
 ﻿using BookmakerClientApp.Data.Constant;
 using BookmakerClientApp.Data.Extension;
-using BookmakerClientApp.Data.Model;
 using System.Net.Http;
 using System.Threading.Tasks;
+using BookmakerClientApp.Data.Model.User;
 
 namespace BookmakerClientApp.Data.Service
 {
@@ -13,40 +13,39 @@ namespace BookmakerClientApp.Data.Service
 
         public UserService()
         {
-            this.httpClient = new HttpClient();
-            this.authService = new AuthService();
+            httpClient = new HttpClient();
+            authService = new AuthService();
         }
 
         public async Task<HttpResponseMessage> UserLogin(UserAuthModel user)
         {
-            return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.LOGIN_URL, user);
+            return await httpClient.PostAsJsonAsync(BookmakerApiConstant.LOGIN_URL, user);
         }
 
         public async Task<HttpResponseMessage> UserRegistration(UserModel user)
         {
-            return await HttpClientExtensions.PostAsJsonAsync(httpClient, BookmakerApiConstant.REGISTRATION_URL, user);
+            return await httpClient.PostAsJsonAsync(BookmakerApiConstant.REGISTRATION_URL, user);
         }
 
         public async Task<HttpResponseMessage> ChangePassword(UserPasswordDto user)
         {
-            return await HttpClientExtensions.PutAsJsonAsync(httpClient, BookmakerApiConstant.CHANGE_PASSWORD_URL, user);
+            return await httpClient.PutAsJsonAsync(BookmakerApiConstant.CHANGE_PASSWORD_URL, user);
         }
 
         public async Task<HttpResponseMessage> ChangeData(UserDataDto user)
         {
-            return await HttpClientExtensions.PutAsJsonAsync(httpClient, BookmakerApiConstant.CHANGE_DATA_URL, user);
+            return await httpClient.PutAsJsonAsync(BookmakerApiConstant.CHANGE_DATA_URL, user);
         }
 
         public async Task<UserDataDto> GetUserById()
         {
-            var token = authService.getToken();
-            var idUser = authService.getUserId();
+            var token = authService.GetToken();
+            var idUser = authService.GetUserId();
             if (httpClient.DefaultRequestHeaders.Authorization == null)
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
             }
-            return await HttpClientExtensions.GetAsJsonAsync<UserDataDto>(httpClient,
-                 BookmakerApiConstant.USER_DATA_URL + idUser);
+            return await httpClient.GetAsJsonAsync<UserDataDto>(BookmakerApiConstant.USER_DATA_URL + idUser);
         }
     }
 }

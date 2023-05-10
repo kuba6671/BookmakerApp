@@ -1,6 +1,6 @@
 package com.bookmakerApp.facade.mappers;
 
-import com.bookmakerApp.facade.dtos.FootballEventModelDto;
+import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.football.FootballMatchModel;
 

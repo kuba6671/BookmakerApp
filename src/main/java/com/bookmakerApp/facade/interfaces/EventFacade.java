@@ -1,6 +1,6 @@
 package com.bookmakerApp.facade.interfaces;
 
-import com.bookmakerApp.facade.dtos.FootballEventModelDto;
+import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
 
 import java.util.List;
 

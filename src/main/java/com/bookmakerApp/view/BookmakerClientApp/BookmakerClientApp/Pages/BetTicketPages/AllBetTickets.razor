@@ -1,6 +1,6 @@
 ﻿@page "/allBetTickets"
 @inherits LayoutComponentBase
-@using BookmakerClientApp.Data.Model
+@using BookmakerClientApp.Data.Model.BetTicket
 @using BookmakerClientApp.Data.Service
 @inject BetTicketService betTicketService
 
@@ -13,7 +13,7 @@
 {
     @foreach (BetTicketDto betTicket in betTicketDtos)
     {
-        <BetTicketComponent BetTicketDto="betTicket"/>
+        <BetTicketComponent BetTicketDto="@betTicket"/>
         <br/>
     }
     <div>

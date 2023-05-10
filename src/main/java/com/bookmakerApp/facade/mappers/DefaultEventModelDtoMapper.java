@@ -1,6 +1,6 @@
 package com.bookmakerApp.facade.mappers;
 
-import com.bookmakerApp.facade.dtos.DefaultEventModelDto;
+import com.bookmakerApp.facade.dtos.event.DefaultEventModelDto;
 import com.bookmakerApp.model.EventModel;
 
 import java.util.List;
