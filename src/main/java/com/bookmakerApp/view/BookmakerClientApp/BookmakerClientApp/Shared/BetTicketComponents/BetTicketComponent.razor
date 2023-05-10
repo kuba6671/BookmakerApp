@@ -1,0 +1,32 @@
+﻿@using BookmakerClientApp.Data.Model.BetTicket
+
+<div class="grid-container">
+    <div class="item1">Data zawarcia: @betTicketDto.Date</div>
+    <div class="item2">Ilość zdarzeń na kuponie: @betTicketDto.Events.Count</div>
+    <div class="item3">
+        Wynik:
+        @if (betTicketDto.Success == null)
+        {
+            <span class="dot-black"></span>
+        }
+        else if (betTicketDto.Success == true)
+        {
+            <span class="dot-green"></span>
+        }
+        else if (betTicketDto.Success == false)
+        {
+            <span class="dot-red"></span>
+        }
+    </div>
+    <div class="item3">Wkład: @betTicketDto.Deposit</div>
+    <div class="item3">Kurs całkowity: @betTicketDto.TotalOdds.ToString("0.00")</div>
+    <div class="item3">Wygrana: @betTicketDto.ToWin</div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public BetTicketDto betTicketDto { get; set; }
+
+}

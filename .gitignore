@@ -108,8 +108,6 @@ Temporary Items
 *#
 *.iml
 *.ipr
-*.iws
-*.jar
 *.sw?
 *~
 .#*
@@ -118,7 +116,6 @@ Temporary Items
 .attach_pid*
 .classpath
 .factorypath
-.gradle
 .idea
 .metadata
 .project
@@ -145,7 +142,6 @@ overridedb.*
 target
 .flattened-pom.xml
 secrets.yml
-.gradletasknamecache
 .sts4-cache
 
 
@@ -337,7 +333,6 @@ _pkginfo.txt
 # Others
 ClientBin/
 ~$*
-*~
 *.dbmdl
 *.dbproj.schemaview
 *.jfm

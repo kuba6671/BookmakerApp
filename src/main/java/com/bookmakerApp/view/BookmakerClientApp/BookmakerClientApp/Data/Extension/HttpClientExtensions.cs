@@ -11,7 +11,7 @@ namespace BookmakerClientApp.Data.Extension
     public static class HttpClientExtensions
     {
         public static Task<HttpResponseMessage> PostAsJsonAsync<T>(
-          this HttpClient httpClient, string url, T data)
+            this HttpClient httpClient, string url, T data)
         {
             var dataAsString = JsonConvert.SerializeObject(data);
             var content = new StringContent(dataAsString);
@@ -20,7 +20,7 @@ namespace BookmakerClientApp.Data.Extension
         }
 
         public static Task<HttpResponseMessage> PutAsJsonAsync<T>(
-          this HttpClient httpClient, string url, T data)
+            this HttpClient httpClient, string url, T data)
         {
             var dataAsString = JsonConvert.SerializeObject(data);
             var content = new StringContent(dataAsString);
@@ -28,7 +28,7 @@ namespace BookmakerClientApp.Data.Extension
             return httpClient.PutAsync(url, content);
         }
 
-        public static async Task<T> ReadAsJsonAsync<T>(this HttpContent content)
+        private static async Task<T> ReadAsJsonAsync<T>(this HttpContent content)
         {
             var dataAsString = await content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(dataAsString);
@@ -42,7 +42,7 @@ namespace BookmakerClientApp.Data.Extension
             if (statusCode.Equals("OK"))
             {
                 HttpContent httpContent = response.Content;
-                return await HttpClientExtensions.ReadAsJsonAsync<T>(httpContent);
+                return await ReadAsJsonAsync<T>(httpContent);
             }
             else
             {
@@ -62,7 +62,7 @@ namespace BookmakerClientApp.Data.Extension
             if (statusCode.Equals("OK"))
             {
                 HttpContent httpContent = response.Content;
-                return await HttpClientExtensions.ReadAsJsonAsync<T>(httpContent);
+                return await ReadAsJsonAsync<T>(httpContent);
             }
             else
             {
@@ -79,8 +79,8 @@ namespace BookmakerClientApp.Data.Extension
             {
                 queryString.Add(key, value.ToString());
             }
-            return queryString.ToString() != string.Empty ? "?" + queryString.ToString() : string.Empty;
-        }
 
+            return queryString.ToString() != string.Empty ? "?" + queryString : string.Empty;
+        }
     }
 }

@@ -1,9 +1,8 @@
 package com.bookmakerApp.facade.mappers;
 
-import com.bookmakerApp.facade.dtos.FootballEventModelDto;
+import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.football.FootballMatchModel;
-import com.bookmakerApp.model.football.FootballTeamModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,14 +11,14 @@ public class FootballEventModelDtoMapper {
     private FootballEventModelDtoMapper() {
     }
 
-    public static List<FootballEventModelDto> mapToFootballEventModelDtos(List<EventModel> events) {
+    public static List<FootballEventModelDto> mapToFootballEventModelDtos(List<EventModel> events, int numberOfPages) {
         return events.stream()
-                .map(event -> mapToFootballEventModelDto(event, (FootballMatchModel) event.getSport()))
+                .map(event -> mapToFootballEventModelDto(event, (FootballMatchModel) event.getSport(), numberOfPages))
                 .collect(Collectors.toList());
     }
 
     private static FootballEventModelDto mapToFootballEventModelDto
-            (EventModel event, FootballMatchModel match) {
+            (EventModel event, FootballMatchModel match, int numberOfPages) {
         return FootballEventModelDto.builder()
                 .idEvent(event.getIdEvent())
                 .odds(event.getOdds())
@@ -34,6 +33,7 @@ public class FootballEventModelDtoMapper {
                 .visitingTeamCountry(match.getVisitingTeam().getCountry())
                 .visitingTeamGoals(match.getVisitingTeamGoals())
                 .chosenResult(event.getChosenResult().toString())
+                .numberOfPages(numberOfPages)
                 .build();
     }
 }

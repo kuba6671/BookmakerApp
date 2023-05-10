@@ -1,36 +1,53 @@
 ﻿@page "/finishedFootballEvents"
 @inherits LayoutComponentBase
 @using BookmakerClientApp.Data.Service
-@using BookmakerClientApp.Data.Model
+@using BookmakerClientApp.Data.Model.Event
 @inject EventService eventService
 
 
 <div class="topnav">
-    <EventNavMenu />
+    <EventNavMenu/>
 </div>
 
 @if (footballEventModelDtos == null)
 {
-    <p><em>Brak zdarzeń</em></p>
+    <p>
+        <em>Brak zdarzeń</em>
+    </p>
 }
 else
 {
-    <FinishedEventComponent footballEventModelDtos="@footballEventModelDtos" />
+    <FinishedEventComponent footballEventModelDtos="@footballEventModelDtos"/>
+    <div>
+        <PaginationComponent numberOfPages="@numberOfPages" currentPageNumber="@currentPageNumber"
+                             ChangeCurrentPageNumber="@ChangeCurrentPageNumber"/>
+    </div>
 }
 
 
 @code{
-    public List<FootballEventDto> footballEventModelDtos;
-    public string listSize = "Brak zdarzeń";
+    private List<FootballEventDto> footballEventModelDtos;
+    private int currentPageNumber;
+    private int numberOfPages;
 
     protected override async Task OnInitializedAsync()
     {
-        footballEventModelDtos = await eventService.GetFinishedFootballEvents();
-        bool isEmpty = !footballEventModelDtos.Any();
-        if (isEmpty)
+        await GetFootballEvents();
+        if (footballEventModelDtos.Any())
         {
-            listSize = "Brak zdarzeń";
+            numberOfPages = footballEventModelDtos.First().NumberOfPages;
         }
+    }
+
+    private async Task GetFootballEvents()
+    {
+        footballEventModelDtos = await eventService.GetFinishedFootballEvents(currentPageNumber);
+    }
+
+    private async Task ChangeCurrentPageNumber(int pageNumber)
+    {
+        currentPageNumber = pageNumber;
+        await GetFootballEvents();
     }
 
 }

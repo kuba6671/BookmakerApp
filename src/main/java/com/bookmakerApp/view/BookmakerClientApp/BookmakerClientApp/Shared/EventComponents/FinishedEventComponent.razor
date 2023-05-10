@@ -1,0 +1,63 @@
+﻿@page "/finishedEventComponent"
+@using BookmakerClientApp.Data.Model.Event
+
+
+@if (footballEventModelDtos == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <body class="large-screen">
+    <div class="wrap">
+        <div class="table-wrapper">
+            <table class="table-responsive card-list-table">
+                <thead>
+                <tr>
+                    <th>Drużyny</th>
+                    <th>Dyscyplina</th>
+                    <th>Data</th>
+                    <th>Wynik</th>
+                    <th>1</th>
+                    <th>0</th>
+                    <th>2</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (FootballEventDto footballMatch in footballEventModelDtos)
+                {
+                    <tr>
+                        <td data-title="Drużyny">@footballMatch.FootballTeams</td>
+                        <td data-title="Dyscyplina">@footballMatch.SportName</td>
+                        <td data-title="Data">@footballMatch.Date</td>
+                        <td data-title="Wynik">@footballMatch.HomeTeamGoals : @footballMatch.VisitingTeamGoals</td>
+                        <td data-title="1">
+                            <button class="btn btn-primary" disabled>@footballMatch.FirstTeamWinOdds</button>
+                        </td>
+                        <td data-title="0">
+                            <button class="btn btn-primary" disabled>@footballMatch.DraftOdds</button>
+                        </td>
+                        <td data-title="2">
+                            <button class="btn btn-primary" disabled>@footballMatch.SecondTeamWinOdds</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+}
+
+
+
+
+
+@code {
+
+    [Parameter]
+    public IReadOnlyList<FootballEventDto> footballEventModelDtos { get; set; }
+
+}

@@ -1,6 +1,6 @@
 package com.bookmakerApp.controller;
 
-import com.bookmakerApp.facade.dtos.BetTicketModelDto;
+import com.bookmakerApp.facade.dtos.betticket.BetTicketModelDto;
 import com.bookmakerApp.facade.impl.DefaultBetTicketFacadeImpl;
 import com.bookmakerApp.model.BetTicketModel;
 import lombok.RequiredArgsConstructor;
@@ -28,23 +28,27 @@ public class BetTicketController {
     }
 
     @GetMapping("/betTicketsUser/{id}")
-    public List<BetTicketModelDto> getBetTicketsByUser(@PathVariable Long id) {
-        return defaultBetTicketFacade.getBetTicketsByUser(id);
+    public List<BetTicketModelDto> getBetTicketsByUser(@PathVariable Long id,
+                                                       @RequestParam(defaultValue = "0") int pageNumber) {
+        return defaultBetTicketFacade.getBetTicketsByUser(id, pageNumber);
     }
 
     @GetMapping("/betTicketsWon/{id}")
-    public List<BetTicketModelDto> getWonBetTicketsByUser(@PathVariable Long id) {
-        return defaultBetTicketFacade.getWonBetTicketsByUser(id);
+    public List<BetTicketModelDto> getWonBetTicketsByUser(@PathVariable Long id,
+                                                          @RequestParam(defaultValue = "0") int pageNumber) {
+        return defaultBetTicketFacade.getWonBetTicketsByUser(id, pageNumber);
     }
 
     @GetMapping("/betTicketsLost/{id}")
-    public List<BetTicketModelDto> getLostBetTicketByUsers(@PathVariable Long id) {
-        return defaultBetTicketFacade.getLostBetTicketByUser(id);
+    public List<BetTicketModelDto> getLostBetTicketByUsers(@PathVariable Long id,
+                                                           @RequestParam(defaultValue = "0") int pageNumber) {
+        return defaultBetTicketFacade.getLostBetTicketByUser(id, pageNumber);
     }
 
     @GetMapping("/betTicketsUnfinished/{id}")
-    public List<BetTicketModelDto> getUnfinishedBetTicketsByUser(@PathVariable Long id) {
-        return defaultBetTicketFacade.getUnfinishedBetTicketsByUser(id);
+    public List<BetTicketModelDto> getUnfinishedBetTicketsByUser(@PathVariable Long id,
+                                                                 @RequestParam(defaultValue = "0") int pageNumber) {
+        return defaultBetTicketFacade.getUnfinishedBetTicketsByUser(id, pageNumber);
     }
 
 }
