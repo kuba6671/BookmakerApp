@@ -14,7 +14,7 @@ public interface EventRepository extends JpaRepository<EventModel, Long> {
 
     List<EventModel> getEventModelsByDateBeforeAndResultIsChecked(Date date, boolean isChecked);
 
-    List<EventModel> getEventModelsBySport_IdSport(Long idSport);
+    List<EventModel> getEventModelsBySport_IdSportAndResultIsChecked(Long idSport, boolean isChecked);
 
     List<EventModel> getEventModelsByIdEventIn(List<Long> idEvents);
 

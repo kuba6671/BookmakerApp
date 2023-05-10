@@ -4,8 +4,6 @@ import com.bookmakerApp.config.security.JwtUtil;
 import com.bookmakerApp.facade.dtos.auth.AuthCredentialsRequestDto;
 import com.bookmakerApp.facade.impl.DefaultUserFacadeImpl;
 import com.bookmakerApp.model.UserModel;
-import com.bookmakerApp.service.impl.user.UserDetailsServiceImpl;
-import com.bookmakerApp.service.impl.user.UserRegistrationServiceImpl;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -26,20 +24,18 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final UserRegistrationServiceImpl userRegistrationService;
-    private final UserDetailsServiceImpl userDetailsService;
     private final DefaultUserFacadeImpl userFacade;
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AuthCredentialsRequestDto request) {
         try {
-            Authentication authenticate = authenticationManager.
+            final Authentication authenticate = authenticationManager.
                     authenticate(
                             new UsernamePasswordAuthenticationToken(
                                     request.getUsername(), request.getPassword()));
 
-            User user = (User) authenticate.getPrincipal();
-            String id = userDetailsService.getUserIdByUsername(user.getUsername()).toString();
+            final User user = (User) authenticate.getPrincipal();
+            final String id = userFacade.getUserIdByUsername(user.getUsername());
 
             return ResponseEntity.ok()
                     .header(
@@ -54,11 +50,7 @@ public class AuthController {
 
     @PostMapping("registration")
     public UserModel addUser(@RequestBody UserModel newUser) {
-        if (ObjectUtils.isEmpty(newUser)) {
-            throw new IllegalArgumentException("User is empty or null");
-        } else {
-            return userRegistrationService.registerUserAccount(newUser);
-        }
+        return userFacade.addUser(newUser);
     }
 
     @PutMapping("changePassword")

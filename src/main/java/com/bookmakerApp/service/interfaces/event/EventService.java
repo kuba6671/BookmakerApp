@@ -7,9 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface EventService {
-    Page<EventModel> getUnfinishedEvents(int pageNumber);
-
-    Page<EventModel> getFinishedEvents(int pageNumber);
+    Page<EventModel> getEventsByFinish(boolean finish, int pageNumber);
 
     List<EventModel> getEventByDateBeforeAndResultIsChecked(Date date, boolean isChecked);
 

@@ -23,19 +23,13 @@ public class DefaultEventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final SportRepository sportRepository;
 
-    private static final String FOOTBALL_MATCH = "Football";
     private static final String FIRST_TEAM_WIN = "FIRST_TEAM_WIN";
     private static final String SECOND_TEAM_WIN = "SECOND_TEAM_WIN";
     private final static int PAGE_SIZE = 10;
 
     @Override
-    public Page<EventModel> getUnfinishedEvents(int pageNumber) {
-        return eventRepository.getEventModelsByFinish(false, PageRequest.of(pageNumber, PAGE_SIZE));
-    }
-
-    @Override
-    public Page<EventModel> getFinishedEvents(int pageNumber) {
-        return eventRepository.getEventModelsByFinish(true, PageRequest.of(pageNumber, PAGE_SIZE));
+    public Page<EventModel> getEventsByFinish(boolean finish, int pageNumber) {
+        return eventRepository.getEventModelsByFinish(finish, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override
@@ -56,7 +50,7 @@ public class DefaultEventServiceImpl implements EventService {
 
     private void setOdds(EventModel event) {
         SportModel sport = event.getSport();
-        if (FOOTBALL_MATCH.equals(sport.getSportName())) {
+        if (sport instanceof FootballMatchModel) {
             FootballMatchModel footballMatch = (FootballMatchModel) sportRepository
                     .getSportModelByIdSport(sport.getIdSport());
             String chosenResult = String.valueOf(event.getChosenResult());

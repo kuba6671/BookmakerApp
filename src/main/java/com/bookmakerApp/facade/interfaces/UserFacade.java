@@ -9,4 +9,8 @@ public interface UserFacade {
     UserModelDto changePassword(String oldPassword, String newPassword);
 
     UserModel changeUserData(UserModel user);
+
+    UserModel addUser(UserModel newUser);
+
+    String getUserIdByUsername(String username);
 }

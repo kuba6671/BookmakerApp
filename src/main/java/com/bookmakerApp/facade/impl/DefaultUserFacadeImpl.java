@@ -5,6 +5,8 @@ import com.bookmakerApp.facade.interfaces.UserFacade;
 import com.bookmakerApp.facade.mappers.UserModelDtoMapper;
 import com.bookmakerApp.model.UserModel;
 import com.bookmakerApp.service.impl.user.DefaultUserServiceImpl;
+import com.bookmakerApp.service.impl.user.UserDetailsServiceImpl;
+import com.bookmakerApp.service.impl.user.UserRegistrationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Component;
 public class DefaultUserFacadeImpl implements UserFacade {
 
     private final DefaultUserServiceImpl userService;
+    private final UserRegistrationServiceImpl userRegistrationService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Override
     public UserModelDto getUserById(Long idUser) {
@@ -44,5 +48,19 @@ public class DefaultUserFacadeImpl implements UserFacade {
     @Override
     public UserModel changeUserData(final UserModel user) {
         return userService.changeUserPersonalData(user);
+    }
+
+    @Override
+    public UserModel addUser(UserModel newUser) {
+        if (ObjectUtils.isEmpty(newUser)) {
+            throw new IllegalArgumentException("User is empty or null");
+        } else {
+            return userRegistrationService.registerUserAccount(newUser);
+        }
+    }
+
+    @Override
+    public String getUserIdByUsername(String username) {
+        return userDetailsService.getUserIdByUsername(username).toString();
     }
 }
