@@ -15,4 +15,5 @@ public class DefaultEventModelDto {
     private Date date;
     private String type;
     private String chosenResult;
+    private int numberOfPages;
 }

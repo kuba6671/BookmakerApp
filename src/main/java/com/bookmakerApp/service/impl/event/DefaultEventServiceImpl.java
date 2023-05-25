@@ -2,6 +2,7 @@ package com.bookmakerApp.service.impl.event;
 
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.SportModel;
+import com.bookmakerApp.model.enums.SportName;
 import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.repository.EventRepository;
 import com.bookmakerApp.repository.SportRepository;
@@ -28,8 +29,8 @@ public class DefaultEventServiceImpl implements EventService {
     private final static int PAGE_SIZE = 10;
 
     @Override
-    public Page<EventModel> getEventsByFinish(boolean finish, int pageNumber) {
-        return eventRepository.getEventModelsByFinish(finish, PageRequest.of(pageNumber, PAGE_SIZE));
+    public Page<EventModel> getEventsByFinishAndSportName(boolean finish, SportName sportName, int pageNumber) {
+        return eventRepository.getEventModelsByFinishAndSportSportName(finish, sportName, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override

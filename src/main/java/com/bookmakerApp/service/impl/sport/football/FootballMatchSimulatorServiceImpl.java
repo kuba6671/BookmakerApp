@@ -1,4 +1,4 @@
-package com.bookmakerApp.service.impl.football;
+package com.bookmakerApp.service.impl.sport.football;
 
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.SportModel;
@@ -37,7 +37,7 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
                 .filter(this::isFootballMatchWithNoCheckedResult)
                 .toList();
 
-        for (EventModel event : events) {
+        events.forEach(event -> {
             FootballMatchModel footballMatch = (FootballMatchModel) event.getSport();
             String chosenResult = String.valueOf(event.getChosenResult());
             if (DRAFT.equals(chosenResult) && checkDraft(footballMatch)) {
@@ -49,7 +49,7 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
             }
             event.setFinish(true);
             event.setResultIsChecked(true);
-        }
+        });
     }
 
     private boolean checkHomeTeamWin(FootballMatchModel match) {
