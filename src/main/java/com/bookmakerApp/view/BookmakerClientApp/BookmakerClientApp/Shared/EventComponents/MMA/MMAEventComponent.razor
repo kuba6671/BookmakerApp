@@ -1,10 +1,10 @@
-﻿@page "/eventComponent"
+﻿@page "/mmaEventComponent"
 @using Newtonsoft.Json.Linq
 @using BookmakerClientApp.Data.Extension
-@using BookmakerClientApp.Data.Model.Event
+@using BookmakerClientApp.Data.Model.Event.MMA
 
 
-@if (footballEventModelDtos == null)
+@if (mmaEventDtos == null)
 {
     <p>
         <em>Loading...</em>
@@ -18,29 +18,25 @@ else
             <table class="table-responsive card-list-table">
                 <thead>
                 <tr>
-                    <th>Drużyny</th>
+                    <th>Zawodnicy</th>
                     <th>Dyscyplina</th>
                     <th>Data</th>
                     <th>1</th>
-                    <th>0</th>
                     <th>2</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (FootballEventDto footballMatch in footballEventModelDtos)
+                @foreach (MMAEventDto mmaFight in mmaEventDtos)
                 {
                     <tr>
-                        <td data-title="Drużyny">@footballMatch.FootballTeams</td>
-                        <td data-title="Dyscyplina">@footballMatch.SportName</td>
-                        <td data-title="Data">@footballMatch.Date</td>
+                        <td data-title="Zawodnicy">@mmaFight.FightersNames</td>
+                        <td data-title="Dyscyplina">@mmaFight.SportName</td>
+                        <td data-title="Data">@mmaFight.Date</td>
                         <td data-title="1">
-                            <button class="btn btn-primary" @onclick="() => AddEventToBetTicket(footballMatch.FirstTeamWinEventId)">@footballMatch.FirstTeamWinOdds</button>
-                        </td>
-                        <td data-title="0">
-                            <button class="btn btn-primary" @onclick="() => AddEventToBetTicket(footballMatch.DraftEventId)">@footballMatch.DraftOdds</button>
+                            <button class="btn btn-primary" @onclick="() => AddEventToBetTicket(mmaFight.FirstFighterWinId)">@mmaFight.FirstFigherWinOdds</button>
                         </td>
                         <td data-title="2">
-                            <button class="btn btn-primary" @onclick="() => AddEventToBetTicket(footballMatch.SecondTeamWinEventId)">@footballMatch.SecondTeamWinOdds</button>
+                            <button class="btn btn-primary" @onclick="() => AddEventToBetTicket(mmaFight.SecondFighterWinId)">@mmaFight.SecondFighterWinOdds</button>
                         </td>
                     </tr>
                 }
@@ -56,7 +52,7 @@ else
 @code {
 
     [Parameter]
-    public IReadOnlyList<FootballEventDto> footballEventModelDtos { get; set; }
+    public IReadOnlyList<MMAEventDto> mmaEventDtos { get; set; }
 
     private void AddEventToBetTicket(long id)
     {
@@ -73,10 +69,7 @@ else
         {
             return;
         }
-        else
-        {
-            newArray.Add(id.ToString());
-        }
+        newArray.Add(id.ToString());
         localStorage.Store(key, newArray);
     }
 

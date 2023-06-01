@@ -1,8 +1,8 @@
-﻿@page "/finishedFootballEvents"
+﻿@page "/finishedMMAEvents"
 @inherits LayoutComponentBase
 @using BookmakerClientApp.Data.Service
-@using BookmakerClientApp.Data.Model.Event.Football
-@using BookmakerClientApp.Shared.EventComponents.Football
+@using BookmakerClientApp.Data.Model.Event.MMA
+@using BookmakerClientApp.Shared.EventComponents.MMA
 @using BookmakerClientApp.Shared.EventComponents
 @inject EventService eventService
 
@@ -11,15 +11,15 @@
     <EventNavMenu/>
 </div>
 
-@if (footballEventModelDtos == null)
+@if (mmaEventDtos == null)
 {
     <p>
-        <em>Brak zdarzeń</em>
+        <em>@listSize</em>
     </p>
 }
 else
 {
-    <FootballFinishedEventComponent footballEventModelDtos="@footballEventModelDtos"/>
+    <MMAFinishedEventComponent mmaEventDtos="@mmaEventDtos"/>
     <div>
         <PaginationComponent numberOfPages="@numberOfPages" currentPageNumber="@currentPageNumber"
                              ChangeCurrentPageNumber="@ChangeCurrentPageNumber"/>
@@ -27,29 +27,34 @@ else
 }
 
 
-@code{
-    private List<FootballEventDto> footballEventModelDtos;
+@code {
+    private List<MMAEventDto> mmaEventDtos;
+    private string listSize = "Brak zdarzeń";
     private int currentPageNumber;
     private int numberOfPages;
 
     protected override async Task OnInitializedAsync()
     {
-        await GetFootballEvents();
-        if (footballEventModelDtos.Any())
+        await GetMMAEvents();
+        if (mmaEventDtos.Any())
         {
-            numberOfPages = footballEventModelDtos.First().NumberOfPages;
+            numberOfPages = mmaEventDtos.First().NumberOfPages;
+        }
+        else
+        {
+            listSize = "Brak zdarzeń";
         }
     }
 
-    private async Task GetFootballEvents()
+    private async Task GetMMAEvents()
     {
-        footballEventModelDtos = await eventService.GetFinishedFootballEvents(currentPageNumber);
+        mmaEventDtos = await eventService.GetFinishedMMAEvents(currentPageNumber);
     }
 
     private async Task ChangeCurrentPageNumber(int pageNumber)
     {
         currentPageNumber = pageNumber;
-        await GetFootballEvents();
+        await GetMMAEvents();
     }
 
 }

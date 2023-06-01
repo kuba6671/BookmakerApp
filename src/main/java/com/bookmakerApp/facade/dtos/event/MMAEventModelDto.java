@@ -7,11 +7,9 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class MMAEventModelDto extends DefaultEventModelDto {
     private String firstFighterName;
-    private String firstFighterSurname;
     private String firstFighterCountry;
     private String firstFighterRecord;
     private String secondFighterName;
-    private String secondFighterSurname;
     private String secondFighterCountry;
     private String secondFighterRecord;
     private String mmaFightResult;

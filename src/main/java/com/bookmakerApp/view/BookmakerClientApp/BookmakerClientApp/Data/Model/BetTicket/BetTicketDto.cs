@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BookmakerClientApp.Data.Model.Event;
+using BookmakerClientApp.Data.Model.Event.Football;
 using BookmakerClientApp.Data.Model.User;
 using Newtonsoft.Json;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BookmakerClientApp.Data.Model.Event
+namespace BookmakerClientApp.Data.Model.Event.Football
 {
     public class FootballEventDto
     {

@@ -96,6 +96,7 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
             if (!event.getSuccess()) {
                 betTicket.setSuccess(Boolean.FALSE);
                 betTicket.setResultIsChecked(true);
+                return;
             }
         }
         betTicket.setResultIsChecked(true);
@@ -107,6 +108,7 @@ public class DefaultBetTicketServiceImpl implements BetTicketService {
         for (EventModel event : events) {
             if (!event.isFinish()) {
                 betTicket.setFinish(false);
+                return;
             }
         }
         betTicket.setFinish(true);

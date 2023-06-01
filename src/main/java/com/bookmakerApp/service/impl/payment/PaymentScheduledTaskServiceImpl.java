@@ -32,7 +32,7 @@ public class PaymentScheduledTaskServiceImpl implements PaymentScheduledTaskServ
     @Scheduled(cron = "0 0/5 * * * ?")
     public void checkPaymentStatus() {
         List<PaymentModel> payments = paymentRepository
-                .getPaymentModelsByIsCheckedAndStatusIsNot(Boolean.FALSE, STATUS_NEW);
+                .getPaymentModelsByIsCheckedAndStatusIsNotIn(Boolean.FALSE, List.of(STATUS_COMPLETED, STATUS_CANCELED));
         log.info("received [{}] unchecked payments", payments.size());
         payments.forEach(this::updatePaymentAttributes);
     }

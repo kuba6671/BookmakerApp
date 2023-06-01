@@ -21,5 +21,6 @@ public final class PaymentPayuConstants {
     public static final String TOTAL_AMOUNT = "totalAmount";
     public static final String STATUS_NEW = "NEW";
     public static final String STATUS_COMPLETED = "COMPLETED";
+    public static final String STATUS_CANCELED = "CANCELED";
 
 }

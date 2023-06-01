@@ -38,8 +38,7 @@ public class EventScheduledTaskServiceImpl extends
     @Scheduled(cron = "0 0/7 * * * ?")
     @Transactional
     public void simulateEvents() {
-        Date date = new Date();
-        List<EventModel> events = getEventByDateBeforeAndResultIsChecked(date, Boolean.FALSE);
+        List<EventModel> events = getEventByDateBeforeAndResultIsChecked(new Date(), Boolean.FALSE);
 
         events.stream()
                 .filter(event -> !event.isResultIsChecked())

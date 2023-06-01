@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace BookmakerClientApp.Data.Model.Event
+namespace BookmakerClientApp.Data.Model.Event.Football
 {
     public class FootballEventModel
     {
@@ -18,6 +18,7 @@ namespace BookmakerClientApp.Data.Model.Event
         private double odds;
         private DateTime date;
         private bool? success;
+        private int numberOfPages;
 
         public long IdEvent { get => idEvent; set => idEvent = value; }
         public string FootballMatchType { get => footballMatchType; set => footballMatchType = value; }
@@ -31,5 +32,6 @@ namespace BookmakerClientApp.Data.Model.Event
         public double Odds { get => odds; set => odds = value; }
         public DateTime Date { get => date; set => date = value; }
         public bool? Success { get => success; set => success = value; }
+        public int NumberOfPages { get => numberOfPages; set => numberOfPages = value; }
     }
 }

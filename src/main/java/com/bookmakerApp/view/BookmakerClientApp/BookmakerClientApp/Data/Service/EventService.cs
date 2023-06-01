@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BookmakerClientApp.Data.Model.Event;
+using BookmakerClientApp.Data.Model.Event.Football;
+using BookmakerClientApp.Data.Model.Event.MMA;
 
 namespace BookmakerClientApp.Data.Service
 {
@@ -30,7 +32,7 @@ namespace BookmakerClientApp.Data.Service
             }
 
             JArray pages = new JArray(pageNumber);
-            return EventModelDtoMapper(
+            return FootballEventModelDtoMapper(
                 await httpClient.GetAsJsonAsyncWithListParameter<List<FootballEventModel>>(
                     BookmakerApiConstant.UNFINISHED_FOOTBALL_EVENTS, PAGE, pages));
         }
@@ -44,9 +46,37 @@ namespace BookmakerClientApp.Data.Service
             }
 
             JArray pages = new JArray(pageNumber);
-            return FinishedEventModelDtoMapper(
+            return FinishedFootballEventModelDtoMapper(
                 await httpClient.GetAsJsonAsyncWithListParameter<List<FootballEventModel>>(
                     BookmakerApiConstant.FINISHED_FOOTBALL_EVENTS, PAGE, pages));
+        }
+
+        public async Task<List<MMAEventDto>> GetUnfinishedMMAEvents(int pageNumber)
+        {
+            var token = authService.GetToken();
+            if (httpClient.DefaultRequestHeaders.Authorization == null)
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            }
+
+            JArray pages = new JArray(pageNumber);
+            return MMAEventModelDtoMapper(
+                await httpClient.GetAsJsonAsyncWithListParameter<List<MMAEventModel>>(
+                    BookmakerApiConstant.UNFINISHED_MMA_EVENTS, PAGE, pages));
+        }
+
+        public async Task<List<MMAEventDto>> GetFinishedMMAEvents(int pageNumber)
+        {
+            var token = authService.GetToken();
+            if (httpClient.DefaultRequestHeaders.Authorization == null)
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            }
+
+            JArray pages = new JArray(pageNumber);
+            return MMAEventModelDtoMapper(
+                await httpClient.GetAsJsonAsyncWithListParameter<List<MMAEventModel>>(
+                    BookmakerApiConstant.FINISHED_MMA_EVENTS, PAGE, pages));
         }
 
         public async Task<List<FootballEventModel>> GetFootballEventsByIds(JArray idEvents)
@@ -61,12 +91,12 @@ namespace BookmakerClientApp.Data.Service
                 BookmakerApiConstant.FOOTBALL_EVENTS_BY_IDS, "idEvents", idEvents);
         }
 
-        private List<FootballEventDto> EventModelDtoMapper(List<FootballEventModel> footballEventDtos)
+        private List<FootballEventDto> FootballEventModelDtoMapper(List<FootballEventModel> footballEvents)
         {
             List<FootballEventDto> mappedFootballEventDtos = new List<FootballEventDto>();
             FootballEventDto footballEventDto = new FootballEventDto();
             int counter = 1;
-            foreach (FootballEventModel eventModel in footballEventDtos)
+            foreach (FootballEventModel eventModel in footballEvents)
             {
                 if (counter == 1)
                 {
@@ -75,6 +105,7 @@ namespace BookmakerClientApp.Data.Service
                     footballEventDto.Date = eventModel.Date;
                     footballEventDto.FirstTeamWinOdds = eventModel.Odds;
                     footballEventDto.SportName = "Piłka nożna";
+                    footballEventDto.NumberOfPages = eventModel.NumberOfPages;
                     counter++;
                     continue;
                 }
@@ -99,12 +130,12 @@ namespace BookmakerClientApp.Data.Service
             return mappedFootballEventDtos;
         }
 
-        private List<FootballEventDto> FinishedEventModelDtoMapper(List<FootballEventModel> footballEventDtos)
+        private List<FootballEventDto> FinishedFootballEventModelDtoMapper(List<FootballEventModel> footballEvents)
         {
             List<FootballEventDto> mappedFootballEventDtos = new List<FootballEventDto>();
             FootballEventDto footballEventDto = new FootballEventDto();
             int counter = 1;
-            foreach (FootballEventModel eventModel in footballEventDtos)
+            foreach (FootballEventModel eventModel in footballEvents)
             {
                 if (counter == 1)
                 {
@@ -137,6 +168,35 @@ namespace BookmakerClientApp.Data.Service
             }
 
             return mappedFootballEventDtos;
+        }
+
+        private List<MMAEventDto> MMAEventModelDtoMapper(List<MMAEventModel> mmaEvents)
+        {
+            List<MMAEventDto> mappedMmaEventDtos = new();
+            MMAEventDto mmaEventDto = new MMAEventDto();
+            int counter = 1;
+            mmaEvents.ForEach(mmaEvent =>
+            {
+                if (counter == 1)
+                {
+                    mmaEventDto.FirstFighterWinId = mmaEvent.IdEvent;
+                    mmaEventDto.FightersNames = mmaEvent.FirstFighterName + "-" + mmaEvent.SecondFighterName;
+                    mmaEventDto.Date = mmaEvent.Date;
+                    mmaEventDto.FirstFigherWinOdds = mmaEvent.Odds;
+                    mmaEventDto.MmaFightResult = mmaEvent.MmaFightResult;
+                    mmaEventDto.NumberOfPages = mmaEvent.NumberOfPages;
+                    counter++;
+                }
+                else if (counter == 2)
+                {
+                    mmaEventDto.SecondFighterWinId = mmaEvent.IdEvent;
+                    mmaEventDto.SecondFighterWinOdds = mmaEvent.Odds;
+                    counter++;
+                    mappedMmaEventDtos.Add(mmaEventDto);
+                    mmaEventDto = new();
+                }
+            });
+            return mappedMmaEventDtos;
         }
     }
 }
