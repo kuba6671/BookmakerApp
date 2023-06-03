@@ -1,6 +1,5 @@
 package com.bookmakerApp.facade.dtos.event;
 
-import com.bookmakerApp.facade.dtos.event.DefaultEventModelDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -14,5 +13,4 @@ public class FootballEventModelDto extends DefaultEventModelDto {
     private String visitingTeamName;
     private String visitingTeamCountry;
     private int visitingTeamGoals;
-    private int numberOfPages;
 }

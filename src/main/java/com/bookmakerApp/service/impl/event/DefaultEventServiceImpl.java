@@ -2,7 +2,9 @@ package com.bookmakerApp.service.impl.event;
 
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.SportModel;
+import com.bookmakerApp.model.enums.SportName;
 import com.bookmakerApp.model.football.FootballMatchModel;
+import com.bookmakerApp.model.mma.MMAFightModel;
 import com.bookmakerApp.repository.EventRepository;
 import com.bookmakerApp.repository.SportRepository;
 import com.bookmakerApp.service.interfaces.event.EventService;
@@ -25,11 +27,12 @@ public class DefaultEventServiceImpl implements EventService {
 
     private static final String FIRST_TEAM_WIN = "FIRST_TEAM_WIN";
     private static final String SECOND_TEAM_WIN = "SECOND_TEAM_WIN";
+    private static final String FIRST_FIGHTER_WIN = "FIRST_FIGHTER_WIN";
     private final static int PAGE_SIZE = 10;
 
     @Override
-    public Page<EventModel> getEventsByFinish(boolean finish, int pageNumber) {
-        return eventRepository.getEventModelsByFinish(finish, PageRequest.of(pageNumber, PAGE_SIZE));
+    public Page<EventModel> getEventsByFinishAndSportName(boolean finish, SportName sportName, int pageNumber) {
+        return eventRepository.getEventModelsByFinishAndSportSportName(finish, sportName, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     @Override
@@ -38,8 +41,8 @@ public class DefaultEventServiceImpl implements EventService {
     }
 
     @Override
-    public EventModel addEventModel(EventModel event) {
-        setOdds(event);
+    public EventModel addFootballEvent(EventModel event) {
+        setOddsForFootballEvent(event);
         return eventRepository.save(event);
     }
 
@@ -48,18 +51,17 @@ public class DefaultEventServiceImpl implements EventService {
         return eventRepository.getEventModelsByIdEventIn(idEvents);
     }
 
-    private void setOdds(EventModel event) {
-        SportModel sport = event.getSport();
+    private void setOddsForFootballEvent(EventModel event) {
+        SportModel sport = sportRepository
+                .getSportModelByIdSport(event.getSport().getIdSport());
         if (sport instanceof FootballMatchModel) {
-            FootballMatchModel footballMatch = (FootballMatchModel) sportRepository
-                    .getSportModelByIdSport(sport.getIdSport());
             String chosenResult = String.valueOf(event.getChosenResult());
-            Double odds = getOddsForChosenResult(footballMatch, chosenResult);
+            Double odds = getOddsForFootballForChosenResult((FootballMatchModel) sport, chosenResult);
             event.setOdds(odds);
         }
     }
 
-    private Double getOddsForChosenResult(FootballMatchModel footballMatch, String chosenResult) {
+    private Double getOddsForFootballForChosenResult(FootballMatchModel footballMatch, String chosenResult) {
         if (FIRST_TEAM_WIN.equals(chosenResult)) {
             return footballMatch.getHomeTeamWinOdds();
         } else if (SECOND_TEAM_WIN.equals(chosenResult)) {
@@ -67,5 +69,26 @@ public class DefaultEventServiceImpl implements EventService {
         } else {
             return footballMatch.getDraftOdds();
         }
+    }
+
+    @Override
+    public EventModel addMMAEvent(EventModel event) {
+        setOddsForMMAEvent(event);
+        return eventRepository.save(event);
+    }
+
+    private void setOddsForMMAEvent(EventModel event) {
+        SportModel sport = sportRepository
+                .getSportModelByIdSport(event.getSport().getIdSport());
+        if (sport instanceof MMAFightModel) {
+            String chosenResult = String.valueOf(event.getChosenResult());
+            Double odds = getOddsForMMAForChosenResult((MMAFightModel) sport, chosenResult);
+            event.setOdds(odds);
+        }
+    }
+
+    private Double getOddsForMMAForChosenResult(MMAFightModel mmaFight, String chosenResult) {
+        return FIRST_FIGHTER_WIN.equals(chosenResult)
+                ? mmaFight.getFirstFighterWinOdds() : mmaFight.getSecondFighterWinOdds();
     }
 }

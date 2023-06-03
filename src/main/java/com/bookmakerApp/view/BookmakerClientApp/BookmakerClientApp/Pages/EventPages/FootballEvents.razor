@@ -1,7 +1,9 @@
 ﻿@page "/footballEvents"
 @inherits LayoutComponentBase
 @using BookmakerClientApp.Data.Service
-@using BookmakerClientApp.Data.Model.Event
+@using BookmakerClientApp.Shared.EventComponents.Football
+@using BookmakerClientApp.Data.Model.Event.Football
+@using BookmakerClientApp.Shared.EventComponents
 @inject EventService eventService
 
 
@@ -17,7 +19,7 @@
 }
 else
 {
-    <EventComponent footballEventModelDtos="@footballEventModelDtos"/>
+    <FootballEventComponent footballEventModelDtos="@footballEventModelDtos"/>
     <div>
         <PaginationComponent numberOfPages="@numberOfPages" currentPageNumber="@currentPageNumber"
                              ChangeCurrentPageNumber="@ChangeCurrentPageNumber"/>

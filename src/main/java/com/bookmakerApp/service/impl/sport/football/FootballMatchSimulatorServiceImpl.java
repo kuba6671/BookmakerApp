@@ -1,4 +1,4 @@
-package com.bookmakerApp.service.impl.football;
+package com.bookmakerApp.service.impl.sport.football;
 
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.SportModel;
@@ -33,23 +33,21 @@ public class FootballMatchSimulatorServiceImpl implements SimulatorService {
 
     private void setSimulateResult(Long idSport) {
         List<EventModel> events = eventRepository.getEventModelsBySport_IdSportAndResultIsChecked(idSport, false);
-        events = events.stream()
+        events.stream()
                 .filter(this::isFootballMatchWithNoCheckedResult)
-                .toList();
-
-        for (EventModel event : events) {
-            FootballMatchModel footballMatch = (FootballMatchModel) event.getSport();
-            String chosenResult = String.valueOf(event.getChosenResult());
-            if (DRAFT.equals(chosenResult) && checkDraft(footballMatch)) {
-                event.setSuccess(true);
-            } else if (FIRST_TEAM_WIN.equals(chosenResult) && checkHomeTeamWin(footballMatch)) {
-                event.setSuccess(true);
-            } else {
-                event.setSuccess(SECOND_TEAM_WIN.equals(chosenResult) && !checkHomeTeamWin(footballMatch));
-            }
-            event.setFinish(true);
-            event.setResultIsChecked(true);
-        }
+                .forEach(event -> {
+                    FootballMatchModel footballMatch = (FootballMatchModel) event.getSport();
+                    String chosenResult = String.valueOf(event.getChosenResult());
+                    if (DRAFT.equals(chosenResult) && checkDraft(footballMatch)) {
+                        event.setSuccess(true);
+                    } else if (FIRST_TEAM_WIN.equals(chosenResult) && checkHomeTeamWin(footballMatch)) {
+                        event.setSuccess(true);
+                    } else {
+                        event.setSuccess(SECOND_TEAM_WIN.equals(chosenResult) && !checkHomeTeamWin(footballMatch));
+                    }
+                    event.setFinish(true);
+                    event.setResultIsChecked(true);
+                });
     }
 
     private boolean checkHomeTeamWin(FootballMatchModel match) {
