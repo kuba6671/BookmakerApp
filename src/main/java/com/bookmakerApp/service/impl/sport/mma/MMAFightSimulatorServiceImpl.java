@@ -34,19 +34,17 @@ public class MMAFightSimulatorServiceImpl implements SimulatorService {
 
     private void setSimulateResult(Long idSport) {
         List<EventModel> events = eventRepository.getEventModelsBySport_IdSportAndResultIsChecked(idSport, false);
-        events = events.stream()
+        events.stream()
                 .filter(this::isMMAFightWithNoCheckedResult)
-                .toList();
-
-        events.forEach(event -> {
-            MMAFightModel mmaFight = (MMAFightModel) event.getSport();
-            String chosenResult = String.valueOf(event.getChosenResult());
-            if (!MMAFightResult.UNFINISHED.equals(mmaFight.getFightResult())) {
-                event.setSuccess(chosenResult.equals(mmaFight.getFightResult().toString()));
-                event.setFinish(true);
-                event.setResultIsChecked(true);
-            }
-        });
+                .forEach(event -> {
+                    MMAFightModel mmaFight = (MMAFightModel) event.getSport();
+                    String chosenResult = String.valueOf(event.getChosenResult());
+                    if (!MMAFightResult.UNFINISHED.equals(mmaFight.getFightResult())) {
+                        event.setSuccess(chosenResult.equals(mmaFight.getFightResult().toString()));
+                        event.setFinish(true);
+                        event.setResultIsChecked(true);
+                    }
+                });
     }
 
     private void simulateMMAFightResult(EventModel event) {

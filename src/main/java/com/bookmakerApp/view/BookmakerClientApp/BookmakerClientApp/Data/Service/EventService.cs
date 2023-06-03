@@ -90,7 +90,7 @@ namespace BookmakerClientApp.Data.Service
             return await httpClient.GetAsJsonAsyncWithListParameter<List<FootballEventModel>>(
                 BookmakerApiConstant.FOOTBALL_EVENTS_BY_IDS, "idEvents", idEvents);
         }
-        
+
         public async Task<List<MMAEventModel>> GetMMAEventsByIds(JArray idEvents)
         {
             var token = authService.GetToken();
@@ -108,36 +108,33 @@ namespace BookmakerClientApp.Data.Service
             List<FootballEventDto> mappedFootballEventDtos = new List<FootballEventDto>();
             FootballEventDto footballEventDto = new FootballEventDto();
             int counter = 1;
-            foreach (FootballEventModel eventModel in footballEvents)
+            footballEvents.ForEach(footballEvent =>
             {
                 if (counter == 1)
                 {
-                    footballEventDto.FirstTeamWinEventId = eventModel.IdEvent;
-                    footballEventDto.FootballTeams = eventModel.HomeTeamName + "-" + eventModel.VisitingTeamName;
-                    footballEventDto.Date = eventModel.Date;
-                    footballEventDto.FirstTeamWinOdds = eventModel.Odds;
+                    footballEventDto.FirstTeamWinEventId = footballEvent.IdEvent;
+                    footballEventDto.FootballTeams = footballEvent.HomeTeamName + "-" + footballEvent.VisitingTeamName;
+                    footballEventDto.Date = footballEvent.Date;
+                    footballEventDto.FirstTeamWinOdds = footballEvent.Odds;
                     footballEventDto.SportName = "Piłka nożna";
-                    footballEventDto.NumberOfPages = eventModel.NumberOfPages;
+                    footballEventDto.NumberOfPages = footballEvent.NumberOfPages;
                     counter++;
-                    continue;
                 }
                 else if (counter == 2)
                 {
-                    footballEventDto.SecondTeamWinEventId = eventModel.IdEvent;
-                    footballEventDto.SecondTeamWinOdds = eventModel.Odds;
+                    footballEventDto.SecondTeamWinEventId = footballEvent.IdEvent;
+                    footballEventDto.SecondTeamWinOdds = footballEvent.Odds;
                     counter++;
-                    continue;
                 }
                 else if (counter == 3)
                 {
-                    footballEventDto.DraftEventId = eventModel.IdEvent;
-                    footballEventDto.DraftOdds = eventModel.Odds;
+                    footballEventDto.DraftEventId = footballEvent.IdEvent;
+                    footballEventDto.DraftOdds = footballEvent.Odds;
                     counter = 1;
                     mappedFootballEventDtos.Add(footballEventDto);
                     footballEventDto = new FootballEventDto();
-                    continue;
                 }
-            }
+            });
 
             return mappedFootballEventDtos;
         }
@@ -147,37 +144,34 @@ namespace BookmakerClientApp.Data.Service
             List<FootballEventDto> mappedFootballEventDtos = new List<FootballEventDto>();
             FootballEventDto footballEventDto = new FootballEventDto();
             int counter = 1;
-            foreach (FootballEventModel eventModel in footballEvents)
+            footballEvents.ForEach(footballEvent =>
             {
                 if (counter == 1)
                 {
-                    footballEventDto.FirstTeamWinEventId = eventModel.IdEvent;
-                    footballEventDto.FootballTeams = eventModel.HomeTeamName + "-" + eventModel.VisitingTeamName;
-                    footballEventDto.Date = eventModel.Date;
-                    footballEventDto.FirstTeamWinOdds = eventModel.Odds;
+                    footballEventDto.FirstTeamWinEventId = footballEvent.IdEvent;
+                    footballEventDto.FootballTeams = footballEvent.HomeTeamName + "-" + footballEvent.VisitingTeamName;
+                    footballEventDto.Date = footballEvent.Date;
+                    footballEventDto.FirstTeamWinOdds = footballEvent.Odds;
                     footballEventDto.SportName = "Piłka nożna";
-                    footballEventDto.HomeTeamGoals = eventModel.HomeTeamGoals;
-                    footballEventDto.VisitingTeamGoals = eventModel.VisitingTeamGoals;
+                    footballEventDto.HomeTeamGoals = footballEvent.HomeTeamGoals;
+                    footballEventDto.VisitingTeamGoals = footballEvent.VisitingTeamGoals;
                     counter++;
-                    continue;
                 }
                 else if (counter == 2)
                 {
-                    footballEventDto.SecondTeamWinEventId = eventModel.IdEvent;
-                    footballEventDto.SecondTeamWinOdds = eventModel.Odds;
+                    footballEventDto.SecondTeamWinEventId = footballEvent.IdEvent;
+                    footballEventDto.SecondTeamWinOdds = footballEvent.Odds;
                     counter++;
-                    continue;
                 }
                 else if (counter == 3)
                 {
-                    footballEventDto.DraftEventId = eventModel.IdEvent;
-                    footballEventDto.DraftOdds = eventModel.Odds;
+                    footballEventDto.DraftEventId = footballEvent.IdEvent;
+                    footballEventDto.DraftOdds = footballEvent.Odds;
                     counter = 1;
                     mappedFootballEventDtos.Add(footballEventDto);
                     footballEventDto = new FootballEventDto();
-                    continue;
                 }
-            }
+            });
 
             return mappedFootballEventDtos;
         }
