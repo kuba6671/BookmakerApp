@@ -1,0 +1,59 @@
+﻿@page "/mmaFinishedEventComponent"
+@using Newtonsoft.Json.Linq
+@using BookmakerClientApp.Data.Extension
+@using BookmakerClientApp.Data.Model.Event.MMA
+
+
+@if (mmaEventDtos == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <body class="large-screen">
+    <div class="wrap">
+        <div class="table-wrapper">
+            <table class="table-responsive card-list-table">
+                <thead>
+                <tr>
+                    <th>Zawodnicy</th>
+                    <th>Dyscyplina</th>
+                    <th>Data</th>
+                    <th>Wynik</th>
+                    <th>1</th>
+                    <th>2</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (MMAEventDto mmaFight in mmaEventDtos)
+                {
+                    <tr>
+                        <td data-title="Zawodnicy">@mmaFight.FightersNames</td>
+                        <td data-title="Dyscyplina">@mmaFight.SportName</td>
+                        <td data-title="Data">@mmaFight.Date</td>
+                        <td data-title="Wynik">@mmaFight.MmaFightResult</td>
+                        <td data-title="1">
+                            <button class="btn btn-primary" disabled>@mmaFight.FirstFigherWinOdds</button>
+                        </td>
+                        <td data-title="2">
+                            <button class="btn btn-primary" disabled>@mmaFight.SecondFighterWinOdds</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+}
+
+
+
+@code {
+
+    [Parameter]
+    public IReadOnlyList<MMAEventDto> mmaEventDtos { get; set; }
+
+}

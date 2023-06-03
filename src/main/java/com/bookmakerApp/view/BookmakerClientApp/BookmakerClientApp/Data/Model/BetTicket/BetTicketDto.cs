@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BookmakerClientApp.Data.Model.Event;
+using BookmakerClientApp.Data.Model.Event.Football;
 using BookmakerClientApp.Data.Model.User;
 using Newtonsoft.Json;
 
@@ -16,7 +17,7 @@ namespace BookmakerClientApp.Data.Model.BetTicket
         private Double totalOdds;
         private DateTime date;
         [JsonProperty(PropertyName = "events")]
-        private List<FootballEventModel> events;
+        private List<EventModel> events;
         [JsonProperty(PropertyName = "user")]
         private UserModel user;
         private int numberOfPages;
@@ -26,7 +27,7 @@ namespace BookmakerClientApp.Data.Model.BetTicket
         public decimal ToWin { get => toWin; set => toWin = value; }
         public double TotalOdds { get => totalOdds; set => totalOdds = value; }
         public DateTime Date { get => date; set => date = value; }
-        public List<FootballEventModel> Events { get => events; set => events = value; }
+        public List<EventModel> Events { get => events; set => events = value; }
         public bool? Finish { get => finish; set => finish = value; }
         public bool? Success { get => success; set => success = value; }
         public UserModel User { get => user; set => user = value; }

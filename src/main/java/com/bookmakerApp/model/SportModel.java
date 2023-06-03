@@ -1,5 +1,6 @@
 package com.bookmakerApp.model;
 
+import com.bookmakerApp.model.enums.SportName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,5 +14,6 @@ public class SportModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idSport;
-    private String sportName;
+    @Enumerated(EnumType.STRING)
+    private SportName sportName;
 }

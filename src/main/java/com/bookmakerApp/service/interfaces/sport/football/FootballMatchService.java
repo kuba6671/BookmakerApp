@@ -1,4 +1,4 @@
-package com.bookmakerApp.service.interfaces.football;
+package com.bookmakerApp.service.interfaces.sport.football;
 
 import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.model.football.FootballTeamModel;
