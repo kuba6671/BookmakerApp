@@ -8,6 +8,7 @@ import com.bookmakerApp.facade.mappers.MMAEventModelDtoMapper;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.enums.SportName;
 import com.bookmakerApp.model.football.FootballMatchModel;
+import com.bookmakerApp.model.mma.MMAFightModel;
 import com.bookmakerApp.service.impl.event.DefaultEventServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -68,7 +69,20 @@ public class DefaultEventFacadeImpl implements EventFacade {
         return FootballEventModelDtoMapper.mapToFootballEventModelDtos(events, 0);
     }
 
-    public EventModel addEvent(EventModel event) {
-        return defaultEventService.addEventModel(event);
+    @Override
+    public List<MMAEventModelDto> getMMAEventsByIds(List<Long> idEvents) {
+        List<EventModel> events = defaultEventService.getEventsByIds(idEvents);
+        events = events.stream()
+                .filter(event -> event.getSport() instanceof MMAFightModel)
+                .collect(Collectors.toList());
+        return MMAEventModelDtoMapper.mapToMMAEventModelDtos(events, 0);
+    }
+
+    public EventModel addFootballEvent(EventModel event) {
+        return defaultEventService.addFootballEvent(event);
+    }
+
+    public EventModel addMMAEvent(EventModel event) {
+        return defaultEventService.addMMAEvent(event);
     }
 }

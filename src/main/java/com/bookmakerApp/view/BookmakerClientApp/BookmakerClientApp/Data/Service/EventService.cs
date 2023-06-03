@@ -90,6 +90,18 @@ namespace BookmakerClientApp.Data.Service
             return await httpClient.GetAsJsonAsyncWithListParameter<List<FootballEventModel>>(
                 BookmakerApiConstant.FOOTBALL_EVENTS_BY_IDS, "idEvents", idEvents);
         }
+        
+        public async Task<List<MMAEventModel>> GetMMAEventsByIds(JArray idEvents)
+        {
+            var token = authService.GetToken();
+            if (httpClient.DefaultRequestHeaders.Authorization == null)
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+            }
+
+            return await httpClient.GetAsJsonAsyncWithListParameter<List<MMAEventModel>>(
+                BookmakerApiConstant.MMA_EVENTS_BY_IDS, "idEvents", idEvents);
+        }
 
         private List<FootballEventDto> FootballEventModelDtoMapper(List<FootballEventModel> footballEvents)
         {

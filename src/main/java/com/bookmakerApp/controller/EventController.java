@@ -44,8 +44,19 @@ public class EventController {
         return eventFacade.getFootballEventsByIds(idEvents);
     }
 
+    @GetMapping("/events/mmaEventsByIds")
+    public List<MMAEventModelDto> getMMAEventsByIds(
+            @RequestParam(required = false, defaultValue = "") List<Long> idEvents) {
+        return eventFacade.getMMAEventsByIds(idEvents);
+    }
+
     @PostMapping("/footballEvent")
     public EventModel addFootballEvent(@RequestBody EventModel event) {
-        return eventFacade.addEvent(event);
+        return eventFacade.addFootballEvent(event);
+    }
+
+    @PostMapping("/mmaEvent")
+    public EventModel addMMAEvent(@RequestBody EventModel event) {
+        return eventFacade.addMMAEvent(event);
     }
 }

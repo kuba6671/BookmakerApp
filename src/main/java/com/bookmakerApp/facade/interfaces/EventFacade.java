@@ -15,4 +15,6 @@ public interface EventFacade {
     List<MMAEventModelDto> getFinishedMMAEvents(int pageNumber);
 
     List<FootballEventModelDto> getFootballEventsByIds(List<Long> idEvents);
+
+    List<MMAEventModelDto> getMMAEventsByIds(List<Long> idEvents);
 }

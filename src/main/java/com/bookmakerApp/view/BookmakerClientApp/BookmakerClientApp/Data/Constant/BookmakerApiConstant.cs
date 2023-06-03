@@ -9,6 +9,7 @@
         public const string UNFINISHED_FOOTBALL_EVENTS = BASE_URL + "events/unfinishedFootballEvents";
         public const string FINISHED_FOOTBALL_EVENTS = BASE_URL + "events/finishedFootballEvents";
         public const string FOOTBALL_EVENTS_BY_IDS = BASE_URL + "events/footballEventsByIds";
+        public const string MMA_EVENTS_BY_IDS = BASE_URL + "events/mmaEventsByIds";
         public const string ALL_BET_TICKET_FOR_USER = BASE_URL + "betTicketsUser/";
         public const string WON_BET_TICKET_FOR_USER = BASE_URL + "betTicketsWon/";
         public const string LOST_BET_TICKET_FOR_USER = BASE_URL + "betTicketsLost/";

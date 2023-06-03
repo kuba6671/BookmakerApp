@@ -12,7 +12,9 @@ public interface EventService {
 
     List<EventModel> getEventByDateBeforeAndResultIsChecked(Date date, boolean isChecked);
 
-    EventModel addEventModel(EventModel event);
+    EventModel addFootballEvent(EventModel event);
+
+    EventModel addMMAEvent(EventModel event);
 
     List<EventModel> getEventsByIds(List<Long> idEvents);
 }

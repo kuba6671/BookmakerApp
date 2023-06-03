@@ -36,6 +36,7 @@ public class MMAEventModelDtoMapper {
                 .secondFighterCountry(secondFighter.getCountry())
                 .secondFighterRecord(secondFighter.getRecord().toString())
                 .mmaFightResult(mmaFight.getFightResult().toString())
+                .chosenResult(event.getChosenResult().toString())
                 .numberOfPages(numberOfPages)
                 .build();
     }

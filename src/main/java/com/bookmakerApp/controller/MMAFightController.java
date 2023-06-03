@@ -18,12 +18,12 @@ public class MMAFightController {
     private final MMAFightServiceImpl mmaFightService;
 
     @PostMapping("/mmaFight")
-    public MMAFightModel addFootballMatch(@RequestBody MMAFightModel mmaFight) {
+    public MMAFightModel addMMAFight(@RequestBody MMAFightModel mmaFight) {
         return mmaFightService.addMMAFight(mmaFight);
     }
 
     @PostMapping("/mmaFighter")
-    public MMAFighterModel addFootballTeam(@RequestBody MMAFighterModel mmaFighter) {
+    public MMAFighterModel addMMAFighter(@RequestBody MMAFighterModel mmaFighter) {
         return mmaFightService.addMMAFighter(mmaFighter);
     }
 

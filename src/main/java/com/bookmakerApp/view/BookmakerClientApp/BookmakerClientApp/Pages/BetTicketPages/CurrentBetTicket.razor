@@ -4,6 +4,7 @@
 @using BookmakerClientApp.Data.Model.BetTicket
 @using BookmakerClientApp.Data.Model.Event
 @using BookmakerClientApp.Data.Model.Event.Football
+@using BookmakerClientApp.Data.Model.Event.MMA
 @using BookmakerClientApp.Data.Model.User
 @using BookmakerClientApp.Data.Service
 @inject BetTicketService betTicketService
@@ -12,7 +13,7 @@
 @inject IJSRuntime JS
 
 <br/>
-@if (eventsList.Count != 0)
+@if (footballEvents.Count != 0)
 {
     <body class="large-screen">
     <div class="wrap">
@@ -20,7 +21,7 @@
             <table class="table-responsive card-list-table">
                 <thead>
                 <tr>
-                    <th>Drużyny</th>
+                    <th>Zdarzenie</th>
                     <th>Dyscyplina</th>
                     <th>Data</th>
                     <th>Kurs</th>
@@ -29,14 +30,27 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (FootballEventModel eventModel in eventsList)
+                @foreach (FootballEventModel eventModel in footballEvents)
                 {
                     <tr>
-                        <td data-title="Drużyny">@eventModel.HomeTeamName-@eventModel.VisitingTeamName</td>
+                        <td data-title="Zdarzenie">@eventModel.HomeTeamName-@eventModel.VisitingTeamName</td>
                         <td data-title="Dyscyplina">Piłka nożna</td>
                         <td data-title="Data">@eventModel.Date</td>
                         <td data-title="Kurs">@eventModel.Odds</td>
                         <td data-title="Wybrany wynik">@ChangeFormat(@eventModel.ChosenResult)</td>
+                        <td data-title="Usuń">
+                            <button class="btn btn-primary" @onclick="() => RemoveEvent(eventModel.IdEvent)">Usuń</button>
+                        </td>
+                    </tr>
+                }
+                @foreach (MMAEventModel eventModel in mmaEvents)
+                {
+                    <tr>
+                        <td data-title="Zdarzenie">@eventModel.FirstFighterName-@eventModel.SecondFighterName</td>
+                        <td data-title="Dyscyplina">MMA</td>
+                        <td data-title="Data">@eventModel.Date</td>
+                        <td data-title="Kurs">@eventModel.Odds</td>
+                        <td data-title="Wybrany wynik">@ChangeFormatForMMA(@eventModel.ChosenResult, @eventModel.FirstFighterName, @eventModel.SecondFighterName)</td>
                         <td data-title="Usuń">
                             <button class="btn btn-primary" @onclick="() => RemoveEvent(eventModel.IdEvent)">Usuń</button>
                         </td>
@@ -83,7 +97,8 @@ else
 
 @code{
     private JArray eventsIdList = new();
-    private List<FootballEventModel> eventsList = new();
+    private List<FootballEventModel> footballEvents = new();
+    private List<MMAEventModel> mmaEvents = new();
     private double deposit;
     private BetTicketDto betTicketDto = new();
     private double odds = 1.0;
@@ -94,7 +109,12 @@ else
     {
         GetListFromLocalStorage();
         await GetFootballEvents();
-        betTicketDto.Events = eventsList;
+        await GetMMAEvents();
+        CountOdds();
+        List<EventModel> connectEventsList = new();
+        connectEventsList.AddRange(footballEvents);
+        connectEventsList.AddRange(mmaEvents);
+        betTicketDto.Events = connectEventsList;
     }
 
     private void GetListFromLocalStorage()
@@ -106,8 +126,12 @@ else
 
     private async Task GetFootballEvents()
     {
-        eventsList = await eventService.GetFootballEventsByIds(eventsIdList);
-        CountOdds();
+        footballEvents = await eventService.GetFootballEventsByIds(eventsIdList);
+    }
+
+    private async Task GetMMAEvents()
+    {
+        mmaEvents = await eventService.GetMMAEventsByIds(eventsIdList);
     }
 
     private async Task AddBetTicket()
@@ -121,9 +145,10 @@ else
         if (statusCode.Equals("OK"))
         {
             string key = "events-list";
-            eventsList = new List<FootballEventModel>();
+            footballEvents = new();
+            mmaEvents = new();
             LocalStorageExtension localStorage = LocalStorageExtension.GetInstance();
-            localStorage.Store(key, eventsList);
+            localStorage.Store(key, footballEvents);
         }
         else
         {
@@ -135,9 +160,13 @@ else
 
     private void CountOdds()
     {
-        foreach (FootballEventModel footballEvent in eventsList)
+        foreach (FootballEventModel footballEvent in footballEvents)
         {
             odds *= footballEvent.Odds;
+        }
+        foreach (MMAEventModel mmaEvent in mmaEvents)
+        {
+            odds *= mmaEvent.Odds;
         }
     }
 
@@ -184,6 +213,23 @@ else
         else
         {
             result = "Remis";
+        }
+        return result;
+    }
+
+    private String ChangeFormatForMMA(String result, string firstFighterName, string secondFighterName)
+    {
+        if (result.Equals("FIRST_FIGHTER_WIN"))
+        {
+            result = "Wygra " + firstFighterName;
+        }
+        else if (result.Equals("SECOND_FIGHTER_WIN"))
+        {
+            result = "Wygra " + secondFighterName;
+        }
+        else
+        {
+            result = "";
         }
         return result;
     }
