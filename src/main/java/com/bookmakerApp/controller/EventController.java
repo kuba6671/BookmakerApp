@@ -1,6 +1,8 @@
 package com.bookmakerApp.controller;
 
 import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
+import com.bookmakerApp.facade.dtos.event.GroupedFootballEventsDto;
+import com.bookmakerApp.facade.dtos.event.GroupedMMAEventDto;
 import com.bookmakerApp.facade.dtos.event.MMAEventModelDto;
 import com.bookmakerApp.facade.impl.DefaultEventFacadeImpl;
 import com.bookmakerApp.model.EventModel;
@@ -19,22 +21,22 @@ public class EventController {
     private final DefaultEventFacadeImpl eventFacade;
 
     @GetMapping("/events/unfinishedFootballEvents")
-    public List<FootballEventModelDto> getUnfinishedFootballEvents(@RequestParam(defaultValue = "0") int pageNumber) {
+    public List<GroupedFootballEventsDto> getUnfinishedFootballEvents(@RequestParam(defaultValue = "0") int pageNumber) {
         return eventFacade.getUnfinishedFootballEvents(pageNumber);
     }
 
     @GetMapping("/events/finishedFootballEvents")
-    public List<FootballEventModelDto> getFinishedFootballEvents(@RequestParam(defaultValue = "0") int pageNumber) {
+    public List<GroupedFootballEventsDto> getFinishedFootballEvents(@RequestParam(defaultValue = "0") int pageNumber) {
         return eventFacade.getFinishedFootballEvents(pageNumber);
     }
 
     @GetMapping("/events/unfinishedMMAEvents")
-    public List<MMAEventModelDto> getUnfinishedMMAEvents(@RequestParam(defaultValue = "0") int pageNumber) {
+    public List<GroupedMMAEventDto> getUnfinishedMMAEvents(@RequestParam(defaultValue = "0") int pageNumber) {
         return eventFacade.getUnfinishedMMAEvents(pageNumber);
     }
 
     @GetMapping("/events/finishedMMAEvents")
-    public List<MMAEventModelDto> getFinishedMMAEvents(@RequestParam(defaultValue = "0") int pageNumber) {
+    public List<GroupedMMAEventDto> getFinishedMMAEvents(@RequestParam(defaultValue = "0") int pageNumber) {
         return eventFacade.getFinishedMMAEvents(pageNumber);
     }
 

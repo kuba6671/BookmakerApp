@@ -29,7 +29,7 @@ else
                 @foreach (FootballEventDto footballMatch in footballEventModelDtos)
                 {
                     <tr>
-                        <td data-title="Drużyny">@footballMatch.FootballTeams</td>
+                        <td data-title="Drużyny">@footballMatch.FirstTeamName-@footballMatch.SecondTeamName</td>
                         <td data-title="Dyscyplina">@footballMatch.SportName</td>
                         <td data-title="Data">@footballMatch.Date</td>
                         <td data-title="Wynik">@footballMatch.HomeTeamGoals : @footballMatch.VisitingTeamGoals</td>

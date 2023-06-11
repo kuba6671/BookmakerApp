@@ -28,7 +28,7 @@ public class DefaultEventServiceImpl implements EventService {
     private static final String FIRST_TEAM_WIN = "FIRST_TEAM_WIN";
     private static final String SECOND_TEAM_WIN = "SECOND_TEAM_WIN";
     private static final String FIRST_FIGHTER_WIN = "FIRST_FIGHTER_WIN";
-    private final static int PAGE_SIZE = 10;
+    private final static int PAGE_SIZE = 18;
 
     @Override
     public Page<EventModel> getEventsByFinishAndSportName(boolean finish, SportName sportName, int pageNumber) {
