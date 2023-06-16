@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static com.bookmakerApp.model.enums.ChosenResult.*;
+
 @Service
 @RequiredArgsConstructor
 @Qualifier("DefaultEventServiceImpl")
@@ -53,14 +55,14 @@ public class DefaultEventServiceImpl implements EventService {
         if (footballMatch instanceof FootballMatchModel) {
             Date eventDate = addEventDto.getDate();
             EventModel firstTeamWinEvent = createEvent(
-                    footballMatch, eventDate, ChosenResult.FIRST_TEAM_WIN,
-                    () -> getOddsForFootballForChosenResult((FootballMatchModel) footballMatch, ChosenResult.FIRST_TEAM_WIN));
+                    footballMatch, eventDate, FIRST_TEAM_WIN,
+                    () -> getOddsForFootballForChosenResult((FootballMatchModel) footballMatch, FIRST_TEAM_WIN));
             EventModel secondTeamWinEvent = createEvent(
-                    footballMatch, eventDate, ChosenResult.SECOND_TEAM_WIN,
-                    () -> getOddsForFootballForChosenResult((FootballMatchModel) footballMatch, ChosenResult.SECOND_TEAM_WIN));
+                    footballMatch, eventDate, SECOND_TEAM_WIN,
+                    () -> getOddsForFootballForChosenResult((FootballMatchModel) footballMatch, SECOND_TEAM_WIN));
             EventModel draftEvent = createEvent(
-                    footballMatch, eventDate, ChosenResult.DRAFT,
-                    () -> getOddsForFootballForChosenResult((FootballMatchModel) footballMatch, ChosenResult.DRAFT));
+                    footballMatch, eventDate, DRAFT,
+                    () -> getOddsForFootballForChosenResult((FootballMatchModel) footballMatch, DRAFT));
             return eventRepository.saveAll(List.of(firstTeamWinEvent, secondTeamWinEvent, draftEvent));
         } else {
             throw new IllegalArgumentException("SportModel is not FootballMatchModel");
@@ -74,11 +76,11 @@ public class DefaultEventServiceImpl implements EventService {
         if (mmaMatch instanceof MMAFightModel) {
             Date eventDate = addEventDto.getDate();
             EventModel firstFighterWinEvent = createEvent(
-                    mmaMatch, eventDate, ChosenResult.FIRST_FIGHTER_WIN,
-                    () -> getOddsForMMAForChosenResult((MMAFightModel) mmaMatch, ChosenResult.FIRST_FIGHTER_WIN));
+                    mmaMatch, eventDate, FIRST_FIGHTER_WIN,
+                    () -> getOddsForMMAForChosenResult((MMAFightModel) mmaMatch, FIRST_FIGHTER_WIN));
             EventModel secondFighterWinEvent = createEvent(
-                    mmaMatch, eventDate, ChosenResult.SECOND_FIGHTER_WIN,
-                    () -> getOddsForMMAForChosenResult((MMAFightModel) mmaMatch, ChosenResult.SECOND_FIGHTER_WIN));
+                    mmaMatch, eventDate, SECOND_FIGHTER_WIN,
+                    () -> getOddsForMMAForChosenResult((MMAFightModel) mmaMatch, SECOND_FIGHTER_WIN));
             return eventRepository.saveAll(List.of(firstFighterWinEvent, secondFighterWinEvent));
         } else {
             throw new IllegalArgumentException("SportModel is not FootballMatchModel");
@@ -107,7 +109,7 @@ public class DefaultEventServiceImpl implements EventService {
     }
 
     private Double getOddsForMMAForChosenResult(MMAFightModel mmaFight, ChosenResult chosenResult) {
-        return ChosenResult.FIRST_FIGHTER_WIN.equals(chosenResult)
+        return FIRST_FIGHTER_WIN.equals(chosenResult)
                 ? mmaFight.getFirstFighterWinOdds() : mmaFight.getSecondFighterWinOdds();
     }
 }

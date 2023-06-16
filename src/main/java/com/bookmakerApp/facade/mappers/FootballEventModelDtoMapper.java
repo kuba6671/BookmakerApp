@@ -3,7 +3,6 @@ package com.bookmakerApp.facade.mappers;
 import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
 import com.bookmakerApp.facade.dtos.event.GroupedFootballEventsDto;
 import com.bookmakerApp.model.EventModel;
-import com.bookmakerApp.model.enums.ChosenResult;
 import com.bookmakerApp.model.enums.SportName;
 import com.bookmakerApp.model.football.FootballMatchModel;
 import lombok.extern.slf4j.Slf4j;
@@ -56,9 +55,11 @@ public class FootballEventModelDtoMapper {
         return groupedFootballEvent;
     }
 
-    private static GroupedFootballEventsDto buildGroupedFootballEvent(EventModel footballEvent, GroupedFootballEventsDto groupedFootballEvent, int numberOfPages) {
-        if (ChosenResult.FIRST_TEAM_WIN.equals(footballEvent.getChosenResult())) {
-            groupedFootballEvent = groupedFootballEvent.toBuilder()
+    private static GroupedFootballEventsDto buildGroupedFootballEvent(EventModel footballEvent,
+                                                                      GroupedFootballEventsDto groupedFootballEvent,
+                                                                      int numberOfPages) {
+        switch (footballEvent.getChosenResult()) {
+            case FIRST_TEAM_WIN -> groupedFootballEvent = groupedFootballEvent.toBuilder()
                     .firstTeamWinEventId(footballEvent.getIdEvent())
                     .firstTeamName(((FootballMatchModel) footballEvent.getSport()).getHomeTeam().getName())
                     .secondTeamName(((FootballMatchModel) footballEvent.getSport()).getVisitingTeam().getName())
@@ -69,18 +70,15 @@ public class FootballEventModelDtoMapper {
                     .visitingTeamGoals(((FootballMatchModel) footballEvent.getSport()).getVisitingTeamGoals())
                     .numberOfPages(numberOfPages)
                     .build();
-        } else if (ChosenResult.SECOND_TEAM_WIN.equals(footballEvent.getChosenResult())) {
-            groupedFootballEvent = groupedFootballEvent.toBuilder()
+            case SECOND_TEAM_WIN -> groupedFootballEvent = groupedFootballEvent.toBuilder()
                     .secondTeamWinEventId(footballEvent.getIdEvent())
                     .secondTeamWinOdds(footballEvent.getOdds())
                     .build();
-        } else if (ChosenResult.DRAFT.equals(footballEvent.getChosenResult())) {
-            groupedFootballEvent = groupedFootballEvent.toBuilder()
+            case DRAFT -> groupedFootballEvent = groupedFootballEvent.toBuilder()
                     .draftEventId(footballEvent.getIdEvent())
                     .draftOdds(footballEvent.getOdds())
                     .build();
-        } else {
-            log.warn("The chosen result in event is wrong");
+            default -> log.warn("The chosen result in event is wrong");
         }
         return groupedFootballEvent;
     }

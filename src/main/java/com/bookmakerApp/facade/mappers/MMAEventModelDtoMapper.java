@@ -3,7 +3,6 @@ package com.bookmakerApp.facade.mappers;
 import com.bookmakerApp.facade.dtos.event.GroupedMMAEventDto;
 import com.bookmakerApp.facade.dtos.event.MMAEventModelDto;
 import com.bookmakerApp.model.EventModel;
-import com.bookmakerApp.model.enums.ChosenResult;
 import com.bookmakerApp.model.mma.MMAFightModel;
 import com.bookmakerApp.model.mma.MMAFighterModel;
 import lombok.extern.slf4j.Slf4j;
@@ -59,8 +58,8 @@ public class MMAEventModelDtoMapper {
     }
 
     private static GroupedMMAEventDto buildGroupedMMAEvent(EventModel MMAEvent, GroupedMMAEventDto groupedMMAEvent, int numberOfPages) {
-        if (ChosenResult.FIRST_FIGHTER_WIN.equals(MMAEvent.getChosenResult())) {
-            groupedMMAEvent = groupedMMAEvent.toBuilder()
+        switch (MMAEvent.getChosenResult()) {
+            case FIRST_FIGHTER_WIN -> groupedMMAEvent = groupedMMAEvent.toBuilder()
                     .firstFighterWinId(MMAEvent.getIdEvent())
                     .firstFighterName(((MMAFightModel) MMAEvent.getSport()).
                             getFirstFighter().getName()
@@ -73,13 +72,11 @@ public class MMAEventModelDtoMapper {
                     .mmaFightResult(((MMAFightModel) MMAEvent.getSport()).getFightResult().toString())
                     .numberOfPages(numberOfPages)
                     .build();
-        } else if (ChosenResult.SECOND_FIGHTER_WIN.equals(MMAEvent.getChosenResult())) {
-            groupedMMAEvent = groupedMMAEvent.toBuilder()
+            case SECOND_FIGHTER_WIN -> groupedMMAEvent = groupedMMAEvent.toBuilder()
                     .secondFighterWinId(MMAEvent.getIdEvent())
                     .secondFighterWinOdds(MMAEvent.getOdds())
                     .build();
-        } else {
-            log.warn("The chosen result in event is wrong");
+            default -> log.warn("The chosen result in event is wrong");
         }
         return groupedMMAEvent;
     }
