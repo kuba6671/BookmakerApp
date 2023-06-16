@@ -98,5 +98,34 @@ namespace BookmakerClientApp.Data.Service
             return await httpClient.GetAsJsonAsyncWithListParameter<List<MMAEventModel>>(
                 BookmakerApiConstant.MMA_EVENTS_BY_IDS, "idEvents", idEvents);
         }
+
+        private List<MMAEventDto> MMAEventModelDtoMapper(List<MMAEventModel> mmaEvents)
+        {
+            List<MMAEventDto> mappedMmaEventDtos = new();
+            MMAEventDto mmaEventDto = new MMAEventDto();
+            int counter = 1;
+            mmaEvents.ForEach(mmaEvent =>
+            {
+                if (counter == 1)
+                {
+                    mmaEventDto.FirstFighterWinId = mmaEvent.IdEvent;
+                    mmaEventDto.FightersNames = mmaEvent.FirstFighterName + "-" + mmaEvent.SecondFighterName;
+                    mmaEventDto.Date = mmaEvent.Date;
+                    mmaEventDto.FirstFigherWinOdds = mmaEvent.Odds;
+                    mmaEventDto.MmaFightResult = mmaEvent.MmaFightResult;
+                    mmaEventDto.NumberOfPages = mmaEvent.NumberOfPages;
+                    counter++;
+                }
+                else if (counter == 2)
+                {
+                    mmaEventDto.SecondFighterWinId = mmaEvent.IdEvent;
+                    mmaEventDto.SecondFighterWinOdds = mmaEvent.Odds;
+                    counter++;
+                    mappedMmaEventDtos.Add(mmaEventDto);
+                    mmaEventDto = new();
+                }
+            });
+            return mappedMmaEventDtos;
+        }
     }
 }
