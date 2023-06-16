@@ -30,12 +30,12 @@ else
                 @foreach (MMAEventDto mmaFight in mmaEventDtos)
                 {
                     <tr>
-                        <td data-title="Zawodnicy">@mmaFight.FightersNames</td>
+                        <td data-title="Zawodnicy">@mmaFight.FirstFighterName-@mmaFight.SecondFighterName</td>
                         <td data-title="Dyscyplina">@mmaFight.SportName</td>
                         <td data-title="Data">@mmaFight.Date</td>
                         <td data-title="Wynik">@mmaFight.MmaFightResult</td>
                         <td data-title="1">
-                            <button class="btn btn-primary" disabled>@mmaFight.FirstFigherWinOdds</button>
+                            <button class="btn btn-primary" disabled>@mmaFight.FirstFighterWinOdds</button>
                         </td>
                         <td data-title="2">
                             <button class="btn btn-primary" disabled>@mmaFight.SecondFighterWinOdds</button>
