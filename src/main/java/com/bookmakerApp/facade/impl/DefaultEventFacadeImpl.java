@@ -1,9 +1,6 @@
 package com.bookmakerApp.facade.impl;
 
-import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
-import com.bookmakerApp.facade.dtos.event.GroupedFootballEventsDto;
-import com.bookmakerApp.facade.dtos.event.GroupedMMAEventDto;
-import com.bookmakerApp.facade.dtos.event.MMAEventModelDto;
+import com.bookmakerApp.facade.dtos.event.*;
 import com.bookmakerApp.facade.interfaces.EventFacade;
 import com.bookmakerApp.facade.mappers.FootballEventModelDtoMapper;
 import com.bookmakerApp.facade.mappers.MMAEventModelDtoMapper;
@@ -14,10 +11,12 @@ import com.bookmakerApp.model.mma.MMAFightModel;
 import com.bookmakerApp.service.impl.event.DefaultEventServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +46,8 @@ public class DefaultEventFacadeImpl implements EventFacade {
     private List<GroupedFootballEventsDto> getMappedFootballEvents(int pageNumber, boolean isFinish) {
         ImmutablePair<List<EventModel>, Integer> footballEvents =
                 getEventsByFinishAndSportName(isFinish, SportName.Football, pageNumber);
-        Map<Long, List<EventModel>> groupedEvents = footballEvents.getLeft().stream()
-                .collect(groupingBy(event -> event.getSport().getIdSport()));
+        Map<Pair<Long, Date>, List<EventModel>> groupedEvents = footballEvents.getLeft().stream()
+                .collect(groupingBy(event -> new ImmutablePair<>(event.getSport().getIdSport(), event.getDate())));
         List<GroupedFootballEventsDto> mappedFootballEvents = new LinkedList<>();
         groupedEvents.forEach((key, value) ->
                 mappedFootballEvents.add(FootballEventModelDtoMapper.mapToGroupedFootballEventDtos(value, footballEvents.getRight())));
@@ -69,8 +68,8 @@ public class DefaultEventFacadeImpl implements EventFacade {
     private List<GroupedMMAEventDto> getMappedMMAEvents(int pageNumber, boolean isFinish) {
         ImmutablePair<List<EventModel>, Integer> mmaEvents =
                 getEventsByFinishAndSportName(isFinish, SportName.MMA, pageNumber);
-        Map<Long, List<EventModel>> groupedEvents = mmaEvents.getLeft().stream()
-                .collect(groupingBy(event -> event.getSport().getIdSport()));
+        Map<Pair<Long, Date>, List<EventModel>> groupedEvents = mmaEvents.getLeft().stream()
+                .collect(groupingBy(event -> new ImmutablePair<>(event.getSport().getIdSport(), event.getDate())));
         List<GroupedMMAEventDto> mappedMMAEvents = new LinkedList<>();
         groupedEvents.forEach((key, value) ->
                 mappedMMAEvents.add(MMAEventModelDtoMapper.mapToGroupedMMAEventDtos(value, mmaEvents.getRight())));
@@ -100,11 +99,13 @@ public class DefaultEventFacadeImpl implements EventFacade {
         return MMAEventModelDtoMapper.mapToMMAEventModelDtos(events, 0);
     }
 
-    public EventModel addFootballEvent(EventModel event) {
-        return defaultEventService.addFootballEvent(event);
+    @Override
+    public List<EventModel> addFootballEvent(AddEventDto addEventDto) {
+        return defaultEventService.addFootballEvent(addEventDto);
     }
 
-    public EventModel addMMAEvent(EventModel event) {
-        return defaultEventService.addMMAEvent(event);
+    @Override
+    public List<EventModel> addMMAEvent(AddEventDto addEventDto) {
+        return defaultEventService.addMMAEvent(addEventDto);
     }
 }

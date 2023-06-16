@@ -1,9 +1,7 @@
 package com.bookmakerApp.facade.interfaces;
 
-import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
-import com.bookmakerApp.facade.dtos.event.GroupedFootballEventsDto;
-import com.bookmakerApp.facade.dtos.event.GroupedMMAEventDto;
-import com.bookmakerApp.facade.dtos.event.MMAEventModelDto;
+import com.bookmakerApp.facade.dtos.event.*;
+import com.bookmakerApp.model.EventModel;
 
 import java.util.List;
 
@@ -19,4 +17,8 @@ public interface EventFacade {
     List<FootballEventModelDto> getFootballEventsByIds(List<Long> idEvents);
 
     List<MMAEventModelDto> getMMAEventsByIds(List<Long> idEvents);
+
+    List<EventModel> addFootballEvent(AddEventDto event);
+
+    List<EventModel> addMMAEvent(AddEventDto addEventDto);
 }

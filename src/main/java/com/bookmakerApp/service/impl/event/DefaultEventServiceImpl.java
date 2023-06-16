@@ -1,7 +1,9 @@
 package com.bookmakerApp.service.impl.event;
 
+import com.bookmakerApp.facade.dtos.event.AddEventDto;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.SportModel;
+import com.bookmakerApp.model.enums.ChosenResult;
 import com.bookmakerApp.model.enums.SportName;
 import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.model.mma.MMAFightModel;
@@ -14,8 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +29,6 @@ public class DefaultEventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final SportRepository sportRepository;
 
-    private static final String FIRST_TEAM_WIN = "FIRST_TEAM_WIN";
-    private static final String SECOND_TEAM_WIN = "SECOND_TEAM_WIN";
-    private static final String FIRST_FIGHTER_WIN = "FIRST_FIGHTER_WIN";
     private final static int PAGE_SIZE = 18;
 
     @Override
@@ -41,54 +42,72 @@ public class DefaultEventServiceImpl implements EventService {
     }
 
     @Override
-    public EventModel addFootballEvent(EventModel event) {
-        setOddsForFootballEvent(event);
-        return eventRepository.save(event);
-    }
-
-    @Override
     public List<EventModel> getEventsByIds(List<Long> idEvents) {
         return eventRepository.getEventModelsByIdEventIn(idEvents);
     }
 
-    private void setOddsForFootballEvent(EventModel event) {
-        SportModel sport = sportRepository
-                .getSportModelByIdSport(event.getSport().getIdSport());
-        if (sport instanceof FootballMatchModel) {
-            String chosenResult = String.valueOf(event.getChosenResult());
-            Double odds = getOddsForFootballForChosenResult((FootballMatchModel) sport, chosenResult);
-            event.setOdds(odds);
-        }
-    }
-
-    private Double getOddsForFootballForChosenResult(FootballMatchModel footballMatch, String chosenResult) {
-        if (FIRST_TEAM_WIN.equals(chosenResult)) {
-            return footballMatch.getHomeTeamWinOdds();
-        } else if (SECOND_TEAM_WIN.equals(chosenResult)) {
-            return footballMatch.getVisitingTeamWinOdds();
+    @Override
+    @Transactional
+    public List<EventModel> addFootballEvent(AddEventDto addEventDto) {
+        SportModel footballMatch = sportRepository.getSportModelByIdSport(addEventDto.getIdSport());
+        if (footballMatch instanceof FootballMatchModel) {
+            Date eventDate = addEventDto.getDate();
+            EventModel firstTeamWinEvent = createEvent(
+                    footballMatch, eventDate, ChosenResult.FIRST_TEAM_WIN,
+                    () -> getOddsForFootballForChosenResult((FootballMatchModel) footballMatch, ChosenResult.FIRST_TEAM_WIN));
+            EventModel secondTeamWinEvent = createEvent(
+                    footballMatch, eventDate, ChosenResult.SECOND_TEAM_WIN,
+                    () -> getOddsForFootballForChosenResult((FootballMatchModel) footballMatch, ChosenResult.SECOND_TEAM_WIN));
+            EventModel draftEvent = createEvent(
+                    footballMatch, eventDate, ChosenResult.DRAFT,
+                    () -> getOddsForFootballForChosenResult((FootballMatchModel) footballMatch, ChosenResult.DRAFT));
+            return eventRepository.saveAll(List.of(firstTeamWinEvent, secondTeamWinEvent, draftEvent));
         } else {
-            return footballMatch.getDraftOdds();
+            throw new IllegalArgumentException("SportModel is not FootballMatchModel");
         }
     }
 
     @Override
-    public EventModel addMMAEvent(EventModel event) {
-        setOddsForMMAEvent(event);
-        return eventRepository.save(event);
-    }
-
-    private void setOddsForMMAEvent(EventModel event) {
-        SportModel sport = sportRepository
-                .getSportModelByIdSport(event.getSport().getIdSport());
-        if (sport instanceof MMAFightModel) {
-            String chosenResult = String.valueOf(event.getChosenResult());
-            Double odds = getOddsForMMAForChosenResult((MMAFightModel) sport, chosenResult);
-            event.setOdds(odds);
+    @Transactional
+    public List<EventModel> addMMAEvent(AddEventDto addEventDto) {
+        SportModel mmaMatch = sportRepository.getSportModelByIdSport(addEventDto.getIdSport());
+        if (mmaMatch instanceof MMAFightModel) {
+            Date eventDate = addEventDto.getDate();
+            EventModel firstFighterWinEvent = createEvent(
+                    mmaMatch, eventDate, ChosenResult.FIRST_FIGHTER_WIN,
+                    () -> getOddsForMMAForChosenResult((MMAFightModel) mmaMatch, ChosenResult.FIRST_FIGHTER_WIN));
+            EventModel secondFighterWinEvent = createEvent(
+                    mmaMatch, eventDate, ChosenResult.SECOND_FIGHTER_WIN,
+                    () -> getOddsForMMAForChosenResult((MMAFightModel) mmaMatch, ChosenResult.SECOND_FIGHTER_WIN));
+            return eventRepository.saveAll(List.of(firstFighterWinEvent, secondFighterWinEvent));
+        } else {
+            throw new IllegalArgumentException("SportModel is not FootballMatchModel");
         }
     }
 
-    private Double getOddsForMMAForChosenResult(MMAFightModel mmaFight, String chosenResult) {
-        return FIRST_FIGHTER_WIN.equals(chosenResult)
+    private EventModel createEvent(SportModel footballMatch,
+                                   Date eventDate,
+                                   ChosenResult chosenResult,
+                                   Supplier<Double> getOddsMethod) {
+        EventModel event = new EventModel();
+        event.setChosenResult(chosenResult);
+        event.setSport(footballMatch);
+        event.setDate(eventDate);
+        event.setOdds(getOddsMethod.get());
+        return event;
+    }
+
+    private Double getOddsForFootballForChosenResult(FootballMatchModel footballMatch, ChosenResult chosenResult) {
+        return switch (chosenResult) {
+            case FIRST_TEAM_WIN -> footballMatch.getHomeTeamWinOdds();
+            case SECOND_TEAM_WIN -> footballMatch.getVisitingTeamWinOdds();
+            case DRAFT -> footballMatch.getDraftOdds();
+            default -> throw new IllegalArgumentException("Unknown chosen result " + chosenResult);
+        };
+    }
+
+    private Double getOddsForMMAForChosenResult(MMAFightModel mmaFight, ChosenResult chosenResult) {
+        return ChosenResult.FIRST_FIGHTER_WIN.equals(chosenResult)
                 ? mmaFight.getFirstFighterWinOdds() : mmaFight.getSecondFighterWinOdds();
     }
 }

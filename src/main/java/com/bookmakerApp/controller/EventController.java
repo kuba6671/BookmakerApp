@@ -1,9 +1,6 @@
 package com.bookmakerApp.controller;
 
-import com.bookmakerApp.facade.dtos.event.FootballEventModelDto;
-import com.bookmakerApp.facade.dtos.event.GroupedFootballEventsDto;
-import com.bookmakerApp.facade.dtos.event.GroupedMMAEventDto;
-import com.bookmakerApp.facade.dtos.event.MMAEventModelDto;
+import com.bookmakerApp.facade.dtos.event.*;
 import com.bookmakerApp.facade.impl.DefaultEventFacadeImpl;
 import com.bookmakerApp.model.EventModel;
 import lombok.RequiredArgsConstructor;
@@ -53,12 +50,12 @@ public class EventController {
     }
 
     @PostMapping("/footballEvent")
-    public EventModel addFootballEvent(@RequestBody EventModel event) {
-        return eventFacade.addFootballEvent(event);
+    public List<EventModel> addFootballEvent(@RequestBody AddEventDto addEventDto) {
+        return eventFacade.addFootballEvent(addEventDto);
     }
 
     @PostMapping("/mmaEvent")
-    public EventModel addMMAEvent(@RequestBody EventModel event) {
-        return eventFacade.addMMAEvent(event);
+    public List<EventModel> addMMAEvent(@RequestBody AddEventDto addEventDto) {
+        return eventFacade.addMMAEvent(addEventDto);
     }
 }
