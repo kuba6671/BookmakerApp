@@ -1,5 +1,6 @@
 package com.bookmakerApp.service.interfaces.event;
 
+import com.bookmakerApp.facade.dtos.event.AddEventDto;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.enums.SportName;
 import org.springframework.data.domain.Page;
@@ -12,9 +13,9 @@ public interface EventService {
 
     List<EventModel> getEventByDateBeforeAndResultIsChecked(Date date, boolean isChecked);
 
-    EventModel addFootballEvent(EventModel event);
+    List<EventModel> addFootballEvent(AddEventDto addEventDto);
 
-    EventModel addMMAEvent(EventModel event);
+    List<EventModel> addMMAEvent(AddEventDto addEventDto);
 
     List<EventModel> getEventsByIds(List<Long> idEvents);
 }
