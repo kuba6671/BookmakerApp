@@ -2,7 +2,7 @@ package com.bookmakerApp.controller;
 
 import com.bookmakerApp.model.mma.MMAFightModel;
 import com.bookmakerApp.model.mma.MMAFighterModel;
-import com.bookmakerApp.service.impl.sport.mma.MMAFightServiceImpl;
+import com.bookmakerApp.service.impl.sport.mma.MMAFightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Deprecated
 public class MMAFightController {
 
-    private final MMAFightServiceImpl mmaFightService;
+    private final MMAFightService mmaFightService;
 
     @PostMapping("/mmaFight")
     public MMAFightModel addMMAFight(@RequestBody MMAFightModel mmaFight) {

@@ -1,7 +1,7 @@
 package com.bookmakerApp.controller;
 
 import com.bookmakerApp.facade.dtos.user.UserModelDto;
-import com.bookmakerApp.facade.impl.DefaultUserFacadeImpl;
+import com.bookmakerApp.facade.impl.UserFacade;
 import com.bookmakerApp.model.UserModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class UserController {
 
-    private final DefaultUserFacadeImpl userFacade;
+    private final UserFacade userFacade;
 
     @GetMapping("/user/{idUser}")
     public UserModelDto getUserById(@PathVariable Long idUser) {

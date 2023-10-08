@@ -2,18 +2,16 @@ package com.bookmakerApp.facade.impl;
 
 
 import com.bookmakerApp.facade.dtos.event.*;
-import com.bookmakerApp.facade.interfaces.EventFacade;
 import com.bookmakerApp.facade.mappers.FootballEventModelDtoMapper;
 import com.bookmakerApp.facade.mappers.MMAEventModelDtoMapper;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.enums.SportName;
 import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.model.mma.MMAFightModel;
-import com.bookmakerApp.service.impl.event.DefaultEventServiceImpl;
+import com.bookmakerApp.service.impl.event.EventService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -29,18 +27,14 @@ import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
 @Component
-@Qualifier("DefaultEventFacadeImpl")
-public class DefaultEventFacadeImpl implements EventFacade {
+public class EventFacade {
 
-    @Qualifier("DefaultEventServiceImpl")
-    private final DefaultEventServiceImpl defaultEventService;
+    private final EventService eventService;
 
-    @Override
     public List<GroupedFootballEventsDto> getUnfinishedFootballEvents(int pageNumber) {
         return getMappedFootballEvents(pageNumber, Boolean.FALSE);
     }
 
-    @Override
     public List<GroupedFootballEventsDto> getFinishedFootballEvents(int pageNumber) {
         return getMappedFootballEvents(pageNumber, Boolean.TRUE);
 
@@ -57,12 +51,10 @@ public class DefaultEventFacadeImpl implements EventFacade {
         return mappedFootballEvents;
     }
 
-    @Override
     public List<GroupedMMAEventDto> getUnfinishedMMAEvents(int pageNumber) {
         return getMappedMMAEvents(pageNumber, Boolean.FALSE);
     }
 
-    @Override
     public List<GroupedMMAEventDto> getFinishedMMAEvents(int pageNumber) {
         return getMappedMMAEvents(pageNumber, Boolean.TRUE);
 
@@ -80,35 +72,31 @@ public class DefaultEventFacadeImpl implements EventFacade {
     }
 
     private ImmutablePair<List<EventModel>, Integer> getEventsByFinishAndSportName(boolean finish, SportName sportName, int pageNumber) {
-        Page<EventModel> events = defaultEventService.getEventsByFinishAndSportName(finish, sportName, pageNumber);
+        Page<EventModel> events = eventService.getEventsByFinishAndSportName(finish, sportName, pageNumber);
         return new ImmutablePair<>(events.getContent(), events.getTotalPages());
     }
 
-    @Override
     public List<FootballEventModelDto> getFootballEventsByIds(List<Long> idEvents) {
-        List<EventModel> events = defaultEventService.getEventsByIds(idEvents);
+        List<EventModel> events = eventService.getEventsByIds(idEvents);
         events = events.stream()
                 .filter(event -> event.getSport() instanceof FootballMatchModel)
                 .collect(Collectors.toList());
         return FootballEventModelDtoMapper.mapToFootballEventModelDtos(events, 0);
     }
 
-    @Override
     public List<MMAEventModelDto> getMMAEventsByIds(List<Long> idEvents) {
-        List<EventModel> events = defaultEventService.getEventsByIds(idEvents);
+        List<EventModel> events = eventService.getEventsByIds(idEvents);
         events = events.stream()
                 .filter(event -> event.getSport() instanceof MMAFightModel)
                 .collect(Collectors.toList());
         return MMAEventModelDtoMapper.mapToMMAEventModelDtos(events, 0);
     }
 
-    @Override
     public List<EventModel> addFootballEvent(AddEventDto addEventDto) {
-        return defaultEventService.addFootballEvent(addEventDto);
+        return eventService.addFootballEvent(addEventDto);
     }
 
-    @Override
     public List<EventModel> addMMAEvent(AddEventDto addEventDto) {
-        return defaultEventService.addMMAEvent(addEventDto);
+        return eventService.addMMAEvent(addEventDto);
     }
 }

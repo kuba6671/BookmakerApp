@@ -15,7 +15,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-public class MMAFightSimulatorServiceImpl implements SimulatorService {
+public class MMAFightSimulatorService implements SimulatorService {
 
     private final EventRepository eventRepository;
 

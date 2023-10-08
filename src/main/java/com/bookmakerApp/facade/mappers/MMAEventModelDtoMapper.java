@@ -5,6 +5,8 @@ import com.bookmakerApp.facade.dtos.event.MMAEventModelDto;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.mma.MMAFightModel;
 import com.bookmakerApp.model.mma.MMAFighterModel;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -12,10 +14,8 @@ import java.util.stream.Collectors;
 
 
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MMAEventModelDtoMapper {
-
-    private MMAEventModelDtoMapper() {
-    }
 
     public static List<MMAEventModelDto> mapToMMAEventModelDtos(List<EventModel> mmaEvents, int numberOfPages) {
         return mmaEvents.stream()

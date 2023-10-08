@@ -1,10 +1,9 @@
-package com.bookmakerApp.service.impl.payment;
+package com.bookmakerApp.service.impl.scheduled;
 
 import com.bookmakerApp.model.AccountModel;
 import com.bookmakerApp.model.PaymentModel;
 import com.bookmakerApp.repository.AccountRepository;
 import com.bookmakerApp.repository.PaymentRepository;
-import com.bookmakerApp.service.interfaces.payment.PaymentScheduledTaskService;
 import com.bookmakerApp.service.interfaces.payment.PaymentService;
 import com.bookmakerApp.webclient.payment.dto.PaymentStatusDto;
 import lombok.RequiredArgsConstructor;
@@ -21,18 +20,18 @@ import static com.bookmakerApp.config.constants.payu.PaymentPayuConstants.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PaymentScheduledTaskServiceImpl implements PaymentScheduledTaskService {
+public class PaymentScheduledTask {
 
     private final PaymentRepository paymentRepository;
     private final PaymentService paymentService;
     private final AccountRepository accountRepository;
 
-    @Override
     @Transactional
     @Scheduled(cron = "0 0/5 * * * ?")
     public void checkPaymentStatus() {
         List<PaymentModel> payments = paymentRepository
                 .getPaymentModelsByIsCheckedAndStatusIsNotIn(Boolean.FALSE, List.of(STATUS_COMPLETED, STATUS_CANCELED));
+
         log.info("received [{}] unchecked payments", payments.size());
         payments.forEach(this::updatePaymentAttributes);
     }
