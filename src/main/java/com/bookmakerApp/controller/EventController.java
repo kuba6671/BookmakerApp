@@ -2,10 +2,9 @@ package com.bookmakerApp.controller;
 
 
 import com.bookmakerApp.facade.dtos.event.*;
-import com.bookmakerApp.facade.impl.DefaultEventFacadeImpl;
+import com.bookmakerApp.facade.impl.EventFacade;
 import com.bookmakerApp.model.EventModel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +14,7 @@ import java.util.List;
 @CrossOrigin
 public class EventController {
 
-    @Qualifier("DefaultEventFacadeImpl")
-    private final DefaultEventFacadeImpl eventFacade;
+    private final EventFacade eventFacade;
 
     @GetMapping("/events/unfinishedFootballEvents")
     public List<GroupedFootballEventsDto> getUnfinishedFootballEvents(@RequestParam(defaultValue = "0") int pageNumber) {

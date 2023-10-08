@@ -5,6 +5,8 @@ import com.bookmakerApp.facade.dtos.event.GroupedFootballEventsDto;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.enums.SportName;
 import com.bookmakerApp.model.football.FootballMatchModel;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -12,10 +14,8 @@ import java.util.stream.Collectors;
 
 
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FootballEventModelDtoMapper {
-    private FootballEventModelDtoMapper() {
-    }
-
     public static List<FootballEventModelDto> mapToFootballEventModelDtos(List<EventModel> events, int numberOfPages) {
         return events.stream()
                 .map(event -> mapToFootballEventModelDto(event, (FootballMatchModel) event.getSport(), numberOfPages))

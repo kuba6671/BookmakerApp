@@ -3,7 +3,7 @@ package com.bookmakerApp.controller;
 
 import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.model.football.FootballTeamModel;
-import com.bookmakerApp.service.impl.sport.football.FootballMatchServiceImpl;
+import com.bookmakerApp.service.impl.sport.football.FootballMatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Deprecated
 public class FootballMatchController {
 
-    private final FootballMatchServiceImpl footballMatchService;
+    private final FootballMatchService footballMatchService;
 
     @PostMapping("/footballMatch")
     public FootballMatchModel addFootballMatch(@RequestBody FootballMatchModel footballMatch) {

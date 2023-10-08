@@ -13,7 +13,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-public class FootballMatchSimulatorServiceImpl implements SimulatorService {
+public class FootballMatchSimulatorService implements SimulatorService {
 
     private final EventRepository eventRepository;
 

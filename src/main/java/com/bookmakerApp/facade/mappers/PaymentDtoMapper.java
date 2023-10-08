@@ -4,14 +4,14 @@ import com.bookmakerApp.facade.dtos.payment.MakePaymentResponseDto;
 import com.bookmakerApp.facade.dtos.payment.PaymentDto;
 import com.bookmakerApp.model.PaymentModel;
 import com.bookmakerApp.webclient.payment.dto.PaymentResponseDto;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PaymentDtoMapper {
-
-    private PaymentDtoMapper() {
-    }
 
     public static MakePaymentResponseDto mapToPaymentResponseDto(PaymentResponseDto paymentResponseDto) {
         return MakePaymentResponseDto.builder()

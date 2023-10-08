@@ -2,13 +2,14 @@ package com.bookmakerApp.facade.mappers;
 
 import com.bookmakerApp.facade.dtos.event.DefaultEventModelDto;
 import com.bookmakerApp.model.EventModel;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DefaultEventModelDtoMapper {
-    private DefaultEventModelDtoMapper() {
-    }
 
     public static List<DefaultEventModelDto> mapToDefaultEventModelDtos(List<EventModel> events) {
         return events.stream()

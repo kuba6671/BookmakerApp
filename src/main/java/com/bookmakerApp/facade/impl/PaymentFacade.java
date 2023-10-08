@@ -3,7 +3,6 @@ package com.bookmakerApp.facade.impl;
 import com.bookmakerApp.facade.dtos.payment.MakePaymentDto;
 import com.bookmakerApp.facade.dtos.payment.MakePaymentResponseDto;
 import com.bookmakerApp.facade.dtos.payment.PaymentDto;
-import com.bookmakerApp.facade.interfaces.PaymentFacade;
 import com.bookmakerApp.facade.mappers.PaymentDtoMapper;
 import com.bookmakerApp.service.interfaces.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +14,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class DefaultPaymentFacade implements PaymentFacade {
+public class PaymentFacade {
 
     private final PaymentService paymentService;
-    private final String PLN_CURRENCY = "PLN";
+    private static final String PLN_CURRENCY = "PLN";
 
-    @Override
     public MakePaymentResponseDto makePayment(MakePaymentDto payment) {
         if (ObjectUtils.isEmpty(payment.getTotalAmount()) && payment.getTotalAmount().compareTo(BigDecimal.ZERO) > 0) {
             throw new IllegalStateException("Total amount mus be greater than 0");
@@ -31,7 +29,6 @@ public class DefaultPaymentFacade implements PaymentFacade {
                 (paymentService.makePayment(payment.getTotalAmount(), payment.getCurrencyCode()));
     }
 
-    @Override
     public List<PaymentDto> getPaymentsForUser(int pageNumber) {
         return PaymentDtoMapper.mapToPaymentDtos(
                 paymentService.getPaymentsForUser(pageNumber));
