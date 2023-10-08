@@ -5,10 +5,9 @@ import com.bookmakerApp.model.BetTicketModel;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.UserModel;
 import com.bookmakerApp.repository.AccountRepository;
-import com.bookmakerApp.repository.BetTicketRepository;
 import com.bookmakerApp.repository.EventRepository;
 import com.bookmakerApp.repository.UserRepository;
-import com.bookmakerApp.service.impl.betticket.DefaultBetTicketServiceImpl;
+import com.bookmakerApp.service.impl.betticket.BetTicketService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,12 +25,10 @@ import java.util.List;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultBetTicketServiceImplTest {
+public class BetTicketServiceTest {
 
     @InjectMocks
-    private DefaultBetTicketServiceImpl defaultBetTicketService;
-    @Mock
-    private BetTicketRepository betTicketRepository;
+    private BetTicketService betTicketService;
     @Mock
     private EventRepository eventRepository;
     @Mock
@@ -80,7 +77,7 @@ public class DefaultBetTicketServiceImplTest {
         betTicket.setEvents(events);
         betTicket.setDeposit(deposit);
         //when
-        defaultBetTicketService.addBetTicket(betTicket);
+        betTicketService.addBetTicket(betTicket);
         //then
         Assert.assertEquals(expectedOdds, betTicket.getTotalOdds());
         Assert.assertEquals(expectedToWin, betTicket.getToWin());
@@ -101,7 +98,7 @@ public class DefaultBetTicketServiceImplTest {
         betTicket.setDeposit(deposit);
         //when
         Exception exception = Assert.assertThrows(IllegalArgumentException.class,
-                () -> defaultBetTicketService.addBetTicket(betTicket));
+                () -> betTicketService.addBetTicket(betTicket));
         //then
         Assertions.assertNotNull(exception);
     }

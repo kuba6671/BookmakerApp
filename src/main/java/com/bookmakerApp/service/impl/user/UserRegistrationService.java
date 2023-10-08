@@ -5,7 +5,6 @@ import com.bookmakerApp.model.AccountModel;
 import com.bookmakerApp.model.UserModel;
 import com.bookmakerApp.repository.AccountRepository;
 import com.bookmakerApp.repository.UserRepository;
-import com.bookmakerApp.service.interfaces.user.UserRegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
@@ -15,13 +14,12 @@ import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
-public class UserRegistrationServiceImpl implements UserRegistrationService {
+public class UserRegistrationService {
 
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final CustomPasswordEncoder customPasswordEncoder;
 
-    @Override
     @Transactional
     public UserModel registerUserAccount(UserModel user) {
         UserModel existingUser = userRepository.findUserModelByMail(user.getMail());

@@ -2,7 +2,7 @@ package com.bookmakerApp.controller;
 
 import com.bookmakerApp.config.security.JwtUtil;
 import com.bookmakerApp.facade.dtos.auth.AuthCredentialsRequestDto;
-import com.bookmakerApp.facade.impl.DefaultUserFacadeImpl;
+import com.bookmakerApp.facade.impl.UserFacade;
 import com.bookmakerApp.model.UserModel;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final DefaultUserFacadeImpl userFacade;
+    private final UserFacade userFacade;
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AuthCredentialsRequestDto request) {

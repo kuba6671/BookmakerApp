@@ -9,9 +9,7 @@ import com.bookmakerApp.model.football.FootballMatchModel;
 import com.bookmakerApp.model.mma.MMAFightModel;
 import com.bookmakerApp.repository.EventRepository;
 import com.bookmakerApp.repository.SportRepository;
-import com.bookmakerApp.service.interfaces.event.EventService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,30 +23,25 @@ import static com.bookmakerApp.model.enums.ChosenResult.*;
 
 @Service
 @RequiredArgsConstructor
-@Qualifier("DefaultEventServiceImpl")
-public class DefaultEventServiceImpl implements EventService {
+public class EventService {
 
     private final EventRepository eventRepository;
     private final SportRepository sportRepository;
 
     private final static int PAGE_SIZE = 18;
 
-    @Override
     public Page<EventModel> getEventsByFinishAndSportName(boolean finish, SportName sportName, int pageNumber) {
         return eventRepository.getEventModelsByFinishAndSportSportName(finish, sportName, PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
-    @Override
     public List<EventModel> getEventByDateBeforeAndResultIsChecked(Date date, boolean isChecked) {
         return eventRepository.getEventModelsByDateBeforeAndResultIsChecked(date, isChecked);
     }
 
-    @Override
     public List<EventModel> getEventsByIds(List<Long> idEvents) {
         return eventRepository.getEventModelsByIdEventIn(idEvents);
     }
 
-    @Override
     @Transactional
     public List<EventModel> addFootballEvent(AddEventDto addEventDto) {
         SportModel footballMatch = sportRepository.getSportModelByIdSport(addEventDto.getIdSport());
@@ -69,7 +62,6 @@ public class DefaultEventServiceImpl implements EventService {
         }
     }
 
-    @Override
     @Transactional
     public List<EventModel> addMMAEvent(AddEventDto addEventDto) {
         SportModel mmaMatch = sportRepository.getSportModelByIdSport(addEventDto.getIdSport());

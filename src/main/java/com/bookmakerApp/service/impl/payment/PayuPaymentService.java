@@ -3,8 +3,8 @@ package com.bookmakerApp.service.impl.payment;
 import com.bookmakerApp.model.PaymentModel;
 import com.bookmakerApp.model.UserModel;
 import com.bookmakerApp.repository.PaymentRepository;
+import com.bookmakerApp.service.impl.user.UserService;
 import com.bookmakerApp.service.interfaces.payment.PaymentService;
-import com.bookmakerApp.service.interfaces.user.UserService;
 import com.bookmakerApp.webclient.payment.PaymentPayuClient;
 import com.bookmakerApp.webclient.payment.dto.PaymentResponseDto;
 import com.bookmakerApp.webclient.payment.dto.PaymentStatusDto;
@@ -22,7 +22,7 @@ import static com.bookmakerApp.config.constants.payu.PaymentPayuConstants.STATUS
 
 @Service
 @RequiredArgsConstructor
-public class PayuPaymentServiceImpl implements PaymentService {
+public class PayuPaymentService implements PaymentService {
 
     private final PaymentPayuClient paymentClient;
     private final PaymentRepository paymentRepository;

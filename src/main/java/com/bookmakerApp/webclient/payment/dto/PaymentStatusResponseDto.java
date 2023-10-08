@@ -1,9 +1,8 @@
 package com.bookmakerApp.webclient.payment.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class PaymentStatusResponseDto {
-
     private String statusCode;
 }

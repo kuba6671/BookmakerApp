@@ -5,15 +5,15 @@ import com.bookmakerApp.facade.dtos.event.DefaultEventModelDto;
 import com.bookmakerApp.model.BetTicketModel;
 import com.bookmakerApp.model.EventModel;
 import com.bookmakerApp.model.UserModel;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BetTicketModelDtoMapper {
-
-    private BetTicketModelDtoMapper() {
-    }
 
     public static List<BetTicketModelDto> mapToBetTicketModelDtos(Page<BetTicketModel> betTickets) {
         int numberOfPages = betTickets.getTotalPages();
