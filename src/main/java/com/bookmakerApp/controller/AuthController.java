@@ -27,7 +27,7 @@ public class AuthController {
     private final UserFacade userFacade;
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody AuthCredentialsRequestDto request) {
+    public ResponseEntity<User> login(@RequestBody AuthCredentialsRequestDto request) {
         try {
             final Authentication authenticate = authenticationManager.
                     authenticate(
@@ -54,9 +54,9 @@ public class AuthController {
     }
 
     @PutMapping("changePassword")
-    public ResponseEntity<?> changePassword(@RequestBody final ObjectNode objectNode) {
-        final String oldPassword = String.valueOf(objectNode.get("oldPassword")).replaceAll("\"", "");
-        final String newPassword = String.valueOf(objectNode.get("newPassword")).replaceAll("\"", "");
+    public ResponseEntity<Void> changePassword(@RequestBody final ObjectNode objectNode) {
+        final String oldPassword = String.valueOf(objectNode.get("oldPassword")).replace("\"", "");
+        final String newPassword = String.valueOf(objectNode.get("newPassword")).replace("\"", "");
         if (ObjectUtils.isNotEmpty(userFacade.changePassword(oldPassword, newPassword))) {
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {

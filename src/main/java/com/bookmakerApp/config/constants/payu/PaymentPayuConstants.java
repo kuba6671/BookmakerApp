@@ -5,11 +5,11 @@ public final class PaymentPayuConstants {
     private PaymentPayuConstants() {
     }
 
-    public final static String BASE_URL = "https://secure.snd.payu.com/";
-    public final static String AUTH_TOKEN_URL = "pl/standard/user/oauth/authorize";
-    public final static String AVAILABLE_PAYMENT_METHODS_URL = "api/v2_1/paymethods";
-    public final static String MAKE_PAYMENT_URL = "api/v2_1/orders";
-    public final static String CHECK_PAYMENT_STATUS_URL = "api/v2_1/orders/";
+    public static final String BASE_URL = "https://secure.snd.payu.com/";
+    public static final String AUTH_TOKEN_URL = "pl/standard/user/oauth/authorize";
+    public static final String AVAILABLE_PAYMENT_METHODS_URL = "api/v2_1/paymethods";
+    public static final String MAKE_PAYMENT_URL = "api/v2_1/orders";
+    public static final String CHECK_PAYMENT_STATUS_URL = "api/v2_1/orders/";
     public static final String GRANT_TYPE = "grant_type";
     public static final String CLIENT_ID = "client_id";
     public static final String CLIENT_SECRET = "client_secret";
@@ -22,5 +22,6 @@ public final class PaymentPayuConstants {
     public static final String STATUS_NEW = "NEW";
     public static final String STATUS_COMPLETED = "COMPLETED";
     public static final String STATUS_CANCELED = "CANCELED";
+    public static final String BEARER = "Bearer ";
 
 }

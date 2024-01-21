@@ -1,0 +1,28 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;database=BookmakerDB;encrypt=true;trustServerCertificate=true;
+    username: sa
+    password: test@123
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  security:
+    filter:
+      order: 10
+
+jwt:
+  secret: dfkgkdfkgdfkg@!!!@@@asfdasd@@1dsfds1123f
+
+payments:
+  payu:
+    grant_type: client_credentials
+    client_id: 462666
+    client_secret: 25f6ffab0c68b09a3a8578361c6398d0
+    continueUrl: https://localhost:44361/payments
+    customerIp: 127.0.0.1
+    description: Bookmaker test

@@ -1,12 +1,13 @@
 package com.bookmakerApp.webclient.payment;
 
+import com.bookmakerApp.webclient.payment.dto.PaymentOrderDto;
 import com.bookmakerApp.webclient.payment.dto.PaymentPayuAccessTokenDto;
 import com.bookmakerApp.webclient.payment.dto.PaymentResponseDto;
 import com.bookmakerApp.webclient.payment.dto.PaymentStatusDto;
+import com.bookmakerApp.webclient.payment.exception.EmptyTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -18,8 +19,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.bookmakerApp.config.constants.payu.PaymentPayuConstants.*;
+import static com.bookmakerApp.webclient.payment.config.PaymentPayuConfig.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 
 @Component
@@ -27,19 +31,6 @@ import static com.bookmakerApp.config.constants.payu.PaymentPayuConstants.*;
 public class PaymentPayuClient {
 
     private final WebClient webClient;
-
-    @Value("${grant_type}")
-    private String grantType;
-    @Value("${client_id}")
-    private String clientId;
-    @Value("${client_secret}")
-    private String clientSecret;
-    @Value("${continueUrl}")
-    private String continueUrl;
-    @Value("${customerIp}")
-    private String customerIp;
-    @Value("${description}")
-    private String description;
 
     public PaymentPayuClient() {
         this.webClient = WebClient.create(BASE_URL);
@@ -49,15 +40,20 @@ public class PaymentPayuClient {
         String accessToken = getAuthorizationToken();
         PaymentStatusDto paymentStatus = webClient.get()
                 .uri(CHECK_PAYMENT_STATUS_URL + orderId)
-                .header("Authorization", "Bearer " + accessToken)
+                .header(AUTHORIZATION, BEARER + accessToken)
                 .retrieve()
                 .bodyToMono(PaymentStatusDto.class)
                 .block();
 
-        log.info("received payment status [{}] for order [{}]",
-                paymentStatus.getPayments().get(0).getStatus(), paymentStatus.getPayments().get(0).getOrderId());
+        Optional<PaymentOrderDto> paymentOrderDto = paymentStatus.getFirstPayment();
+        paymentOrderDto.ifPresentOrElse(paymentOrder ->
+                        log.info("received payment status [{}] for order [{}]",
+                                paymentOrder.getStatus(), orderId),
+                () -> log.info("payment status for order [{}] is empty", orderId));
+
         return paymentStatus;
     }
+
 
     public PaymentResponseDto makePayment(BigDecimal totalAmount, String currencyCode) {
         String accessToken = getAuthorizationToken();
@@ -65,12 +61,13 @@ public class PaymentPayuClient {
 
         PaymentResponseDto payment = webClient.post()
                 .uri(MAKE_PAYMENT_URL)
-                .header("Authorization", "Bearer " + accessToken)
+                .header(AUTHORIZATION, BEARER + accessToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(queryParams))
                 .retrieve()
                 .bodyToMono(PaymentResponseDto.class)
                 .block();
+
         log.info("created payment with orderId [{}]", payment.getOrderId());
         return payment;
     }
@@ -79,7 +76,7 @@ public class PaymentPayuClient {
         String accessToken = getAuthorizationToken();
         return webClient.get()
                 .uri(AVAILABLE_PAYMENT_METHODS_URL)
-                .header("Authorization", "Bearer " + accessToken)
+                .header(AUTHORIZATION, BEARER + accessToken)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
@@ -87,7 +84,7 @@ public class PaymentPayuClient {
 
     private String getAuthorizationToken() {
         MultiValueMap<String, String> queryParams = prepareQueryParamsForAuthorization();
-        PaymentPayuAccessTokenDto accessToken = webClient.post()
+        PaymentPayuAccessTokenDto accessTokenDTO = webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path(AUTH_TOKEN_URL)
                         .queryParams(queryParams)
@@ -96,10 +93,11 @@ public class PaymentPayuClient {
                 .bodyToMono(PaymentPayuAccessTokenDto.class)
                 .block();
 
-        if (ObjectUtils.isNotEmpty(accessToken) && StringUtils.isNotBlank(accessToken.getAccessToken()))
-            return accessToken.getAccessToken();
-        else
-            return StringUtils.EMPTY;
+        if (ObjectUtils.isNotEmpty(accessTokenDTO) && StringUtils.isNotBlank(accessTokenDTO.getAccessToken())) {
+            return accessTokenDTO.getAccessToken();
+        } else {
+            throw new EmptyTokenException("Payu access token is empty");
+        }
     }
 
     private MultiValueMap<String, String> prepareQueryParamsForAuthorization() {
