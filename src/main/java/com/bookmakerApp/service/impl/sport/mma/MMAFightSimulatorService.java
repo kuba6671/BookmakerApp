@@ -18,6 +18,7 @@ import java.util.Random;
 public class MMAFightSimulatorService implements SimulatorService {
 
     private final EventRepository eventRepository;
+    private final Random random;
 
     private static final String FIRST_FIGHTER_WIN = "FIRST_FIGHTER_WIN";
     private static final String SECOND_FIGHTER_WIN = "SECOND_FIGHTER_WIN";
@@ -48,16 +49,15 @@ public class MMAFightSimulatorService implements SimulatorService {
     }
 
     private void simulateMMAFightResult(EventModel event) {
-        SportModel mmaFight = event.getSport();
-        if (mmaFight instanceof MMAFightModel) {
+        SportModel sportModel = event.getSport();
+        if (sportModel instanceof MMAFightModel mmaFight) {
             String chosenResult = String.valueOf(event.getChosenResult());
-            int probability = calculateProbabilityForChosenResult((MMAFightModel) mmaFight, chosenResult);
-            simulateResult((MMAFightModel) mmaFight, probability, chosenResult);
+            int probability = calculateProbabilityForChosenResult(mmaFight, chosenResult);
+            simulateResult(mmaFight, probability, chosenResult);
         }
     }
 
     private void simulateResult(MMAFightModel mmaFight, int probability, String chosenResult) {
-        Random random = new Random();
         boolean successProbability = random.nextInt(1, 101) >= probability;
         if (FIRST_FIGHTER_WIN.equals(chosenResult)) {
             if (successProbability) {

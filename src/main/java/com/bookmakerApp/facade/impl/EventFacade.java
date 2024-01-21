@@ -80,7 +80,7 @@ public class EventFacade {
         List<EventModel> events = eventService.getEventsByIds(idEvents);
         events = events.stream()
                 .filter(event -> event.getSport() instanceof FootballMatchModel)
-                .collect(Collectors.toList());
+                .toList();
         return FootballEventModelDtoMapper.mapToFootballEventModelDtos(events, 0);
     }
 
@@ -88,7 +88,7 @@ public class EventFacade {
         List<EventModel> events = eventService.getEventsByIds(idEvents);
         events = events.stream()
                 .filter(event -> event.getSport() instanceof MMAFightModel)
-                .collect(Collectors.toList());
+                .toList();
         return MMAEventModelDtoMapper.mapToMMAEventModelDtos(events, 0);
     }
 

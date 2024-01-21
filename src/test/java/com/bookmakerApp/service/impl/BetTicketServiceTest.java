@@ -25,7 +25,7 @@ import java.util.List;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
-public class BetTicketServiceTest {
+class BetTicketServiceTest {
 
     @InjectMocks
     private BetTicketService betTicketService;
@@ -62,7 +62,7 @@ public class BetTicketServiceTest {
     }
 
     @Test
-    public void testCalculateWhenBetTicketHaveTwoEvents() {
+    void testCalculateWhenBetTicketHaveTwoEvents() {
         //given
         final Double event1Odds = 2.0;
         final Double event2Odds = 2.0;
@@ -84,7 +84,7 @@ public class BetTicketServiceTest {
     }
 
     @Test
-    public void testCalculateWhenUserAccountBalanceIsLessThanTheDeposit() {
+    void testCalculateWhenUserAccountBalanceIsLessThanTheDeposit() {
         //given
         final Double event1Odds = 2.0;
         final Double event2Odds = 2.0;
