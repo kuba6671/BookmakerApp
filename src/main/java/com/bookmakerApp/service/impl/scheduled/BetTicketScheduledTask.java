@@ -25,14 +25,12 @@ public class BetTicketScheduledTask {
     }
 
     private void setBetTicketFinish(BetTicketModel betTicket) {
-        List<EventModel> events = betTicket.getEvents();
-        for (EventModel event : events) {
-            if (!event.isFinish()) {
-                betTicket.setFinish(false);
-                return;
-            }
+        boolean isFinish = betTicket.getEvents()
+                .stream()
+                .allMatch(EventModel::isFinish);
+        if (isFinish) {
+            betTicket.setFinish(true);
         }
-        betTicket.setFinish(true);
     }
 
     @Scheduled(cron = "0 0/10 * * * ?")
@@ -43,15 +41,10 @@ public class BetTicketScheduledTask {
     }
 
     private void setBetTicketResult(BetTicketModel betTicket) {
-        final List<EventModel> events = betTicket.getEvents();
-        for (EventModel event : events) {
-            if (!event.getSuccess()) {
-                betTicket.setSuccess(Boolean.FALSE);
-                betTicket.setResultIsChecked(true);
-                return;
-            }
-        }
+        boolean isSuccess = betTicket.getEvents()
+                .stream()
+                .allMatch(EventModel::getSuccess);
         betTicket.setResultIsChecked(true);
-        betTicket.setSuccess(Boolean.TRUE);
+        betTicket.setSuccess(isSuccess);
     }
 }

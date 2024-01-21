@@ -28,7 +28,7 @@ public class PayuPaymentService implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final UserService userService;
 
-    private final static int PAGE_SIZE = 10;
+    private static final int PAGE_SIZE = 10;
 
 
     @Override
