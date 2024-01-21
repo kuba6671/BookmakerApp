@@ -16,6 +16,6 @@ public class FootballTeamModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idFootballTeam;
     private String name;
-    private String Country;
+    private String country;
 
 }

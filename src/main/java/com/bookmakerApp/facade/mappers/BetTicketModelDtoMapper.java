@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BetTicketModelDtoMapper {
@@ -20,7 +19,7 @@ public class BetTicketModelDtoMapper {
         return betTickets.stream()
                 .map(betTicket -> mapToBetTicketModelDto(betTicket, betTicket.getUser(),
                         betTicket.getEvents(), numberOfPages))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static BetTicketModelDto mapToBetTicketModelDto

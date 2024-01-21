@@ -17,6 +17,6 @@ public class MMAFighterModel {
     private Long idMMAFighter;
     private String name;
     private String surname;
-    private String Country;
+    private String country;
     private MMAFighterRecord record;
 }

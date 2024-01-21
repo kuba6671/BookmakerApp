@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -20,7 +19,7 @@ public class MMAEventModelDtoMapper {
     public static List<MMAEventModelDto> mapToMMAEventModelDtos(List<EventModel> mmaEvents, int numberOfPages) {
         return mmaEvents.stream()
                 .map(mmaEvent -> mapToMMAEventModelDto(mmaEvent, (MMAFightModel) mmaEvent.getSport(), numberOfPages))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static MMAEventModelDto mapToMMAEventModelDto(
@@ -57,24 +56,24 @@ public class MMAEventModelDtoMapper {
         return groupedMMAEvent;
     }
 
-    private static GroupedMMAEventDto buildGroupedMMAEvent(EventModel MMAEvent, GroupedMMAEventDto groupedMMAEvent, int numberOfPages) {
-        switch (MMAEvent.getChosenResult()) {
+    private static GroupedMMAEventDto buildGroupedMMAEvent(EventModel mmaEvent, GroupedMMAEventDto groupedMMAEvent, int numberOfPages) {
+        switch (mmaEvent.getChosenResult()) {
             case FIRST_FIGHTER_WIN -> groupedMMAEvent = groupedMMAEvent.toBuilder()
-                    .firstFighterWinId(MMAEvent.getIdEvent())
-                    .firstFighterName(((MMAFightModel) MMAEvent.getSport()).
+                    .firstFighterWinId(mmaEvent.getIdEvent())
+                    .firstFighterName(((MMAFightModel) mmaEvent.getSport()).
                             getFirstFighter().getName()
-                            + " " + ((MMAFightModel) MMAEvent.getSport()).getFirstFighter().getSurname())
-                    .secondFighterName(((MMAFightModel) MMAEvent.getSport()).
+                            + " " + ((MMAFightModel) mmaEvent.getSport()).getFirstFighter().getSurname())
+                    .secondFighterName(((MMAFightModel) mmaEvent.getSport()).
                             getSecondFighter().getName()
-                            + " " + ((MMAFightModel) MMAEvent.getSport()).getSecondFighter().getSurname())
-                    .date(MMAEvent.getDate())
-                    .firstFighterWinOdds(MMAEvent.getOdds())
-                    .mmaFightResult(((MMAFightModel) MMAEvent.getSport()).getFightResult().toString())
+                            + " " + ((MMAFightModel) mmaEvent.getSport()).getSecondFighter().getSurname())
+                    .date(mmaEvent.getDate())
+                    .firstFighterWinOdds(mmaEvent.getOdds())
+                    .mmaFightResult(((MMAFightModel) mmaEvent.getSport()).getFightResult().toString())
                     .numberOfPages(numberOfPages)
                     .build();
             case SECOND_FIGHTER_WIN -> groupedMMAEvent = groupedMMAEvent.toBuilder()
-                    .secondFighterWinId(MMAEvent.getIdEvent())
-                    .secondFighterWinOdds(MMAEvent.getOdds())
+                    .secondFighterWinId(mmaEvent.getIdEvent())
+                    .secondFighterWinOdds(mmaEvent.getOdds())
                     .build();
             default -> log.warn("The chosen result in event is wrong");
         }
