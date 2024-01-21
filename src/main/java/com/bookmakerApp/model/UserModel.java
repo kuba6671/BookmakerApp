@@ -30,7 +30,7 @@ public class UserModel implements UserDetails {
     @OneToOne
     @JoinColumn(name = "idAccount")
     @JsonIgnore
-    private AccountModel account;
+    private transient AccountModel account;
 
 
     public Collection<? extends GrantedAuthority> getAuthorities(){

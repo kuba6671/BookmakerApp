@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -19,7 +18,7 @@ public class FootballEventModelDtoMapper {
     public static List<FootballEventModelDto> mapToFootballEventModelDtos(List<EventModel> events, int numberOfPages) {
         return events.stream()
                 .map(event -> mapToFootballEventModelDto(event, (FootballMatchModel) event.getSport(), numberOfPages))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static FootballEventModelDto mapToFootballEventModelDto

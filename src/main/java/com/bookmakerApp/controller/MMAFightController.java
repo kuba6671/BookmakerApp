@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
-@Deprecated
+@Deprecated(forRemoval = true)
 public class MMAFightController {
 
     private final MMAFightService mmaFightService;

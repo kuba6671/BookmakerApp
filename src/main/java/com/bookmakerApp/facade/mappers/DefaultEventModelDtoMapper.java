@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DefaultEventModelDtoMapper {
@@ -14,7 +13,7 @@ public class DefaultEventModelDtoMapper {
     public static List<DefaultEventModelDto> mapToDefaultEventModelDtos(List<EventModel> events) {
         return events.stream()
                 .map(DefaultEventModelDtoMapper::mapToDefaultEventModelDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static DefaultEventModelDto mapToDefaultEventModelDto(EventModel event) {

@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-public class BetTicketControllerTest {
+class BetTicketControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,7 +41,7 @@ public class BetTicketControllerTest {
     private UserRepository userRepository;
 
     private BetTicketModel newBetTicket;
-    private List<EventModel> events = new LinkedList<>();
+    private final List<EventModel> events = new LinkedList<>();
 
     @Test
     @WithMockUser
